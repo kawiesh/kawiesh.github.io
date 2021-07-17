@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Notepad</title>
+<link rel="stylesheet" href="style.css">
+<meta name="theme-color" content="rgb(0,100,0)">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+</head>
+<body>
+<div id="container">
+   <div id="header">					
+      <input type="text" id="title">
+      <svg class="options"  width="100" height="100" viewBox="0 0 32 32"></svg>
+   </div>
+   <div id="shortcuts">
+      <textarea class="symbol" ></textarea>
+      <textarea class="symbol" ></textarea>
+      <textarea class="symbol" ></textarea>
+      <textarea class="symbol" ></textarea>
+      <svg class="options" width="100" height="100" viewBox="0 0 32 32"></svg>
+      <svg class="edit" width="100" height="100" viewBox="0 0 32 32"></svg> 
+   </div>
+   <textarea id="input"></textarea>
+   <div id="footer">		
+      <button id="save"type="button">SAVE</button>
+      <span class="font">FONT</span>
+   </div>
+   <div id="font">
+     <span class="size">
+     <input id="slider" type="range" min="12" max="24">
+     <br>Size: <span></span> px
+     </span>
+     <span class="bold">
+     <input type="checkbox" id="bold"><br>Bold
+     </span>
+     <span class="handlee">
+     <input type="checkbox" id="handlee" checked><br>Handlee
+     </span>
+     <span class="arial">
+     <input type="checkbox" id="arial"><br>Arial
+     </span>
+     <span class="courier">
+     <input type="checkbox" id="courier"><br>Courier
+     </span>					
+   </div>
+   <div id="modal">
+   </div>
+</div>
+<div id="blanket"></div>
+
+<script src="script.js"></script>	
+</body>
+</html>
