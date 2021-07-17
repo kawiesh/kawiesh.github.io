@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png"/>
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png"/>
+<link rel="icon" type="image/png" sizes="150x150" href="/favicon/mstile-150x150.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon/favicon.ico"/>
+<link rel="manifest" href="/favicon/site.webmanifest"/>
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"/>
+<meta name="msapplication-config" content="browserconfig.xml"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="google-site-verification" content="I_FFpK9_0SzB9xgK2sVrHNs4X2hKc1aeke_RzbUpAcU" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Merge text using prefixes and suffixes"/>
+<meta name="keywords" content="Text Merger, merge text, HTML, CSS, JavaScript, Kawiesh, Tools"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Merger - Kawiesh"/>
+<meta property="og:type" content="Easily merge text; add prefix and suffix!"/>
+<meta property="og:url" content="/text-merger"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<meta name="twitter:site" content="@Kawiesh">
+<meta name="twitter:title" content="Text Merger">
+<meta name="twitter:description" content="Simple tool to easily merge text with prefix and suffix!">
+<title>Text Merger</title>
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;padding:0;
+outline:none;	
+overflow: scroll;
+}
+
+ 
+
+html{
+min-height: 100%;
+position:relative;
+} 
+
+body{
+height:100%;
+color:white;
+background-color:black;
+background-image: url("/resources/background2.jpg");
+background-size:50%;
+position:relative;
+}
+
+
+#container{
+height:100%;
+margin-top: 2em;
+display:flex;
+flex-direction:column;
+position:relative;
+}
+
+#input,#output{
+color: white;
+background-color:black;
+padding:5px;
+border: 1px solid darkgray;
+width: 100%;
+min-height: 15em;
+}
+
+#block7{
+width: 100%; height: 2em;
+display:flex;
+align-items: center;
+position:relative;
+}
+
+#input,#block7{
+margin-bottom: 3em;
+}
+
+#block2, #block5{
+width: 100%; height: 2em;
+position:relative;	
+}
+
+#block2a, #block5a{
+padding-top:5px;
+min-width: 50%; min-height: 100%;
+display:flex;
+flex-direction: row;
+justify-content: flex-start;
+position:absolute; left:0;
+}
+
+#block2b, #block5b{
+padding-top:5px;
+min-width: 50%; height: 100%;
+display:flex;
+flex-direction: row;
+justify-content: flex-end;
+position:absolute; right:0;
+}
+
+
+#prefix, #suffix{
+padding: 5px;
+width: 100%; height: 2.5em;
+border: 1px solid darkgray;
+color:white;
+background-color:black;
+}
+
+
+button{
+padding: 2px 5px;
+height:100%;
+border:1px solid darkgray;
+color:white;
+background-color:black;
+}	
+
+#submit{
+position:absolute;
+top:-2px; left:0;
+}
+
+#copy{
+position:absolute;
+top:-2px; right:0;
+}
+
+#block2,#block3,#block5{
+margin-bottom: 2em;				
+}
+
+@media (orientation: portrait){
+*{	font: 12px Arial;	}
+#container{width:90%; margin-left:5%;}
+}
+
+@media (orientation: landscape){
+*{	font: 15px Arial;	}
+#container{width:60%; margin-left:20%;}
+}
+
+.field{
+text-align:center;	
+font-family: "Courier New";
+font-weight: bold;
+color: yellow;				
+}
+
+#info{
+color:darkgray;
+text-align:center;		
+font-family: "Courier New";		
+}
+
+#info *{
+font-weight:bold;
+font-family: "Courier New";		
+}
+
+</style>
+</head>
+<body>
+<div id="container">
+<span class="field">PREFIX</span>				
+<textarea id="prefix"></textarea>			
+<div id="block2">
+	<div id="block2a">
+	<input type="checkbox" id="pfsingle" checked="checked">&nbsp;
+  <span>Single Line</span>
+  </div>
+  <div id="block2b">
+  <span>Multi Line</span>&nbsp;
+  <input type="checkbox" id="pfmulti">
+  </div>
+</div>
+<span class="field">INPUT</span>	
+<textarea id="input"></textarea>
+<span class="field">SUFFIX</span>
+<textarea id="suffix"></textarea>		
+<div id="block5">
+	<div id="block5a">
+  <input type="checkbox" id="sfsingle" checked="checked">&nbsp;
+  <span>Single Line</span>
+  </div>
+  <div id="block5b">
+  <span>Multi Line</span>&nbsp;
+  <input type="checkbox" id="sfmulti">
+  </div>
+</div>
+<span class="field">RESULT</span>		
+<textarea id="output" readonly></textarea>	
+<div id="block7">
+  <button id="submit">Submit</button>
+  <button id="copy">Copy</button>
+</div> 
+
+<div id="info">[?]</div>
+</div>
+<script>
+let
+$= document.querySelector.bind(document),
+$$= document.querySelectorAll.bind(document);
+
+let
+prefix= $("#prefix"),
+pfsing= $("#pfsingle"),
+pfmult= $("#pfmulti"),
+input= $("#input"),
+suffix= $("#suffix"),
+sfsing= $("#sfsingle"),
+sfmult= $("#sfmulti"),
+output= $("#output"),
+submit= $("#submit"),
+copy= $("#copy");
+      
+//-------------------------------------------
+function merge(){
+
+let
+PREFIX= prefix.value.split("\n"),
+INPUT= input.value.split("\n"),
+SUFFIX= suffix.value.split("\n"),
+MERGED= [];
+
+submit.innerHTML= "Submit";		
+submit.style.color= "white";	
+copy.innerHTML= "Copy";
+copy.style.color= "white";
+
+if (pfsing.checked) prefix.value= PREFIX[0];
+if (sfsing.checked) suffix.value= SUFFIX[0];
+
+//------------------
+INPUT.forEach((i,x)=>{
+if (PREFIX[x]== undefined) PREFIX[x]= "";
+if (SUFFIX[x]== undefined) SUFFIX[x]= "";
+
+if (i!==""){
+if (pfsing.checked&&sfsing.checked) MERGED.push(PREFIX[0]+i+SUFFIX[0]);
+if (pfmult.checked&&sfmult.checked) MERGED.push(PREFIX[x]+i+SUFFIX[x]);
+if (pfsing.checked&&sfmult.checked) MERGED.push(PREFIX[0]+i+SUFFIX[x]);
+if (pfmult.checked&&sfsing.checked) MERGED.push(PREFIX[x]+i+SUFFIX[0]);				
+}
+});
+
+output.value= MERGED.join("\n");
+}
+
+//-------------------------------------------
+input.onkeyup=()=> merge();				
+prefix.onkeyup=()=> merge();				
+suffix.onkeyup=()=> merge();
+
+//-------------------------------------------
+pfsing.onclick=()=>{
+pfsing.checked= true;
+pfmult.checked= false;
+prefix.style.minHeight= "2.5em";
+}
+
+pfmult.onclick=()=>{
+pfmult.checked= true;
+pfsing.checked= false;
+prefix.style.minHeight= "15em";
+}
+
+sfsing.onclick=()=>{
+sfsing.checked= true;
+sfmult.checked= false;
+suffix.style.minHeight= "2.5em";
+}
+
+sfmult.onclick=()=>{
+sfmult.checked= true;
+sfsing.checked= false;
+suffix.style.minHeight= "15em";
+}
+
+//--------------------------------------------    
+copy.onclick=()=>{
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+copy.innerHTML= "Copied";
+copy.style.color= "#39ff14";
+}else{
+navigator.clipboard.writeText(output.value);
+copy.innerHTML= "Copied";
+copy.style.color= "#39ff14";
+}
+};
+
+//----------------------------
+submit.onclick=()=>{
+input.value= output.value;
+prefix.value="";
+suffix.value="";
+output.value="";
+submit.innerHTML= "Submitted";		
+submit.style.color= "#39ff14";		
+};		
+
+//------------------------------------------
+let info= false;
+
+$("#info").onclick=()=>{	
+if(!info){			
+$("#info").innerHTML=`
+<u><b>Single Line</b></u><br>
+No linebreaks allowed<br>
+The prefix/suffix will be repeated continuously
+<br><br>
+<u><b>Multi Line</b></u><br>
+Linebreaks allowed; won't be repeated<br>
+Each prefix/suffix line will be attached to<br>
+the input text's corresponding line
+<br><br>
+Click <a style="color:gray" href="/text-merger/examples.html">here</a> to see examples!
+`	;	
+info= true;
+}
+else{
+$("#info").innerHTML= "[?]";			
+info= false;				
+}
+				
+};
+</script>
+</body>
+</html>
