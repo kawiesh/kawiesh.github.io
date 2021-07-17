@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/" target="_blank">
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>HTML Table Generator</title>
+<style>
+*{
+box-sizing:border-box;
+margin:0; padding:0; outline:none;
+border-radius: 0;
+font-family: Arial;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+background-size: 0%;
+min-width: 100vw; min-height: 100vh;
+position: relative;
+display: flex; flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+
+#block1,#block3{
+width:100%;
+height:20em;
+position:relative;			
+margin-bottom:10px;
+display:flex;
+justify-content: space-between;
+}
+
+#input,#preview,#style{
+width:100%; height:100%;
+border: 1px solid black;
+padding: 5px;
+}
+
+#style{font: bold 12px "Courier New";}
+
+#block3a,#block3b{
+width: 49.5%; height: 100%;		
+position:relative;
+}
+
+.input,.html,.css{
+position:absolute;
+bottom:1px; right:1px;
+color:red;
+background: yellow;
+font: bold 12px "Courier New";
+}
+
+#block2{
+width:100%; height:40px;
+position:relative;
+margin-bottom:20px;
+display:flex;
+justify-content: space-between;
+}
+
+#block2a,#block2b{
+width:49.5%; height:100%;
+position:relative;
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+}
+
+#split,#go,select{
+height:25px;
+border:1px solid black;
+}
+
+#split{ width: calc(100% - (4ch + 1px));}
+#go{width:4ch;}
+
+select{
+background: rgb(204, 255, 204);
+width:49.5%;
+}
+
+.separator,.columns,.options{
+position:absolute;
+bottom:26px;
+color:green;
+font: bold 12px "Courier New";
+}
+
+.separator,.columns{left:0;}
+.options{right: calc(49.5% - 8ch);}
+
+#hidden{display:none;}
+
+#output{
+display: flex;
+justify-content: center;
+width: 100%;
+overflow:auto;
+margin:10px 0 10px 0;
+}
+
+@media (orientation:portrait){
+#container{
+position: relative;
+border: 0px solid red;
+width:95%; height:auto;
+margin-top:20px;
+text-align: center;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+position: relative;
+border: 0px solid red;
+width:75%; height:auto;
+margin-top:20px;
+text-align: center;
+}			
+}	
+
+</style>
+</head>
+<body>	
+<div id="container">
+<div id="block1">
+     <span class="input">INPUT</span>
+     <textarea id="input"></textarea>
+</div>
+<div id="block2">
+     <div id="block2a">
+          <span class="separator">Separator:</span>
+          <input id="split">
+          <button id="go">GO!</button>
+     </div>
+     <div id="block2b">
+          <span class="columns">Columns:</span>
+          <select id="column">
+          <optgroup label="Number of columns same as:">
+          <option value="first" selected>First row</option>
+          <option value="longest">Longest row</option>			
+          </select>
+          </optgroup>
+          <span class="options">Options:</span>
+          <select id="tags" multiple>
+          <optgroup label= "Table components">
+          <option value="th">First row is header</option>
+          <option value="caption">Insert &lt;caption&gt;</option>
+          <option value="thead">Insert &lt;thead&gt;</option>		
+          <option value="tbody">Insert &lt;tbody&gt;</option>
+          <option value="tfoot">Last row is footer</option>
+          </optgroup>	
+          </select>
+     </div>
+</div>
+<div id="block3">
+		  <div id="block3a">
+		  <span class="html">HTML</span>
+     <textarea id="preview"></textarea>
+     </div>
+     <div id="block3b">
+     <span class="css">CSS</span>
+     <textarea id="style"></textarea>
+     </div>
+</div>
+<div id="hidden"></div>
+<div id="output"></div>	
+</div>
+<script>				
+let
+create= document.createElement.bind(document);
+
+function select(a,b= document){
+return b.querySelector(a);
+}
+
+function selectAll(a,b= document){
+return b.querySelectorAll(a);
+}
+
+let
+input= select("#input"),
+split= select("#split"),
+go= select("#go"),
+hidden= select("#hidden"),
+preview= select("#preview"),
+output= select("#output");
+
+let maxcol; let col=[]; let clicked= false;
+
+//-------------------------------
+function update(){
+output.innerHTML= preview.value;
+css.innerHTML= style.value;
+}
+
+//-------------------------------------------------------------------
+function del(){
+let del= ["table","caption","thead","tr","th","tbody","td","tfoot"];
+
+del.forEach(i=>{
+let el= selectAll(i);
+el.forEach(j=>{
+j.remove();				
+});								
+});
+}
+
+//----------------------------
+function getMaxCol(x){
+x.forEach(i=>{
+let b= i.split(split.value);	
+col.push(b.length);				
+});
+
+let column= select("#column");
+let columnval= column.options[column.selectedIndex].value;
+
+if(columnval=="longest") maxcol= Math.max.apply(Math, col);
+if(columnval=="first") maxcol= x[0].split(split.value).length;
+}
+
+//----------------------------
+function createCells(x,y,z){
+for(let i=0; i<maxcol; i++){
+let cell= create(x);
+cell.innerHTML= y[i] || "";
+z.append(cell);
+}											
+}
+//----------------------------
+
+let th; let tfoot;
+
+function tableStructure(){
+
+let
+table= create("table"),
+caption= create("caption"),
+thead= create("thead"),
+tbody= create("tbody");
+
+hidden.append(table);
+caption.innerHTML= "My Table";
+
+let tags= select("#tags"),
+tagsval= Array.from(selectAll("option:checked",tags),e=>e.value);
+
+th= false; tfoot= false;
+tagsval.forEach(i=>{
+if (i=="th") th= true;
+if (i=="tfoot") tfoot= true;		
+if (i=="caption") table.append(caption);
+if (i=="thead") table.append(thead);
+if (i=="tbody") table.append(tbody);		
+});
+
+}
+
+//---------------------------------------------------------------------------❤
+
+function main (){
+if(input.value!=""){
+clicked= true;
+del();
+tableStructure();
+
+let tbody= select("tbody"),
+table= select("table");
+
+let lines= input.value.split("\n");
+
+for(let i=0; i<lines.length; i++){
+let tr= create("tr");
+let mother= tbody || table;
+mother.append(tr);
+let parts= lines[i].split(split.value);
+getMaxCol(lines);
+createCells("td",parts,tr);
+}
+
+//----------
+if(tfoot){
+let footer= create("tfoot");
+table.append(footer);
+let rows= selectAll("tr");
+let lastrow= rows[rows.length-1];		
+
+footer.append(lastrow);				
+}
+
+//-------    
+if(th){
+let tr1= selectAll("tr")[0],
+tr2= selectAll("tr")[1];
+let thplace= tbody || tr2;
+
+selectAll("td",tr1).forEach(i=> {
+i.outerHTML= `<th>${i.innerHTML}</th>`;
+});
+
+let thead= select("thead");
+if(thead){thead.append(tr1);}
+else{thplace.before(tr1);}
+}
+//------------------------
+
+let code= hidden.innerHTML.replace(/></g,">\n<");
+preview.value= "";
+preview.value= code;
+output.innerHTML= "";
+update();
+}
+else{
+alert("please enter some data first");				
+}
+}
+//---------------------------------------------------------------❤
+go.onclick= main;
+column.onchange=()=>{if(clicked&input.value!="")main ();};
+tags.onchange=()=>{if(clicked&input.value!="")main ();};
+preview.onkeyup= update;
+//------------------------------STYLING-------
+
+let css= create("style");
+document.body.append(css);				
+
+let style= select("#style");
+style.onkeyup= update;
+
+style.value=`table{
+border:1.5px solid black;		
+border-collapse: collapse;
+max-width: 100%;
+table-layout: fixed;
+caption-side: top;
+}
+ 
+th,td{
+padding: 2px;
+border:1px solid black;
+height: calc(1em + 5px);
+text-align: center;
+vertical-align: center;
+overflow: auto;
+}
+
+tr:hover{
+outline:1px solid blue;
+}
+
+
+thead,th{
+background:rgb(204, 255, 204);
+}
+
+tfoot{font-style:italic;}
+`;
+
+
+split.value= ",";
+</script>	
+</body>
+</body>
+</html>
