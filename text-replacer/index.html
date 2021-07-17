@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png"/>
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png"/>
+<link rel="icon" type="image/png" sizes="150x150" href="/favicon/mstile-150x150.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon/favicon.ico"/>
+<link rel="manifest" href="/favicon/site.webmanifest"/>
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"/>
+<meta name="msapplication-config" content="browserconfig.xml"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="google-site-verification" content="I_FFpK9_0SzB9xgK2sVrHNs4X2hKc1aeke_RzbUpAcU" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Simple text replacer using plain text strings or RegEx"/>
+<meta name="keywords" content="Text Replacer, regex replace, HTML, CSS, JavaScript, Kawiesh, Tools"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Replacer - Kawiesh"/>
+<meta property="og:type" content="Simple text replacer using plain text strings or RegEx"/>
+<meta property="og:url" content="/text-replacer"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Text Replacer</title>
+<style>
+:root{
+--height;
+}				
+				
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+outline:none;	
+font: 15px Arial;	
+overflow: scroll;
+}
+
+html{height:var(--height);}
+
+body{
+height:100%;
+color:white;
+background-color:black;
+background-image: url("/resources/background2.jpg");
+background-size:50%;	
+}
+
+#container{
+width:90%; height:100%;
+display:flex;
+flex-direction:column;
+margin-left:5%;			
+}
+
+#input,#output{
+color:white;
+background-color:black;
+padding:5px; margin-top:20px;
+border: 1.5px solid darkgray;
+width: 100%; min-height: 30%;
+}
+
+
+#block2, #block3, #block5{
+width: 100%; height: 5%;
+display:flex; align-items: center;
+margin-top: 20px;		
+}
+
+
+#plain, #regex{ margin-right:3px; }
+
+span{ margin-right: 15px; }
+
+#find, #replace{
+padding: 5px; margin-right: 5px;
+width: 50%; height: 100%;
+border: 1.5px solid darkgray;
+color:white;
+background-color:black;
+}
+
+#block5{
+margin-top:0; margin-bottom:10px;
+position:relative;		
+}
+
+button{
+padding: 2px 5px;
+height:100%;
+border:1.5px solid darkgray;
+color:white;
+background-color:black;
+}				
+				
+#submit{
+position:absolute;
+top:-2px; left:0;
+}
+
+#copy{
+position:absolute;
+top:-2px; right:0;
+}
+</style>
+</head>
+<body>
+				
+<div id="container">
+				
+<textarea id="input"></textarea>
+<div id="block2">
+  <input type="text" id="find"/>
+  <input type="radio" id="plain" name="x" checked="checked"/>
+  <span>Plain</span>
+  <input type="radio" id="regex" name="x"/>
+  <span>RegEx</span>
+</div>
+<div id="block3">
+  <input type="text" id="replace"/>
+  <button id="go">Replace</button>
+</div>
+<textarea id="output" readonly></textarea>
+<div id="block5">
+  <button id="submit" >Submit</button>
+  <button id="copy">Copy</button>
+</div>     
+
+</div>
+
+<script>
+let $= document.querySelector.bind(document);
+
+let input= $("#input"),
+    find= $("#find"), 
+   plain= $("#plain"),
+   regex= $("#regex"),
+ replace= $("#replace"),
+      go= $("#go"),
+  output= $("#output"),
+  submit= $("#submit"),
+    copy= $("#copy");
+
+function mod(){
+submit.innerHTML= "Submit";
+copy.innerHTML= "Copy";
+submit.style.color= "white";
+copy.style.color= "white";				
+}
+
+
+//------------------------------------------------
+go.onclick=()=>{
+mod();
+if(plain.checked){
+output.value= input.value.split(find.value).join(replace.value);
+}
+
+if(regex.checked){
+let regexp= /^\/(.*?)\/([gimuy]*)$/;
+let match= find.value.match(regexp);
+if(match){
+let x= new RegExp(match[1],match[2]);
+output.value= input.value.replace(x, replace.value);
+}
+else{
+let y= new RegExp(find.value);
+output.value= input.value.replace(y, replace.value);
+}
+}
+};
+
+//-------------------------------------------------
+
+copy.onclick=()=>{
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+copy.innerHTML= "Copied";
+copy.style.color= "#39ff14";
+}else{
+navigator.clipboard.writeText(output.value);
+copy.innerHTML= "Copied";
+copy.style.color= "#39ff14";
+}
+};
+
+//-------------------------------------------------
+
+submit.onclick=()=>{
+input.value= output.value;
+submit.innerHTML= "Submitted";
+submit.style.color= "#39ff14";
+output.value="";
+replace.value="";
+find.value="";
+};		
+
+//-------------------------------------------------
+
+input.placeholder= `Enter your input data/text here`;	
+find.placeholder= `Find this`;			
+replace.placeholder= `Replace with this`;
+output.placeholder= `The result will be shown here!`;		
+
+let root= document.documentElement,
+   width= Math.max(root.clientWidth, window.innerWidth || 0),
+  height= Math.max(root.clientHeight, window.innerHeight || 0);
+
+
+//window.onload=()=>{root.style.setProperty("--height", height + "px");};
+
+window.onload=()=>{
+if(window.matchMedia("(pointer: coarse)").matches) {
+let heightz= localStorage.getItem("height");
+if(heightz){
+root.style.setProperty("--height", heightz + "px");
+}
+else{
+localStorage.setItem("height", height);
+let heightz= localStorage.getItem("height");
+root.style.setProperty("--height", heightz + "px");
+}
+}
+};
+
+						 
+</script>
+</body>
+</html>

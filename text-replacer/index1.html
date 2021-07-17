@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Text Replacer</title>
+<link rel='stylesheet' href='style.css'>
+</head>
+<body>
+				
+<div id="trcontainer">
+     <form id="input">
+          <textarea></textarea>
+     </form>
+     <form id="one">
+          <input type="text"/>
+          <input type="radio" id="string" name="x" checked="checked"/>
+          <label for="regex">Plain/String</label>
+          <input type="radio" id="regex" name="x"/>
+          <label for="regex">RegEx</label>       
+     </form>
+     <form id="two">
+          <input type="text"/>
+          <button id="replace" type="button">Replace</button>
+     </form>
+     <form id="output">
+          <textarea readonly></textarea>
+	  <button id="submit" type="button">Submit</button>
+          <button id="copy" type="button">Copy</button>
+     </form>
+</div>
+
+<script src='script.js'></script>
+
+</body>
+</html>
