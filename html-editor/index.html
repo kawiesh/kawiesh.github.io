@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>HTML EDITOR</title>
+<style>
+#input,#output{
+border:2px solid gray;
+padding:5px;
+outline:none;
+background:white;
+position:absolute;
+}
+				
+@media(orientation: landscape){
+#input{height:100%; width:50%;left:0;font:18px 'Courier New';}
+#output{height:100%; width:50%;right:0;font:18px 'Arial';}				
+}
+
+@media(orientation: portrait){
+#input{height:50%; width:100%;top:0;font:18px 'Courier New';}
+#output{height:50%; width:100%;bottom:0;font:18px 'Arial';}				
+}
+</style>
+</head>
+<body>
+<textarea id='input'></textarea>
+<div id='output'></div>	
+<script>
+let a= document.querySelector('#input'),
+    b= document.querySelector('#output');
+
+a.placeholder='Enter raw code here';
+   
+a.onkeyup= function(){
+b.innerHTML= a.value;								
+};
+</script>
+</body>
+</html>
