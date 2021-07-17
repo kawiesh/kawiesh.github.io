@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<title>List Numbering</title>
+
+<style>
+
+body{
+
+background:#101831;
+
+}
+
+#trcontainer{
+
+box-sizing:border-box;
+
+position:absolute;
+
+width:90%; height:600px;
+
+left:5%;
+
+top:30px;
+
+border:none;
+
+}
+
+#input{
+
+position: absolute;
+
+width: 100%; height:40%;
+
+top:0;
+
+}
+
+#input>textarea{
+
+box-sizing:border-box;
+
+position: absolute;
+
+width: 100%; height:100%;
+
+padding:5px;
+
+}
+
+label{
+
+color: white;
+
+font:bold 15px Arial;
+
+position: absolute;
+
+top:22%;
+
+}
+
+button,textarea, input{
+
+border:2px double darkgray;
+
+outline:none;
+
+background:black;
+
+color:#e7e7ea;
+
+font: 15px Arial;
+
+}
+
+#two{
+
+position: absolute;
+
+width: 100%; height:5%;
+
+top:45%;
+
+}
+
+#two>input{
+
+font-size:15px;
+
+box-sizing:border-box;
+
+position: absolute;
+
+width: 50%; height:100%;
+
+padding:5px;
+
+}
+
+#prefix{
+
+color: white;
+
+font:bold 15px Arial;
+
+position:absolute;
+
+left:51%;
+
+height:100%;
+
+width:80px;
+
+}
+
+#output{
+
+position:absolute;
+
+width: 100%; height:43%;
+
+bottom:0;
+
+}
+
+#output>textarea{
+
+box-sizing:border-box;
+
+position: absolute;
+
+width: 100%; height:90%;
+
+bottom:10%;
+
+padding:5px;
+
+}
+
+#copy{
+
+color: white;
+
+font:bold 15px Arial;
+
+position: absolute;
+
+right:0; bottom:0;
+
+height:10%;
+
+border-top:none;
+
+}
+
+#submit{
+
+color: white;
+
+font:bold 15px Arial;
+
+position:absolute;
+
+left:0; bottom:0;
+
+height:10%;
+
+border-top:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+				<div id="trcontainer">
+
+     <form id="input">
+
+          <textarea></textarea>
+
+     </form>
+
+     <form id="two">
+
+          <input type="text"/>
+
+          <button id="prefix" type="button">Go!</button>
+
+     </form>
+
+     <form id="output">
+
+          <textarea readonly></textarea>
+
+	  <button id="submit" type="button">Submit</button>
+
+          <button id="copy" type="button">Copy</button>
+
+     </form>
+
+</div>
+
+<script>
+
+let $= document.querySelector.bind(document),
+
+a= $('#input textarea'),
+
+b= $('#two input'),
+
+c= $('#prefix'),
+
+d= $('#output textarea'),
+
+e= $('#copy'),
+
+f= $('#submit');
+
+c.onclick= function(){
+
+let g= a.value.split('\n'),
+
+k= b.value.match(/\d+/),
+
+o= a.value.split('\n');
+
+for(let i=0, j=k; i < o.length; i++,j++){
+
+let x= b.value.replace(k,j);
+
+o[i]= x+''+o[i];
+
+}
+
+d.value='';
+
+d.value= o.join('\n');
+
+};
+
+e.onclick = function() {
+
+if (!navigator.clipboard){
+
+d.select();
+
+document.execCommand('copy');
+
+alert('Copied!');
+
+}
+
+else{
+
+navigator.clipboard.writeText(d.value);
+
+alert('Copied!!');
+
+}
+
+};
+
+f.onclick= function(){
+
+a.value= d.value;
+
+alert('Output inserted as input!');
+
+};	
+
+</script>
+
+</body>
+
+</html>

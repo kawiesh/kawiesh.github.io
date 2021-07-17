@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png"/>
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png"/>
+<link rel="icon" type="image/png" sizes="150x150" href="/favicon/mstile-150x150.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon/favicon.ico"/>
+<link rel="manifest" href="/favicon/site.webmanifest"/>
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"/>
+<meta name="msapplication-config" content="browserconfig.xml"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="google-site-verification" content="I_FFpK9_0SzB9xgK2sVrHNs4X2hKc1aeke_RzbUpAcU" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Online text numbering"/>
+<meta name="keywords" content="numbered list, text numbering, HTML, CSS, JavaScript, Kawiesh, Tools"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Numbering - Kawiesh"/>
+<meta property="og:type" content="Automatically number text/lists!"/>
+<meta property="og:url" content="/text-numbering"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Text Numbering</title>
+<style>
+:root{
+--height;
+}				
+				
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+outline:none;	
+font: 15px Arial;	
+overflow: scroll;
+}
+
+html{height:var(--height);}
+
+body{
+height:100%;
+color:white;
+background-color:black;
+background-image: url("/resources/background2.jpg");
+background-size:50%;	
+}
+
+#container{
+width:90%; height:100%;
+display:flex;
+flex-direction:column;
+margin-left:5%;			
+}
+
+#input,#output{
+color:white;
+background-color:black;
+padding:5px; margin-top:20px;
+border: 1.5px solid darkgray;
+width: 100%; min-height: 30%;
+}
+
+
+#block2, #block3{
+width: 100%; height: 5%;
+display:flex; align-items: center;
+margin-top: 20px;		
+}
+
+
+
+#number{
+padding: 5px; margin-right: 5px;
+width: 50%; height: 100%;
+border: 1.5px solid darkgray;
+color:white;
+background-color:black;
+}
+
+#block3{
+margin-top:0; margin-bottom:10px;
+position:relative;
+display:flex;
+justify-content: center;	
+}
+
+button{
+padding: 2px 5px;
+height:100%;
+border:1.5px solid darkgray;
+color:white;
+background-color:black;
+}				
+				
+#clear{
+position:absolute;
+top:-2px; left:0;
+}
+
+#copy{
+position:absolute;
+top:-2px; right:0;
+}
+
+#info{
+margin-left:5%;
+margin-top:10px;
+text-align:center;		
+font:12px "Courier New";		
+}
+</style>
+</head>
+<body>
+				
+<div id="container">
+				
+<textarea id="input"></textarea>
+<div id="block2">
+  <input type="text" id="number"/>
+  <button id="go"> GO! </button>
+</div>
+<textarea id="output" readonly></textarea>
+<div id="block3">
+  <button id="copy">Copy</button>
+  <button id="clear">Clear</button>
+</div>     
+<div id="info">[?]</div>
+</div>
+
+<script>
+let $= document.querySelector.bind(document);
+
+let input= $("#input"),
+   number= $("#number"), 
+       go= $("#go"),
+  output= $("#output"),
+    copy= $("#copy"),
+   clear= $("#clear");
+
+function mod(){
+copy.innerHTML= "Copy";
+clear.innerHTML= "Clear";
+copy.style.color= "white";		
+clear.style.color= "white";		
+}
+
+
+//------------------------------------------------
+
+go.onclick=()=>{
+mod();
+let result=[];
+let lines= input.value.split("\n");
+let match= number.value.match(/\d+/);
+for(let i=0,j=match; i<lines.length; i++,j++){
+result.push(number.value.replace(match,j)+""+lines[i]);								
+}
+
+output.value="";
+output.value= result.join("\n");
+};
+//-------------------------------------------------
+
+copy.onclick=()=>{
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+copy.innerHTML= "Copied";
+copy.style.color= "#39ff14";
+}else{
+navigator.clipboard.writeText(output.value);
+copy.innerHTML= "Copied";
+copy.style.color= "#39ff14";
+}
+};
+
+//-------------------------------------------------
+clear.onclick=()=>{
+input.value="";
+output.value="";
+number.value="";
+clear.innerHTML= "Cleared";		
+clear.style.color= "red";		
+};		
+
+
+//-------------------------------------------------
+
+input.placeholder= `Enter your input data/text here`;			
+number.placeholder= `Start numbering from`;
+output.placeholder= `The result will be shown here!`;		
+
+let root= document.documentElement,
+   width= Math.max(root.clientWidth, window.innerWidth || 0),
+  height= Math.max(root.clientHeight, window.innerHeight || 0);
+
+
+//window.onload=()=>{root.style.setProperty("--height", height + "px");};
+
+window.onload=()=>{
+if(window.matchMedia("(pointer: coarse)").matches) {
+let heightz= localStorage.getItem("height");
+if(heightz){
+root.style.setProperty("--height", heightz + "px");
+}
+else{
+localStorage.setItem("height", height);
+let heightz= localStorage.getItem("height");
+root.style.setProperty("--height", heightz + "px");
+}
+}
+};
+
+
+$("#info").onclick=()=>{
+				
+$("#info").innerHTML=`
+Any seperator can be used in the numbering field <br>
+The number will automatically be detected and increased <br>	
+E.g. [7] will increase as [8] [9] [10] [11] etc.
+`;	
+				
+};
+
+						 
+</script>
+</body>
+</html>
