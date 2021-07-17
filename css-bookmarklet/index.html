@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png"/>
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png"/>
+<link rel="icon" type="image/png" sizes="150x150" href="/favicon/mstile-150x150.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon/favicon.ico"/>
+<link rel="manifest" href="/favicon/site.webmanifest"/>
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"/>
+<meta name="msapplication-config" content="browserconfig.xml"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="google-site-verification" content="I_FFpK9_0SzB9xgK2sVrHNs4X2hKc1aeke_RzbUpAcU" />
+<meta name="description" content="CSS Bookmarklet. Live CSS Editor"/>
+<meta name="keywords" content="kawiesh, HTML, CSS, JavaScript, Kawiesh, Tools"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Kawiesh.gq - CSS Bookmarklet"/>
+<meta property="og:type" content="Realtime CSS Editor"/>
+<meta property="og:url" content="/"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>CSS Bookmarklet - Kawiesh</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="lol">
+            <h2 style="font:25px cursive; color:yellow; text-align:center;">✨CSS Editor✨</h2>
+            <span style="text-decoration: underline;">About:</span>
+            <br>
+            <span>This is a minimalistic CSS Editor, made using HTML, CSS & Vanilla Javascript.
+                  It's a bookmarklet that opens a textfield in which you can enter your custom CSS
+                  and instantly inject it into the page.</span>
+            <br>
+            <br>
+            <span style="text-decoration: underline;">Features:</span>
+            <br>
+            <ul>
+                <li>CSS changes are shown in real-time, no need to refresh</li>
+                <li>The editor can be resized & positioned (if desired) using the preloaded CSS</li>
+                <li>The code is saved & stored for each domain, for later use/continuation</li>
+                <li>!important is automatically injected, so the code always has highest priority!</li>
+                <li>Current selector's indicated by a glowing red border around the element</li>
+            </ul>
+            <span style="text-decoration: underline;">How to use:</span>
+            <br>
+            <ul>
+                <li>
+                    Copy the link by clicking on this
+                    <button id="copy" type="button">COPY</button>
+                    button
+                </li>
+                <li>Make a bookmark of any webpage & rename it</li>
+                <li>Replace its address with the copied link & save the changes</li>
+                <li>When needed, search for the bookmark from the URL bar & click on it</li>
+                <li>The editor will appear. Click the cross symbol to minimize/maximize</li>
+
+            </ul>
+            <span style="font: 12px Courier New; color:#39FF14;">**I know very little about coding/web developing.
+                  This is just an attempt. So it might not be the most convenient or well put together.
+            -Just a NOOB( **
+            </span>
+        </div>
+        <br>
+        <button id="prev" type="button">Click here to preview!</button>
+        <br>
+        <br>
+        <br>
+        <div class="lol">Here's the code:</div>
+<pre>
+<code>
+
+let template= document.createElement(&quot;template&quot;);
+template.innerHTML=`
+&lt;style&gt;
+*{
+box-sizing:border-box; 
+margin:0; padding:0; 
+outline:none;}
+
+#container{
+display:flex;
+flex-direction:column;
+position: fixed;
+left:10px; top:10px;
+z-index:99999;
+pointer-events:none;
+}
+
+textarea{
+font-weight: bold;
+font-family: &quot;Courier New&quot;;
+width: 100%;
+background: rgb(0,0,0,0.7);
+outline:none;
+padding: 5px 5px 5px 20px;
+border:1px solid gray;		
+pointer-events:auto;					
+}
+
+#global{
+font-size:12px;
+height:85%;
+color: #39ff14;
+}
+
+#local{
+font-size:10px;
+height:15%;
+color: white;
+display:none;
+}
+
+svg{
+border:1px solid red;
+stroke:red;
+stroke-width:5px;
+width:20px;
+height:20px;
+position:absolute;
+left:0;
+pointer-events:auto;
+}	
+.global{top:0;}
+.local{bottom:15%;}
+
+@media (orientation:portrait) {
+#container{
+width:50vw;
+height:40vw;
+}
+}
+
+@media (orientation:landscape) {
+#container{
+width:30vw;
+height:20vw;
+}
+}
+
+&lt;/style&gt;
+&lt;div id=&quot;container&quot;&gt;
+&lt;textarea id=&quot;global&quot; autocapitalize= &quot;off&quot; spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;
+&lt;textarea id=&quot;local&quot; autocapitalize= &quot;off&quot; spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;
+&lt;svg class=&quot;global&quot; viewbox=&quot;0 0 40 40&quot;&gt;
+&lt;path d=&quot;M 10,10 L 30,30 M 30,10 L 10,30&quot;/&gt;&lt;/svg&gt;
+&lt;svg class=&quot;local&quot; viewbox=&quot;0 0 40 40&quot;&gt;
+&lt;path d=&quot;M 10,10 L 30,30 M 30,10 L 10,30&quot;/&gt;&lt;/svg&gt;
+&lt;/div&gt;`;
+
+window.customElements.define(&quot;kd-edit&quot;,
+class extends HTMLElement{
+constructor(){
+super();
+this.attachShadow({mode:&quot;open&quot;});
+this.shadowRoot.appendChild(template.content.cloneNode(true));				
+}			
+})
+
+let preload=`#container{top:0px; left:0px; z-index:99999;
+/*height:300px; width:400px;*/}`;
+
+let border=`{
+outline:3px solid transparent;
+animation: kdflash 1s linear infinite alternate;
+}
+
+@keyframes kdflash{
+0%{outline:3px solid transparent}
+50%{outline:3px solid rgb(255,0,0,0.5)}
+100%{outline:3px solid rgb(255,0,0,1)}
+}`;
+
+let
+a= document.createElement(&quot;kd-edit&quot;),
+b= document.querySelector(&quot;kd-edit&quot;);
+if(b){
+b.parentNode.removeChild(b);
+document.body.appendChild(a);
+}
+else{
+document.body.appendChild(a);
+}
+
+let
+rgx= /(?&lt;!important\s?);/g,
+imp= '!important\;';
+
+let
+local= a.shadowRoot.querySelector(&quot;#local&quot;),
+global= a.shadowRoot.querySelector(&quot;#global&quot;);
+
+local.value= preload;
+global.value= localStorage.getItem(&quot;kdcss&quot;);
+   
+
+let localstyle= document.createElement(&quot;style&quot;);
+a.shadowRoot.appendChild(localstyle);
+function localinject(){
+localstyle.innerHTML= local.value.replace(rgx,imp);					
+}
+localinject();
+local.onkeyup= localinject;
+
+
+let globalstyle= document.createElement(&quot;style&quot;);
+document.body.appendChild(globalstyle);
+function globalinject(){
+globalstyle.innerHTML= global.value.replace(rgx,imp) + border;					
+}
+globalinject();
+global.onkeyup= globalinject;
+
+let
+lc= a.shadowRoot.querySelector(&quot;.local&quot;),
+gc= a.shadowRoot.querySelector(&quot;.global&quot;);
+
+let lcopen= false;
+let gcopen= true;
+
+lc.onclick= function(){
+if(lcopen){
+local.style.display= &quot;none&quot;;
+local.style.pointerEvents= &quot;none&quot;;
+lcopen= false;				
+}	
+else{
+local.style.display= &quot;block&quot;;
+local.style.pointerEvents= &quot;auto&quot;;			
+lcopen= true;				
+}											
+}
+
+gc.onclick= function(){
+if(gcopen){
+lc.style.display= &quot;none&quot;;
+lc.style.pointerEvents= &quot;none&quot;;	
+global.style.display= &quot;none&quot;;
+global.style.pointerEvents= &quot;none&quot;;	
+local.style.display= &quot;none&quot;;
+local.style.pointerEvents= &quot;none&quot;;
+gcopen= false;				
+}	
+else{
+lc.style.display= &quot;inline&quot;;
+lc.style.pointerEvents= &quot;auto&quot;;	
+global.style.display= &quot;block&quot;;
+global.style.pointerEvents= &quot;auto&quot;;		
+gcopen= true;				
+}	
+}
+
+let obu= false;
+window.onunload= window.onbeforeunload= function(){
+if(!obu){
+obu= true;
+localStorage.removeItem(&quot;kdcss&quot;);
+localStorage.setItem(&quot;kdcss&quot;,global.value);
+}};
+
+
+</code>
+</pre>
+        <script src="script.js"></script>
+    </body>
+</html>
