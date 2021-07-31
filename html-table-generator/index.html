@@ -295,16 +295,7 @@ createCells("td",parts,tr);
 }
 
 //----------
-if(tfoot){
-let footer= create("tfoot");
-table.append(footer);
-let rows= selectAll("tr");
-let lastrow= rows[rows.length-1];		
-
-footer.append(lastrow);				
-}
-
-//-------    
+	
 if(th){
 let tr1= selectAll("tr")[0],
 tr2= selectAll("tr")[1];
@@ -318,7 +309,18 @@ let thead= select("thead");
 if(thead){thead.append(tr1);}
 else{thplace.before(tr1);}
 }
-//------------------------
+//------------------------	
+	
+if(tfoot){
+let footer= create("tfoot");
+table.append(footer);
+let rows= selectAll("tr");
+let lastrow= rows[rows.length-1];		
+
+footer.append(lastrow);				
+}
+
+//-------    
 
 let code= hidden.innerHTML.replace(/></g,">\n<");
 preview.value= "";
