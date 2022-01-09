@@ -82,6 +82,11 @@ height: 10px;
 
 
 
+.list{
+width: 100%;
+height: 350px;
+}
+
 
 
 @media (orientation:portrait){
@@ -170,8 +175,9 @@ async function fetchFiles(){
 let talinks= [], divlinks= [];
 message.innerHTML= "Loading...";
 
+let path= repo.value.split(/\/(.+)/)[0];
 let folder= repo.value.split(/\/(.+)/)[1]||"";
-let url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/${folder}?v=` + Date.now();
+let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}?v=` + Date.now();
 
 let request= await fetch(url);
 let reply= await request.json();
