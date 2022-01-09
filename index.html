@@ -14,9 +14,8 @@
 <link rel="manifest" href="/resources/favicon/site.webmanifest">
 <link rel="mask-icon" href="/resources/favicon/safari-pinned-tab.svg" color="#5bbad5">
 <link rel="shortcut icon" href="/resources/favicon/favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-config" content="/resources/favicon/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
+
 
 
 <title>Kawiesh | Krishan</title>
@@ -42,13 +41,27 @@ align-items: center;
 
 #container{
 height: auto;
-border: 1px solid red;
+border: 0px solid red;
 margin-top: 20px;
 position: relative;
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
 align-items: center;
+}
+
+a{
+padding: 2px;
+margin-bottom: 10px;
+border: 1px solid black;
+width: 20ch;
+background: white;
+text-decoration: none;
+font: small-caps 16px Arial;
+}
+
+a:visited{
+color: blue;
 }
 
 @media (orientation:portrait){
@@ -66,6 +79,15 @@ body{background-size: 50%;}
 <body data-nosnippet>
 <div id="container">
 
+<a href="/tools/bookmarklet-maker.html">bookmarklet maker</a>
+<a href="/tools/html-editor.html">html editor</a>
+<a href="/tools/link-lister.html">link lister</a>
+<a href="/tools/table-generator.html">table generator</a>
+<a href="/tools/text-extractor.html">text extractor</a>
+<a href="/tools/text-merger.html">text merger</a>
+<a href="/tools/text-modifier.html">text modifier</a>
+<a href="/tools/text-numbering.html">text numbering</a>
+<a href="/tools/text-replacer.html">text replacer</a>
 
 </div>
 <script>				
@@ -73,6 +95,10 @@ let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
+
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
 
 </script>	
 </body>
