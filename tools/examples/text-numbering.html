@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="https://krishan.ml" target="_blank">
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Text Numbering - Examples</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+font-family: Arial;
+}	
+
+body{
+background: rgb(251,244,234) url("/resources/metaltexture.jpg");
+//background-size: 0%;
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+
+table{
+border:1.5px solid black;		
+border-collapse: collapse;
+max-width: 100%;
+table-layout: fixed;
+caption-side: top;
+}
+ 
+th,td{
+padding: 2px;
+border:1px solid black;
+height: calc(1em + 5px);
+text-align: left;
+vertical-align: center;
+overflow: auto;
+}
+
+thead,tfoot,th{
+background:rgb(204, 255, 204);
+}
+
+.info{text-align:center;}
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}			
+}	
+
+</style>
+</head>
+<body>
+<div id="container">
+	<div class="info">You can use any characters in combination with the starting number.<br>
+		Just make sure there is a digit present. See examples below.<br><br>
+				The default mode is "first group of digits". <br>
+					If you have more than 1 group of digits (e.g. "S03E0"), try out the other modes.		<br><br>
+		</div>
+
+<u><b>Examples:</b></u><br><br>
+<table>
+<tr>
+<th>Starting number</th>
+<th>Result</th>
+<th>Enabled options/Mode</th>
+</tr>
+<tr>
+<td>04</td>
+<td>04, 5, 6 .....</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>08</td>
+<td>08, 09, 10 .....</td>
+<td>Leading zeros</td>
+</tr>
+<td>2021-%23%-08</td>
+<td>2021-23-08, 2021-24-08, 2021-25-08 .....</td>
+<td>%(number)% mode<tr>
+<tr>
+<td>4)</td>
+<td>4), 5), 6) .....</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>[4]</td>
+<td>[4], [5], [6] .....</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>S01E04 </td>
+<td>S01E04, S01E05, S01E06....</td>
+<td>Last digits mode</td>
+</tr>
+<tr>
+<td>S01E04</td>
+<td>S01E04, S02E04, S03E04....</td>
+<td>First digits mode</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
