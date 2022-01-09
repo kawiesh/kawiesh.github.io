@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>KD HTML Template</title>
+<title>List GitHub Files</title>
 
 <style>				
 *{
@@ -33,7 +33,7 @@ align-items: center;
 
 #container{
 height: auto;
-border: 1px solid red;
+border: 0px solid red;
 margin-top: 20px;
 position: relative;
 display: flex;
@@ -41,6 +41,49 @@ flex-direction: column;
 justify-content: flex-start;
 align-items: center;
 }
+
+table{
+position: relative;
+border:0px solid black;		
+border-collapse: separate;
+border-spacing: 5px;
+max-width: 100%;
+table-layout: fixed;
+}
+ 
+td{
+border: 0px solid black;
+vertical-align: bottom;
+overflow: auto;
+text-transform: lowercase;
+font: small-caps 15px Arial;
+padding: 2px 0;
+width: 15ch;
+text-align: left;
+}
+
+
+tr>td:nth-child(2){
+padding: 0;
+text-align: left;
+}
+
+td>input{
+color: blue;
+width: 15ch;
+height: 20px;
+padding: 2px;
+border: 1px solid black;
+}
+
+
+.radio input{
+height: 10px;
+}
+
+
+
+
 
 @media (orientation:portrait){
 #container{width: 95%;}
@@ -58,23 +101,46 @@ body{background-size: 50%;}
 <div id="container">
 
 
-<input name="owner" required>
-<input name="repo" required>
-<input class="filetype">
-<button id=go">Go</button>
-<label for="absolute">
-<input type="checkbox" name="absolute">Absolute URLs
-</label>
+<table>
+<tbody>
+<tr>
+<td>Owner</td>
+<td><input class="owner" required></td>
+</tr>
+<tr>
+<td>Repo name</td>
+<td><input class="repo" required></td>
+</tr>
+<tr>
+<td>File extension </td>
+<td><input class="filetype" required></td>
+</tr>
+<tr>
+<tr class="radio">
+<td>URL Path</td>
+<td>
+<span>rel
+<input type="radio" name="x" checked>
+</span>
+<span>abs
+<input type="radio" name="x">
+</span>
+</td>
+</tbody>
+</table>
+<br>
+
+<button id="go">GO!</button>
 
 <div class="message"></div>
-<button id="copy">Copy</button>
-
-
-
-
 
 <textarea class="list" readonly></textarea>
+
+<button id="copy">Copy</button>
+
 <div class="links"></div>
+
+
 </div>
 <script>				
 let create= (x)=> document.createElement(x),
@@ -90,59 +156,49 @@ let list= select(".list");
 let message= select(".message");
 let copy= select("#copy");
 let go= select("#go");
-let url;
+let radio= selectAll(".radio input");
 
 owner.placeholder= "repo owner";
 repo.placeholder= "repo name";
 filetype.placeholder= "leave empty to list all files";
 
 
-onclick= function(){
-url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/?v=` + Date.now();
-
-
-
 //CREATE TABLE
 
 
 async function fetchFiles(){
+let talinks= [], divlinks= [];
 message.innerHTML= "Loading...";
+let url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/?v=` + Date.now();
 
 let request= await fetch(url);
 let reply= await request.json();
 let files= reply.map(i=>{
 let url= i.path, text= i.path.split(".")[0];
-let href= (♥️.checked) ?  : url;
-
-let link=`<a class="link" href="${href}">${text}</a>`;
-});
-
-//NOTIFY WHEN LOADED
-message.innerHTML= "List of files";
-
-//REMOVE NON JS FILES
-selectAll("a.link").forEach(i=>{
-if(!i.href.endsWith(♥️.value||"")){
-i.closest("tr").remove();				
-}						
+let href= (radio[0].checked) ? url : "x.com/"+ url;
+if(href.endsWith(filetype.value||"")){
+talinks.push(href);
+divlinks.push(`<a class="link" href="${href}">${text}</a>`);
+}
 });
 
 
-
-
-
-
-
+list.value= talinks.join("\n");
+links.innerHTML= divlinks.join("<br>");
 message.innerHTML= "List of files";
 }
 
 //DO THE MAIN FUNCTION
-fetchLinks();
+
+go.onclick= fetchFiles;
 
 
+copy.onclick= function(){
+copyData(list.value,this);
+};
 
 //COPY FUNCTION
-function copyLink(a,b){
+function copyData(a,b){
 try{
 navigator.clipboard.writeText(a);
 b.innerHTML= "Copied";
