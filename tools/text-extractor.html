@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Extract components from text using regex or plain strings!"/>
+<meta name="keywords" content="extract text online, regex extractor, text extract"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Extractor"/>
+<meta property="og:type" content="Extract components from text using regex or plain strings!"/>
+<meta property="og:url" content="/tools/text-extractor"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Text Extractor</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+font-family: Arial;
+}	
+
+body{
+background: rgb(251,244,234) url("/resources/metaltexture.jpg");
+//background-size: 0%;
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#block1,#block3{
+position: relative;
+width: 100%; height: 300px;
+}
+
+#block1{
+margin-bottom: 10px;				
+}
+
+#input,#output,#find,#replace{
+padding: 5px;
+font-size: 14px;
+width:100%; height:100%;
+border: 1.5px solid gray;
+background: rgb(255,255,255,0.3);
+}
+
+#block2{
+position: relative;	
+display: flex;
+justify-content: space-between;		
+width: 100%; height: 30px;
+margin-bottom: 10px;
+}
+
+#block2a{
+position: relative;
+width: 49%; height: 100%;
+display: flex;
+justify-content: space-between;		
+}
+
+#find{width: calc(100% - 5.5ch); height: 100%;}
+
+#go{
+width: 5.5ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+}
+
+
+#block2b{
+position: relative;		
+width: 49%; height: 100%;
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+}
+
+
+.preset,.option{
+position: absolute;
+top: -0.5ch;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+.preset{left:0;}
+.option{right:0;	}
+
+
+#preset,#option{
+width: 49%; height: 60%;
+border: 1px solid gray;
+background: rgb(255,255,255,0.3);
+font-size: 12px;
+}
+
+
+#block4{
+width: 100%; height: 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: -1.5px;
+}
+
+#copy,#submit{
+width: 8ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+#copy{right: 0px; }
+#submit{left: 0px; }
+
+
+#block5{
+width: 100%; height: 30px;
+display: flex;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+justify-content: center;
+align-items: flex-start;
+margin-top: -1.5px;
+}
+
+
+
+
+::placeholder{
+font:13px "Courier New";				
+}
+
+
+#fontsize{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#fontsize::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#fontsize::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+<div id="block1">								
+<textarea id="input"></textarea>
+</div>
+<div id="block2">
+	 <div id="block2a">
+     <input id="find">
+     <button id="go">GO!</button>
+  </div>
+  <div id="block2b">
+     <span class="preset">presets:</span>
+     <select id="preset" onchange="lock()">
+     	 <optgroup label= "Presets:">
+     	 <option value="zero">Links</option>
+     	 <option value="one">Links (Extreme)</option>
+     	 <option value="two">E-Mails</option>
+     	 <option value="three">Proxy</option>
+     	 <option value="four" selected>Custom</option>
+     	 </optgroup>
+     </select>
+     <span class="option">options:</span>
+     <select id="option" multiple>
+     	<optgroup label= "Options:">
+     	<option value="zero">Sort [A - Z]</option>
+     	<option value="one">Remove duplicates</option>
+     	<option value="two">Extract whole line</option>
+     	</optgroup>
+     </select>
+  	</div>
+</div>
+<div id="block3">
+  <textarea id="output" readonly></textarea>
+</div>
+<div id="block4">
+	 <button id="submit">Submit</button>
+	 <input  id="fontsize" type="range" value="14" min="8" max="20" step="1">
+  <button id="copy">Copy</button>
+</div>
+<div id="block5">
+Font size:&nbsp;<span>14</span>px
+</div>
+    					
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+
+
+let
+input= select("#input"),
+find= select("#find"),
+preset= select("#preset"),
+option= select("#option"),
+go= select("#go"),
+output= select("#output"),
+submit= select("#submit"),
+copy= select("#copy");
+
+//-------
+
+function fill(x){
+let a= decodeURIComponent(x.split("#find=")[1]);
+find.value= a;
+}
+
+let hash= location.hash;
+if(hash) fill(hash);
+
+
+
+
+//----------------------------------------------
+let regexemail= /([a-zA-Z0-9+._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/g,
+regexlinks= /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#\.]?[\w-]+)*\/?/gm;
+regexproxy= /(?<!\d)([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}(:\d{1,5})?(?!\d)/g,
+regexlinks1= /(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[\/?#]\S*)?/gi; 
+
+//------------------------------------------------
+let fontsize= select("#fontsize");
+fontsize.oninput= function(){
+input.style.fontSize= this.value + "px";
+output.style.fontSize= this.value + "px";
+select("#block5 span").innerHTML= this.value;
+};
+
+//------------------------------------------
+
+function extract(custom){
+output.value= input.value.match(custom).join("\n");				
+}
+
+//----------------------------------------------
+go.onclick= function(){
+output.value= "";
+copy.innerHTML= "Copy";
+submit.innerHTML= "Submit";
+submit.style.width= "8ch";
+
+let presets= selectAll("option", preset);
+let options= selectAll("option", option);
+
+if(presets[4].selected){//---CUSTOM REGEX-----
+let regexp= /^\/(.*?)\/([gimuy]*)$/;
+let match= find.value.match(regexp);
+
+let regexlit, regexconst;
+(match) ? regexlit= new RegExp(match[1],match[2]) : regexconst= new RegExp(find.value,"g");
+
+
+if(options[2].selected){//---EXTRACT WHOLE LINE----
+let a= [];
+let b= (match) ? regexlit : regexconst;
+input.value.split("\n").forEach(i=> { if(b.test(i)) a.push(i) });
+output.value= a.join("\n");				
+}
+else{//---EXTRACT MATCHES ONLY----
+(match) ? extract(regexlit) : extract(regexconst);
+}
+}
+else{//---PRESET REGEX----
+if(presets[0].selected) extract(regexlinks);	
+if(presets[1].selected) extract(regexlinks1);	
+if(presets[2].selected) extract(regexemail);	
+if(presets[3].selected) extract(regexproxy);			
+}//---END OF MATCHING
+
+if(options[0].selected){//---SORT RESULT----
+let a= output.value.split("\n");
+let b= a.sort((x, y) => x.localeCompare(y));
+output.value= b.join("\n");
+}
+
+if(options[1].selected){//---REMOVE DUPES----
+let a= output.value.split("\n");
+let b= new Set(a);
+output.value= [...b].join("\n");
+}
+
+};
+
+
+//-------------------------------------------------
+copy.onclick= function(){
+if(output.value.match(/\S/)){
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+this.innerHTML= "Copied";
+}else{
+navigator.clipboard.writeText(output.value);
+this.innerHTML= "Copied";
+}
+}
+};
+
+//--------
+submit.onclick= function(){
+if(output.value.match(/\S/)){
+this.innerHTML= "Submitted";
+this.style.width= "10ch";
+input.value= output.value;
+output.value= "";				
+}
+}
+//-------------------------------------------------
+
+function lock(){
+let presets= selectAll("option", preset);
+
+if(!presets[4].selected){
+find.placeholder= `Preset selected: ${preset.options[preset.selectedIndex].text}`;
+find.style.color= "gray";
+find.readOnly= true;
+}
+else{
+find.placeholder= "Enter RegEx Pattern";
+find.style.color= "black";
+find.readOnly= false;
+}
+}
+
+
+
+input.placeholder= "Enter your input data/text here";	
+find.placeholder= "Enter RegEx pattern here";	
+output.placeholder= "The result will be shown here!";		
+
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+</script>
+</body>
+</html>

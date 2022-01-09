@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="List generator for links / bookmarklet combiner!"/>
+<meta name="keywords" content="Link lister, bookmarklet combiner"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Link Lister"/>
+<meta property="og:type" content="List generator for links / bookmarklet combiner!"/>
+<meta property="og:url" content="/tools/link-lister"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Link Lister</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+border: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+background-size: 0%;
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#block1,#block2,#block3,#block4{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-end;
+position:relative;
+width:100%; height: 20em;
+margin-bottom: 10px
+}
+
+#block4,#block5{
+justify-content: flex-start;
+text-align:center;
+height: auto;
+text-transform: uppercase;
+font: bold 12px "Courier New";
+}
+
+textarea{
+min-width: 100%; min-height: 90%;
+padding: 5px;
+border: 1px solid black;
+background:white;
+z-index:1;
+}
+
+button{
+z-index:2; width: 8ch;
+position: absolute; 
+right: 0; bottom: 0;
+padding: 3px;
+border: 1px solid black;
+}
+
+
+.titles,.urls,.output,.close{
+font-variant: small-caps;
+}
+
+ul{
+text-align: left;
+color: red;
+}
+
+.close{
+z-index:2; height:1em;
+position:absolute;		
+left:0; bottom: -1.5em;
+display: flex;
+align-items: center;
+}
+
+
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+width: 65%; height: auto;
+}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+<div id="block1">
+<span class="titles">&#8801 titles &#8801</span>
+<textarea id="titles"></textarea>
+</div>
+<div id="block2">
+<span class="urls">&#8801 urls &#8801</span>
+<textarea id="urls"></textarea>
+<button id="go">GO!</button>
+</div>
+<div id="block3">
+<span class="output">&#8801 output &#8801</span>
+<textarea id="output"></textarea>
+<button id="copy">Copy</button>
+<span class="close"><input type="checkbox" id="close">&nbsp; collapsable</span>
+</div>
+<div id="block4"><br>
+The code above is just for readability.<br>
+It needs to be encoded in order for it to work.<br>
+Click on COPY to copy the encoded version!<br><br>
+</div>
+<div id="block5"></div>
+
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let
+input1= select("#titles"),
+input2= select("#urls"),
+go= select("#go"),
+output= select("#output"),
+copy= select("#copy"),
+collapse= select("#close"),
+quote= /"/g,
+slashquote= '\\"';
+
+
+go.onclick=()=> update();
+
+output.onkeyup=()=> eval(output.value);
+
+collapse.onchange=()=> {
+if(output.value!="") update();
+};
+
+copy.onblur=()=> copy.innerHTML= "Copy";
+copy.onclick=()=>{
+let code= 'javascript:'+ encodeURIComponent(`(function(){${output.value}})();`);
+navigator.clipboard.writeText(code);
+copy.innerHTML= "Copied";
+};
+
+
+
+//💚💚💚💚💚💚💚💚💚
+function update(){
+let JS= (collapse.checked) ? closejs : "";
+let CSS= (collapse.checked) ? closecss : "";
+let CLOSE= (collapse.checked) ? close : "";
+
+let array1= input1.value.replace(quote,slashquote).split("\n");
+let array2= input2.value.replace(quote,slashquote).split("\n");
+
+let titles= array1.map(i=> `"${i}"`);
+let urls= array2.map(i=> `"${i}"`);
+
+
+//❤❤❤❤
+output.value= `let
+titles= [${titles}],
+urls= [${urls}];
+
+let template= document.createElement("template");
+template.innerHTML=\`
+<style>
+*{box-sizing: border-box; z-index: 9999999;}
+
+div{
+position: fixed; left:1px; top:2px;
+display:flex; flex-direction: column;
+}
+
+a{
+text-align: left;
+font: 15px "Arial";
+height: 1.5em; padding: 2px 5px; 
+background: white; color: black;
+border: 1px solid black;
+text-decoration: none;
+transition: .3s linear;
+margin-bottom: -1px;
+}
+
+a:hover{background: yellow;}${CSS}
+</style>
+<div>${CLOSE}</div>\`;
+
+
+if (!customElements.get("kd-list")){
+customElements.define("kd-list",
+class extends HTMLElement{
+constructor(){
+super();
+this.attachShadow({mode:"open"});
+}			
+})
+}
+
+
+let a= document.createElement("kd-list");
+let b= document.querySelector("kd-list");
+a.shadowRoot.append(template.content.cloneNode(true));
+
+if(b){
+b.remove();
+document.body.append(a);
+}
+else document.body.append(a);
+
+let regex= /^javascript.+/;
+titles.forEach((i,x)=>{
+let link= document.createElement("a"); link.text= i; 
+a.shadowRoot.querySelector("div").append(link);
+if(regex.test(urls[x])){
+link.onclick=()=> location= urls[x];
+}
+else if(urls[x]) link.href= urls[x];
+});${JS}`;//❤❤❤
+
+eval(output.value);
+showErrors(array1,array2);
+}
+//💚💚💚💚💚💚💚💚💚💚💚
+
+
+let close= `
+<span><svg viewBox="0 0 24 24"><path d="M 2 2 L 22 22 M 2 22 L22 2"/></svg></span>
+`;
+
+let closecss= `
+a.closed{opacity: 0; pointer-events: none;}
+span{height: 20px; width: 20px;}
+svg{stroke: red; stroke-width: 2.5; border: 1.5px solid red;}
+`;
+
+
+let closejs= `
+
+a.shadowRoot.querySelector("span").onclick=()=>{
+a.shadowRoot.querySelectorAll("a").forEach(i=> i.classList.toggle("closed"));
+};`;
+
+
+
+//---------------DISPLAY ERRORS-----------
+function showErrors(a,b){
+let error1= (input1.value=="") ? "<li>Titles field is empty</li>" : "",
+error2= (input2.value=="") ? "<li>URLs field is empty</li>" : "",
+error3="",
+error4= (a.length!=b.length) ? "<li>Number of titles ≠ number of URLs!</li>" : "";
+
+if(a.length>1){
+a.forEach((i,x)=> error3=  (i==""||b[x]=="") ? "<li>Input contains extra linebreaks</li>"  : "");
+}
+select("#block5").innerHTML= `Some errors were encountered:<ul>${error1}${error2}${error3}${error4}</ul>`;
+
+}
+
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+</script>	
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Simple HTML editor with live preview!"/>
+<meta name="keywords" content="HTML, online html editor"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="HTML Editor"/>
+<meta property="og:type" content="Simple HTML editor with live preview!"/>
+<meta property="og:url" content="/tools/html-editor"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>HTML Editor</title>
+
+<style>
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+min-width: 100%; min-height: 100%;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+section#container{
+width:100%;
+height: auto;
+position: relative;
+display: flex;
+height: 600px;
+flex-direction: column;
+margin-top: 50px;
+}
+
+
+.kdflex{
+display: flex;
+flex: 1;
+justify-content: space-between;
+}
+
+#kdoutput,#kdcss,#kdhtml,#kdjs{
+display: block; flex: 1;
+padding: 5px;
+overflow: auto;
+white-space: nowrap;
+background: white;		
+border: 0.5px solid black;
+outline: none;
+}
+
+/*
+#kdoutput{border-right:none; border-bottom: none;}
+#kdjs{border-left:none; border-top: none;}*/
+
+.topbar{
+display: flex;
+justify-content: space-between;
+width: 100%;
+height: 20px;
+margin-bottom: 20px;
+}
+
+
+
+
+#kdrun,#kdalways,#kdwrap{
+width:auto; height:100%;
+font: bold 12px "Courier New";
+padding: 2px;
+white-space: pre;
+background: white;
+text-transform: uppercase;
+border: 1px solid black;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+
+.kdclose{
+position: absolute;
+font: bold 12px Courier;
+background: yellow;
+border: solid;		
+}
+
+
+.kdoutput{left:0; top:-1.5em;}
+.kdcss{right:0; top:-1.5em;}
+.kdhtml{left:0; bottom:-1.5em;}
+.kdjs{right:0; bottom:-1.5em;}
+
+
+#kdfontsize{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#kdfontsize::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#kdfontsize::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+
+section#block5{
+width: 100%; height: 30px;
+display: flex;
+flex-direction: column;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+justify-content: center;
+align-items: center;
+position: absolute;
+bottom: -50px;
+}
+
+section#block5 section{
+display: inline-block;				
+}
+
+</style>
+</head>
+<body data-nosnippet>
+
+<section class="topbar">
+<span id="kdrun">RUN</span>
+<span id="kdalways">continuously execute js</span>
+<span id="kdwrap">WRAP</span>
+</section>
+
+<section id="container">
+<section class="kdflex">
+<section id="kdoutput"></section>
+<textarea id="kdcss" autocapitalize= "off" spellcheck= "false"></textarea>
+</section>
+<section class="kdflex">
+<textarea id="kdhtml" autocapitalize= "off" spellcheck= "false"></textarea>
+<textarea id="kdjs" autocapitalize= "off" spellcheck= "false"></textarea>
+</section>
+
+<section class="kdclose kdoutput">OUTPUT ➖</section>
+<section class="kdclose kdcss">CSS ➖</section>
+<section class="kdclose kdhtml">HTML ➖</section>
+<section class="kdclose kdjs">JS ➖</section>
+
+
+<section id="block5">
+<input  id="kdfontsize" type="range" value="14" min="8" max="20" step="1">
+<br>
+<section>Font size:&nbsp;<section>14</section>px</section>
+</section>
+</section>
+
+<script>
+let kdcreate= (x)=> document.createElement(x),
+kdselect= (x,y=document)=> y.querySelector(x),
+kdselectAll= (x,y=document)=> y.querySelectorAll(x);				
+				
+let kdoutput= kdselect("#kdoutput"),
+kdrun= kdselect("#kdrun"),
+kdcss= kdselect("#kdcss"),
+kdhtml= kdselect("#kdhtml"),
+kdjs= kdselect("#kdjs"),
+kduserstyle= kdcreate("style");
+document.head.append(kduserstyle);
+
+function kdinject(){
+kdoutput.innerHTML= kdhtml.value;
+kduserstyle.innerHTML= kdcss.value;	
+kdrun.style.background= "white";						
+}
+
+kdcss.oninput= kdinject;
+kdhtml.oninput= kdinject;
+kdjs.oninput= kdinject; 			
+
+kdrun.onclick=()=>{
+eval(`try{${kdjs.value}}catch(error){alert(error);}`);
+kdrun.style.background= "#39ff14";
+};
+
+
+function wrapit(a){
+[kdoutput,kdcss,kdhtml,kdjs].forEach(i=>{
+i.style.whiteSpace= a;
+});
+}
+
+kdselect("#kdwrap").onclick= function(){
+this.classList.toggle("kdwrap");
+if(this.classList.contains("kdwrap")){
+wrapit("normal");
+this.style.background= "#39ff14";
+}
+else{
+wrapit("nowrap");
+this.style.background= "white";
+}
+}
+
+
+function kdalways(){
+eval(kdjs.value);
+}
+
+
+kdselect("#kdalways").onclick= function(){
+this.classList.toggle("kdalways");
+if(this.classList.contains("kdalways")){
+[kdcss,kdhtml,kdjs].forEach(i=>{
+i.addEventListener("keyup", kdalways);
+});
+this.style.background= "#39ff14";
+}
+else{
+[kdcss,kdhtml,kdjs].forEach(i=>{
+i.removeEventListener("keyup", kdalways);
+});
+this.style.background= "white";
+}
+}
+
+
+
+
+kdcss.placeholder= "CSS";
+kdhtml.placeholder= "HTML";
+kdjs.placeholder= "JS (click RUN to execute once)";
+
+
+let shortcut= `let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+`;
+
+//kdjs.value= shortcut;
+
+kdjs.value= localStorage.getItem("kdjs")||shortcut;
+kdhtml.value= localStorage.getItem("kdhtml")||"";
+kdcss.value= localStorage.getItem("kdcss")||"";
+
+let obu = false;
+window.onunload = window.onbeforeunload= function(){
+if(!obu){
+obu= true;
+localStorage.removeItem("kdcss");
+localStorage.removeItem("kdhtml");
+localStorage.removeItem("kdjs");
+localStorage.setItem("kdcss",kdcss.value);
+localStorage.setItem("kdhtml",kdhtml.value);
+localStorage.setItem("kdjs",kdjs.value);
+}
+};
+
+
+
+let kdclose= kdselectAll(".kdclose");
+
+kdclose[0].onclick= function(){
+kdCollapse(this,kdoutput,kdcss,"OUTPUT");
+};
+
+kdclose[1].onclick= function(){
+kdCollapse(this,kdcss,kdoutput,"CSS");
+};
+
+kdclose[2].onclick= function(){
+kdCollapse(this,kdhtml,kdjs,"HTML");
+};
+
+kdclose[3].onclick= function(){
+kdCollapse(this,kdjs,kdhtml,"JS");
+};
+
+
+function kdCollapse(a,b,c,d){
+a.classList.toggle("kdclosed");
+if(a.classList.contains("kdclosed")){
+a.innerHTML= d+" ➕"
+b.style.display= "none";		
+
+}
+else{
+a.innerHTML= d+" ➖"
+b.style.display= "block";						
+}
+
+
+if(b.style.display=="none"&&c.style.display=="none"){
+b.parentNode.style.display="none";				
+}
+else b.parentNode.style.display="flex";	
+			
+};
+
+
+let kdfontsize= kdselect("#kdfontsize");
+kdfontsize.oninput= function(){
+kdoutput.style.fontSize= this.value + "px";
+kdcss.style.fontSize= this.value + "px";
+kdjs.style.fontSize= this.value + "px";
+kdhtml.style.fontSize= this.value + "px";
+kdselect("#block5>section>section").innerHTML= this.value;
+};
+
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+</script>	
+</body>
+</html>

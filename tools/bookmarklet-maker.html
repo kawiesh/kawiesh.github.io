@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Convert JavaScript to bookmarklets!. Simple bookmarklet generator"/>
+<meta name="keywords" content="Bookmarklet, favelet, javascript, userscript, bookmarklet generator"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Bookmarklet generator"/>
+<meta property="og:type" content="Convert JavaScript to bookmarklets!. Simple bookmarklet generator"/>
+<meta property="og:url" content="/tools/bookmarklet-maker"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Bookmarklet generator</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("/resources/metaltexture.jpg");
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+#block2{
+width:100%; 						
+height:20em;
+}
+
+
+#block1,#block3{
+width: 100%; height: 2em;
+display: flex;
+justify-content: space-between;
+}
+
+#block1{margin-bottom: -1.5px;}
+#block3{margin-top: -1.5px;}
+
+
+
+#input{
+padding: 5px;
+width:100%; height:100%;	
+border: 1.5px solid gray;
+background: none;
+}
+
+.button{
+width: 10ch; height:	 100%;
+border: 1.5px solid gray;
+text-transform: lowercase;
+font-variant: small-caps;
+transition: .5s;
+background: none;
+text-align: center;
+}
+
+.button:hover{
+color: blue;				
+}
+
+
+#shortcuts{
+appearance: none;
+}
+
+#block4{
+width: 100%;
+white-space: pre;	
+text-transform: lowercase;
+font-variant: small-caps;
+text-align: left;
+color:brown;
+font-family: Arial;
+font-size: 12px;
+margin-top:10px;
+overflow:scroll;
+}
+
+td{
+vertical-align: top;				
+}
+
+details[open] summary{
+margin-bottom: -2em;		
+}
+
+details[closed] summary{
+margin-bottom: 1em;		
+}
+
+details{margin-bottom:-1em; overflow:scroll;}
+
+
+#block5{
+width: 100%; height: 30px;
+display: flex;
+flex-direction: column;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+justify-content: center;
+align-items: center;
+margin-top: 10px;
+}
+
+
+
+
+::placeholder{
+font:13px "Courier New";				
+}
+
+
+#fontsize{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#fontsize::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#fontsize::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+margin-top: 10vh;
+}
+body{background-size:50%;}
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}
+body{background-size:20%;}
+#block2{height:25em;}
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+<div id="block1">	
+<button class="button" id="code">En/Decode</button>
+<button class="button" id="save">Save</button>
+<select id="shortcuts" class="button">
+<option disabled selected>Shortcuts</option>
+<option>Selectors</option>
+<option>New Tab</option>
+<optgroup label="-------Fetch API---------">
+<option>Fetch</option>
+<option>Fetch Post</option>
+<option>Fetch PHP</option>
+</optgroup>
+</select>	
+</div>
+<div id="block2">								
+<textarea id="input" spellcheck="false" autocapitalize="none" autocomplete="off"></textarea>
+</div>
+<div id="block3">	
+<button class="button" id="clear">Clear</button>
+<button class="button" id="run">Run</button>
+<button class="button" id="copy">Copy</button>	
+</div>
+<div id="block5">
+<input  id="fontsize" type="range" value="14" min="8" max="20" step="1">
+<br>
+<p>Font size:&nbsp;<span>14</span>px</p>
+</div>
+<div id="block4">
+<details>
+<summary><b>Bookmarklets</b></summary>
+<table>
+<tr>
+<td>&#9734;</td>
+<td>Bookmarklets are little JavaScript programs stored as bookmarks</td>
+</tr>
+<tr>
+<td>&#9734;</td>
+<td>You can use them to automatically perform tasks on a webpage</td>
+</tr>
+</table>
+</details>
+
+<details>
+<summary><b>Installation</b></summary>
+<table>
+<tr>
+<td>&#9734;</td>
+<td><u>Make a bookmark of any page</u></td>
+</tr>
+<tr>
+<td>&#9734;</td>
+<td><u>Edit the saved bookmark</u>
+Delete the name and assign a new name 
+Delete the URL and paste the copied code</td>
+</tr>
+<tr>
+<td>&#9734;</td>
+<td><u>Save the modified bookmark</u>
+It's a bookmarklet now!</td>
+</tr>
+</table>
+Alternatively, if on desktop,click <button>here</button> to generate a hyperlink!<span></span>
+</details>
+
+<details>
+<summary><b>Usage</b></summary>
+<table>
+<tr>
+<td>&#9734;</td>
+<td>Go to the page where you want to use the bookmarklet</td>
+</tr>
+<tr>
+<td>&#9734;</td>
+<td>Search for the bookmarklet from the URL bar</td>
+</tr>
+<tr>
+<td>&#9734;</td>
+<td>Click on it, when found and the code will be executed</td>
+</tr>
+</table>
+</details>
+
+<details>
+<summary><b>Tips</b></summary>
+<table>
+<tr>
+<td>&#9734;</td>
+<td><u>Give the bookmarklets a short yet descriptive name</u>
+It should be easily distinguishable and accessible
+E.g. start the bookmarklets' name with xx or qq
+This to prevent search &amp; history suggestions
+from interfering when searching for the bookmarklet</td>
+</tr>
+<tr>
+<td>&#9734;</td>
+<td><u>undo &amp; revert possible changes caused by the bookmarklet</u>
+by reloading/refreshing the webpage.</td>
+</tr>
+</table>
+</details>
+</div>
+
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+let input= select("#input"), copy= select("#copy");
+
+
+
+
+let inputvalue = localStorage.getItem("inputvalue");
+input.value= inputvalue;
+
+
+
+let button= select("button",select("#block4"));
+button.onclick=()=>{
+let minified='javascript:'+
+encodeURIComponent(`(function(){${input.value}})();`) ;
+select("span",select("#block4")).innerHTML=`
+Drag <a href="${minified}">this</a> link to the bookmarks bar!
+
+`;
+
+};
+
+let regex= /(?<=javascript\:\(function\(\)\{)[\s\S]+(?=\}\)\(\)\;)/;
+
+
+
+
+//--------
+select("#code").onclick=()=>{
+let a= decodeURIComponent(input.value);
+if(a!=input.value){
+input.value= a.match(regex)||a;				
+}
+else{
+let b= encodeURIComponent(input.value);
+input.value= b;
+}
+};
+
+//--------
+select("#save").onclick=()=>{
+let a= input.value.replace(/\n/g, "\r\n"),
+b= new Blob([a], { type: "text/plain"}),
+c= create("a");
+c.download= "bookmarklet.txt";
+c.href= window.URL.createObjectURL(b);
+c.target="_blank";
+c.style.display = "none";
+document.body.append(c);
+c.click(); c.remove();
+};
+
+
+//-----------------------------
+select("#clear").onclick=()=>{
+input.value= "";
+};
+	
+//----------------------------
+select("#run").onclick=()=>{
+eval(`try{
+${input.value}
+}
+catch(error){
+alert(error);
+}`);
+};
+
+//----------------------------
+copy.onclick=()=>{
+let minified='javascript:'+
+encodeURIComponent(`(function(){${input.value}})();`) ;
+navigator.clipboard.writeText(minified);
+};
+
+copy.onfocus=()=>{
+copy.innerHTML= "Copied";				
+};
+
+copy.onblur=()=>{
+copy.innerHTML= "Copy";				
+};
+
+
+//---------------------------
+let obu = false;
+window.onunload = window.onbeforeunload= function(){
+if(!obu){
+obu= true;
+localStorage.removeItem("inputvalue");
+localStorage.setItem("inputvalue",input.value);
+}
+};
+
+//---------------------------
+let selectors=`let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+`;
+
+let newtab= `
+//-------------------------------------
+let newtab= window.open();
+let ntcss= create("style");
+let ntdiv= create("div");
+let ntta= create("textarea");
+newtab.document.body.append(ntcss,ntdiv,ntta);
+
+ntcss.innerHTML=\`*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}
+	
+body{
+background: white;
+width: clamp(100vw,100vw,100vw); ​
+height: clamp(100vw,100vw,100vw); 
+position: relative; display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+div{display: none;}
+
+div,textarea{
+width:95%; height: 90%;
+border: 1.5px solid black;
+padding: 5px; font: 14px Arial;
+}\`;
+//-------------------------------------`;
+
+
+
+
+let fetch1= `
+//-------------------------------------
+fetch(url)
+.then(r=>r.clone().json().catch(() => r.text()))
+.then(d=> {
+let doc= new DOMParser().parseFromString(d,"text/html");
+alert(d);
+
+})
+.catch(x=> alert(x));
+
+`;
+
+
+let fetchpost= `
+//-------------------------------------
+let formData = new FormData();
+formData.append('name', 'John');
+formData.append('password', 'John123');
+
+fetch(url, {
+method: "POST",
+body: formData					
+}).then(r=>r.clone().json().catch(() => r.text()))
+.then(d=>{
+alert(d);
+
+})
+.catch(x=> alert(x));
+
+`;
+
+
+
+let fetchphp= `
+//-------------------------------------
+fetch(url, {
+method: "POST",
+headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+body: \`name=${null}&password=${null}\`
+}).then(r=>r.clone().json().catch(() => r.text()))
+.then(d=>{
+alert(d);
+
+})
+.catch(x=> alert(x));
+
+`;
+
+
+
+//------------------------------------------------------
+let shortcuts= select("#shortcuts");
+
+shortcuts.oninput= function(){
+let addthis= checkIndex();
+if(input.setRangeText){
+input.setRangeText(addthis);
+}
+else{
+input.focus()
+document.execCommand('insertText', false, addthis);
+}
+this.selectedIndex= 0;
+};
+
+
+
+function checkIndex(){
+if(shortcuts.selectedIndex==1) return selectors;
+if(shortcuts.selectedIndex==2) return newtab;
+if(shortcuts.selectedIndex==3) return fetch1;
+if(shortcuts.selectedIndex==4) return fetchpost;
+if(shortcuts.selectedIndex==5) return fetchphp;
+}
+
+
+
+
+
+let fontsize= select("#fontsize");
+fontsize.oninput= function(){
+input.style.fontSize= this.value + "px";
+select("#block5 span").innerHTML= this.value;
+};
+
+
+//--------
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+</script>
+</body>
+</html>

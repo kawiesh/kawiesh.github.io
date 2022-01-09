@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Automatically add numbering/bullet points to multiline text!"/>
+<meta name="keywords" content="Text numbering, number lines, automatic text numbering"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Numbering"/>
+<meta property="og:type" content="Automatically add numbering/bullet points to multiline text!"/>
+<meta property="og:url" content="/tools/text-numbering"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Text Numbering</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+font-family: Arial;
+}	
+
+body{
+background: rgb(251,244,234) url("/resources/metaltexture.jpg");
+//background-size: 0%;
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#block1,#block3{
+position: relative;
+width: 100%; height: 300px;
+}
+
+#block1{
+margin-bottom: 10px;				
+}
+
+#input,#start,#output{
+padding: 5px;
+font-size: 14px;
+width:100%; height:100%;
+border: 1.5px solid gray;
+background: rgb(255,255,255,0.3);
+}
+
+#block2{
+position: relative;	
+display: flex;
+justify-content: space-between;		
+width: 100%; height: 30px;
+margin-bottom: 10px;
+}
+
+#block2a{
+position: relative;
+width: 49%; height: 100%;
+display: flex;
+justify-content: space-between;		
+}
+
+#start{
+width: calc(100% - 6ch);				
+}
+
+#go{
+width: 5.5ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+}
+
+
+#block2b{
+position: relative;		
+width: 49%; height: 100%;
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+}
+
+.required,.optional{
+position: absolute;
+top: -0.5ch; 
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+.required{left:0;}
+.optional{right:0;}
+
+
+#required,#optional{
+width: 49%; height: 60%;
+border: 1px solid gray;
+background: rgb(255,255,255,0.3);
+font-size: 12px;
+}
+
+
+#block4{
+width: 100%; height: 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: -1.5px;
+}
+
+#copy,#submit{
+width: 8ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+#copy{right: 0px; }
+#submit{left: 0px; }
+
+
+#block5{
+width: 100%; height: 30px;
+display: flex;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+justify-content: center;
+align-items: flex-start;
+margin-top: -1.5px;
+}
+
+#block6{
+color: purple;
+display: flex;
+flex-direction:column;
+justify-content: center;
+text-align: center;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+::placeholder{
+font:13px "Courier New";				
+}
+
+
+table{
+border:1.5px solid black;		
+border-collapse: collapse;
+}
+ 
+th,td{
+padding: 2px;
+border:1px solid black;
+height: calc(1em + 5px);
+text-align: center;
+vertical-align: center;
+overflow: auto;
+}
+
+th{
+background:rgb(204, 255, 204);
+}
+
+
+#fontsize{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#fontsize::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#fontsize::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+<div id="block1">								
+<textarea id="input"></textarea>
+</div>
+<div id="block2">
+	 <div id="block2a">
+     <input id="start">
+     <button id="go">GO!</button>		
+  </div>
+  <div id="block2b">
+     <span class="required">Mode</span>
+     <select id="required">
+  		    <optgroup label= "Mode:">
+  		 	   <option value="one">Increase first group of digits</option>
+  		 	   <option value="two">Increase last group of digits</option>
+  		 	   <option value="three">Use %(number)% format</option>
+  		 	   </optgroup>
+  	  </select>
+     <span class="optional">options</span>
+     <select id="optional" multiple>
+  		    <optgroup label= "Options":>
+  		 	   <option value="one">Delete empty lines</option>
+  		 	   <option value="two">Keep empty lines, but don't number them </option>
+  		 	   <option value="three">Keep leading zeros in starting number</option>	   
+  		 	   </optgroup>
+  	  </select>
+  	</div>
+</div>
+<div id="block3">
+  <textarea id="output" readonly></textarea>
+</div>
+<div id="block4">
+	 <button id="submit">Submit</button>
+	 <input  id="fontsize" type="range" value="14" min="8" max="20" step="1">
+  <button id="copy">Copy</button>
+</div>
+<div id="block5">
+Font size:&nbsp;<span class="fontsize">14</span>px
+</div>
+<div id="block6">
+[ ? ]
+</div>
+    					
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+let
+input= select("#input"),
+start= select("#start"),
+go= select("#go"),
+required= select("#required"),
+options= select("#optional"),
+output= select("#output"),
+submit= select("#submit"),
+copy= select("#copy");
+
+
+function fill(x){
+let a= decodeURIComponent(x.split("#find=")[1]);
+start.value= a.split("&replace=")[0];
+replace.value= a.split("&replace=")[1];
+}
+
+let hash= location.hash;
+if(hash) fill(hash);
+
+
+
+let fontsize= select("#fontsize");
+
+fontsize.oninput= function(){
+input.style.fontSize= this.value + "px";
+output.style.fontSize= this.value + "px";
+select(".fontsize").innerHTML= this.value;
+};
+
+
+
+//------------------------------------------
+
+
+//-----------
+let 
+padding= false,
+keeplines= false,
+deletelines= false,
+lastdigit= false,
+percent= false,
+firstdigit= true;
+
+let size;
+
+options.onchange= function(){
+let x= selectAll("option", this);
+deletelines= (x[0].selected) ? true : false;
+keeplines= (x[1].selected) ? true : false;
+padding= (x[2].selected) ? true : false;
+finalFunction();
+};
+
+
+required.onchange= function(){
+let x= selectAll("option", this);
+firstdigit= (x[0].selected) ?  true : false;
+lastdigit= (x[1].selected) ?  true : false;
+percent= (x[2].selected) ?  true : false;
+finalFunction();
+};
+
+
+function pad(num, size) {
+let s= "000000" + num;
+return s.substr(s.length - size);
+}
+
+
+//----------------------------------------------
+
+function plzNumber(array){
+let one= start.value.match(/\d+/)||"",
+two= start.value.match(/\d+/g)||"",
+three= start.value.match(/%\d+%/)||"";
+let original;
+if (firstdigit) original= one;
+if (lastdigit) original= two[two.length-1];
+if (percent) original= three.toString().match(/\d+/);
+increased= original,
+size= original.toString().length;
+final=[];
+
+
+let prefix;
+array.forEach(i=>{
+if(percent){
+prefix= (padding) ?  
+start.value.split(three).join(pad(increased,size)):
+start.value.split(three).join(increased);				
+}
+else{
+prefix= (padding) ?  
+start.value.split(original).join(pad(increased,size)):
+start.value.split(original).join(increased);				
+}
+
+
+
+
+
+if(keeplines){
+if(i!=""){
+final.push(prefix+i);				
+increased++;
+}
+else final.push(i);			
+}
+else{
+final.push(prefix+i);				
+increased++;									
+}
+
+});
+
+output.value= final.join("\n");
+}
+
+
+//---------------------------------------
+
+function finalFunction(){
+output.value= "";
+copy.innerHTML= "Copy";
+submit.innerHTML= "Submit";
+submit.style.width= "8ch";
+
+let lines= input.value.split("\n");
+let nolines= [];
+lines.forEach(i=>{
+if(i!="") nolines.push(i);
+});
+
+(deletelines) ? plzNumber(nolines) : plzNumber(lines);				
+}
+
+go.onclick= finalFunction;
+
+//-------------------------------------------------
+copy.onclick= function(){
+if(output.value.match(/\S/)){
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+this.innerHTML= "Copied";
+}else{
+navigator.clipboard.writeText(output.value);
+this.innerHTML= "Copied";
+}
+}
+};
+
+//--------
+submit.onclick= function(){
+if(output.value.match(/\S/)){
+this.innerHTML= "Submitted";
+this.style.width= "10ch";
+input.value= output.value;
+output.value= "";				
+}
+}
+
+//-------------------------------------------------
+input.placeholder= "Enter your input data/text here";	
+start.placeholder= "Starting number";	
+output.placeholder= "The result will be shown here!";		
+
+//-------------------------------------------------
+let message= `[ ? ]<br>
+<u><b>How it works:</b></u><br>
+==Enter data==<br>
+==Enter starting number==<br>
+==Choose additional options if necessary & hit Go!==<br>
+==The data will be numbered==
+<br><br>
+
+The starting number can contain any characters as long as there's a number present<br><br>
+	
+	<span><a href="/tools/examples/text-numbering">Click here</a> to see examples!</span>`;
+	
+let info= false;
+select("#block6").onclick= function(){
+if(!info){
+this.innerHTML= message;
+info= true;
+}
+else{
+this.innerHTML= "[ ? ]";
+info= false;
+}
+};
+//-------------------------------
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+
+</script>
+</body>
+</html>

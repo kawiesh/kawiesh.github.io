@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Merge text by adding multiline or single line prefix and suffix!"/>
+<meta name="keywords" content="Merge text online, combine text, text merger"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Merger"/>
+<meta property="og:type" content="Merge text by adding multiline or single line prefix and suffix!"/>
+<meta property="og:url" content="/tools/text-merger"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Text Merger</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+font-family: Arial;
+}	
+
+body{
+background: rgb(251,244,234) url("/resources/metaltexture.jpg");
+//background-size: 0%;
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+#prefix,#input,#suffix,#output{
+width: 100%; padding: 5px;
+font-size: 14px;
+transition: .2s linear;
+border: 1.5px solid gray;
+background: rgb(255,255,255,0.3);
+}
+
+.multi{height: 300px!important;}
+
+#input,#output{height: 300px;}
+
+#prefix,#suffix{height: 30px;}
+
+
+#block1,#block2,#block3,#block4{
+position: relative;
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 15px;				
+}
+
+#block4{margin-bottom: 0;}
+
+#block5{
+width: 100%; height: 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: -1.5px;
+}
+
+#copy,#submit{
+width: 8ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+#copy{right: 0px;}
+#submit{left: 0px;}
+
+
+#block6{
+width: 100%; height: 30px;
+display: flex;
+font-size: 12px;
+justify-content: center;
+align-items: flex-start;
+margin-top: -1.5px;
+}
+
+
+#block7{
+color: purple;
+text-align:center;
+font-size: 12px;
+}
+
+.label{
+width: 50%;
+text-align: center;
+color: brown;			
+}
+
+.checkbox{
+position: absolute;
+top:0; right:0;
+display:flex;
+align-items: center;			
+}
+
+::placeholder{
+font:13px "Courier New";				
+}
+
+#fontsize{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#fontsize::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#fontsize::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+.switch{
+display:inline-flex;
+height: 13px; width:13px;
+border: 1px solid black;
+}
+
+.switch>svg{
+stroke: black; stroke-width: 2;
+max-height:100%; max-width:100%;
+}
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+				
+<div id="block1">
+<span class="label">&#8801 Prefix &#8801 </span>
+<div class="checkbox">
+   		<span>multiline</span>&nbsp;
+     <span id="premult" class="switch"></span>
+</div>						
+<textarea id="prefix"></textarea>
+</div> 
+ 
+<div id="block2">
+	<span class="label">&#8801 Input &#8801 </span>									
+  <textarea id="input"></textarea>
+</div>
+
+<div id="block3">
+<span class="label">&#8801 Suffix &#8801 </span>	
+<div class="checkbox">
+    	<span>multiline</span>&nbsp;
+     <span id="sufmult" class="switch"></span>	
+</div>				
+<textarea id="suffix"></textarea>
+</div> 
+
+<div id="block4">
+	<span class="label">&#8801 Output &#8801 </span>	
+  <textarea id="output" readonly></textarea>
+</div>
+
+<div id="block5">
+	 <button id="submit">Submit</button>
+	 <input  id="fontsize" type="range" value="14" min="8" max="20" step="1">
+  <button id="copy">Copy</button>
+</div>
+
+<div id="block6">
+Font size:&nbsp;<span class="fontsize">14</span>px
+</div>
+
+<div id="block7">
+[ ? ]
+</div>
+    					
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let
+prefix= select("#prefix"),
+input= select("#input"),
+suffix= select("#suffix"),
+output= select("#output"),
+submit= select("#submit"),
+copy= select("#copy");
+
+let premult,sufmult;
+let on= `<svg viewBox="0 0 24 24"><path d="M20 20L4 4m16 0L4 20"/></svg>`;
+
+//--------------------------------------------------
+function switchMode(a,b){
+a.classList.toggle("multi");
+if (a.className=="multi"){
+b.style.background= "white";
+b.innerHTML= on;
+}
+else{
+b.innerHTML="";
+b.style.background= "none";
+}			
+}
+
+
+function multiOrNot(a,b){
+if(prefix.className=="multi"){
+prefix.value= prefix.value;
+premult= true;							
+}
+else{
+prefix.value= a;
+premult= false;						
+}
+if(suffix.className=="multi"){
+suffix.value= suffix.value;
+sufmult= true;							
+}
+else{
+suffix.value= b;
+sufmult= false;						
+}
+}
+
+
+function update(){
+let final= [];
+let one= prefix.value.split("\n");
+let two= input.value.split("\n");
+let three= suffix.value.split("\n");
+
+multiOrNot(one[0],three[0]);
+
+two.forEach((i,x)=>{
+one[x]= one[x] || ""; three[x]= three[x] || "";
+if(premult&&sufmult) final.push(one[x]+i+three[x]);
+if(premult&&!sufmult) final.push(one[x]+i+three[0]);
+if(!premult&&sufmult) final.push(one[0]+i+three[x]);
+if(!premult&&!sufmult) final.push(one[0]+i+three[0]);
+});
+
+output.value=	final.join("\n");	
+copy.innerHTML= "Copy";
+submit.innerHTML= "Submit";
+submit.style.width= "8ch";	
+}
+
+
+prefix.onkeyup= update;
+input.onkeyup= update;
+suffix.onkeyup= update;
+
+select("#premult").onclick= function(){
+switchMode(prefix,this);
+update();		
+};
+
+select("#sufmult").onclick= function(){
+switchMode(suffix,this);
+update();	
+};
+
+//------------------------------------------------
+select("#fontsize").oninput= function(){
+prefix.style.fontSize= this.value + "px";
+input.style.fontSize= this.value + "px";
+suffix.style.fontSize= this.value + "px";
+output.style.fontSize= this.value + "px";
+select(".fontsize").innerHTML= this.value;
+};
+
+//-------------------------------------------------
+copy.onclick= function(){
+if(output.value.match(/\S/)){
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+this.innerHTML= "Copied";
+}
+else{
+navigator.clipboard.writeText(output.value);
+this.innerHTML= "Copied";
+}
+}
+};
+
+//--------------------------------------------------
+submit.onclick= function(){
+if(output.value.match(/\S/)){
+this.innerHTML= "Submitted";
+this.style.width= "10ch";
+input.value= output.value;
+output.value= "";				
+}
+};
+
+//-------------------------------------------------
+
+input.placeholder= "Enter your input data/text here";	
+output.placeholder= "The result will be shown here!";	
+
+//-------------------------------------------------
+let message= `[ ? ]<br>
+<u><b>Single Line</b></u><br>
+No linebreaks allowed<br>
+The prefix/suffix will be repeated continuously
+<br><br>
+<u><b>Multi Line</b></u><br>
+Linebreaks allowed; won't be repeated<br>
+Each prefix/suffix line will be attached to<br>
+the input text's corresponding line
+<br><br>`	;	
+
+
+let info= false;
+
+select("#block7").onclick= function(){	
+if(!info){			
+this.innerHTML= message;
+info= true;
+}
+else{
+this.innerHTML= "[ ? ]";			
+info= false;				
+}			
+};
+
+//----------	
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+</script>
+</body>
+</html>

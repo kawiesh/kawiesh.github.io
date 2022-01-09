@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Find and replace text using keywords or regex!"/>
+<meta name="keywords" content="Text replacer, regex replacer, replace text with regex"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Text Replacer"/>
+<meta property="og:type" content="Find and replace text using keywords or regex!"/>
+<meta property="og:url" content="/tools/text-replacer"/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Text Replacer</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+font-family: Arial;
+}	
+
+body{
+background: rgb(251,244,234) url("/resources/metaltexture.jpg");
+//background-size: 0%;
+min-width: 100vw;
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#block1,#block4{
+position: relative;
+width: 100%; height: 300px;
+}
+
+#block1{
+margin-bottom: 10px;				
+}
+
+#input,#output,#find,#replace{
+padding: 5px;
+font-size: 14px;
+width:100%; height:100%;
+border: 1.5px solid gray;
+background: rgb(255,255,255,0.3);
+}
+
+#block2,#block3{
+position: relative;	
+display: flex;
+justify-content: space-between;		
+width: 100%; height: 30px;
+margin-bottom: 10px;
+}
+
+#block2a,#block3a{
+position: relative;
+width: 49%; height: 100%;
+display: flex;
+justify-content: space-between;		
+}
+
+#go{
+width: 6ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+}
+
+
+#block2b,#block3b{
+position: relative;		
+width: 49%; height: 100%;
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+}
+
+
+.type,.options{
+position: absolute;
+top: -0.5ch;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+.type{left:0;}
+.options{right:0;	}
+
+
+#type,#options{
+width: 49%; height: 60%;
+border: 1px solid gray;
+background: rgb(255,255,255,0.3);
+font-size: 12px;
+}
+
+
+#block5{
+width: 100%; height: 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: -1.5px;
+}
+
+#copy,#submit{
+width: 8ch; height: 100%;
+border: 1.5px solid gray;
+background: darkgray;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+#copy{right: 0px; }
+#submit{left: 0px; }
+
+
+#block6{
+width: 100%; height: 30px;
+display: flex;
+font-size: 12px;
+text-transform: lowercase;
+font-variant: small-caps;
+justify-content: center;
+align-items: flex-start;
+margin-top: -1.5px;
+}
+
+
+
+
+::placeholder{
+font:13px "Courier New";				
+}
+
+
+#fontsize{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#fontsize::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#fontsize::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}			
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+<div id="block1">								
+<textarea id="input"></textarea>
+</div>
+<div id="block2">
+	 <div id="block2a">
+     <textarea id="find"></textarea>
+  </div>
+  <div id="block2b">
+     <span class="type">type</span>
+     <select id="type">
+        <optgroup label= "Interpret &quot;find&quot; value as:">
+        <option value="plain">Plain/String</option>
+        <option value="regex">RegEx</option>
+        </optgroup>			
+     </select>
+     <span class="options">options</span>
+     <select id="options" multiple>
+  		    <optgroup label= "Options:">
+  		 	   <option value="findmulti">Multiline &quot;find&quot; value</option>
+  		 	   <option value="replacemulti">Multiline &quot;replace&quot; value</option>
+  		 	   </optgroup>
+  	  </select>
+  	</div>
+</div>
+<div id="block3">
+	 <div id="block3a">
+    <textarea id="replace"></textarea>
+  </div>
+  <div id="block3b">
+  		<button id="go">GO !</button>		
+  </div>
+</div>
+<div id="block4">
+  <textarea id="output" readonly></textarea>
+</div>
+<div id="block5">
+	 <button id="submit">Submit</button>
+	 <input  id="fontsize" type="range" value="14" min="8" max="20" step="1">
+  <button id="copy">Copy</button>
+</div>
+<div id="block6">
+Font size:&nbsp;<span>14</span>px
+</div>
+    					
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+let
+input= select("#input"),
+find= select("#find"),
+type= select("#type"),
+options= select("#options"),
+replace= select("#replace"),
+go= select("#go"),
+output= select("#output"),
+submit= select("#submit"),
+copy= select("#copy");
+
+
+function fill(x){
+let a= decodeURIComponent(x.split("#find=")[1]);
+find.value= a.split("&replace=")[0];
+replace.value= a.split("&replace=")[1];
+}
+
+let hash= location.hash;
+if(hash) fill(hash);
+
+
+
+let fontsize= select("#fontsize");
+
+fontsize.oninput= function(){
+input.style.fontSize= this.value + "px";
+output.style.fontSize= this.value + "px";
+select("#block6 span").innerHTML= this.value;
+};
+
+
+
+//------------------------------------------
+function singleline(a){
+a.onkeyup= function(){ this.value= this.value.split("\n")[0]};
+a.style.overflowY= "hidden";	
+}
+
+function multiline(a){
+a.onkeyup= function (){ this.value= this.value};	
+a.style.overflowY= "auto";	
+}
+
+singleline(find); singleline(replace);
+
+options.onchange= function(){
+let selected= selectAll("option", this);
+(selected[0].selected) ? multiline(find) : singleline(find);
+(selected[1].selected) ? multiline(replace) : singleline(replace);
+};
+
+
+
+//----------------------------------------------
+go.onclick= function(){
+output.value= "";
+copy.innerHTML= "Copy";
+submit.innerHTML= "Submit";
+submit.style.width= "8ch";
+
+
+//let typeval= type.options[type.selectedIndex].value;
+
+let selected= selectAll("option", type);
+
+
+if(selected[0].selected){
+output.value= input.value.split(find.value).join(replace.value);
+}
+else{
+let regexp= /^\/(.*?)\/([gimuy]*)$/;
+let match= find.value.match(regexp);
+
+if(match){
+let regex= new RegExp(match[1],match[2]);
+output.value= input.value.replace(regex,replace.value);
+}
+else{
+let regex= new RegExp(find.value,"g");
+output.value= input.value.replace(regex,replace.value);
+}}
+
+};
+
+
+//-------------------------------------------------
+copy.onclick= function(){
+if(output.value.match(/\S/)){
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+this.innerHTML= "Copied";
+}else{
+navigator.clipboard.writeText(output.value);
+this.innerHTML= "Copied";
+}
+}
+};
+
+//--------
+submit.onclick= function(){
+if(output.value.match(/\S/)){
+this.innerHTML= "Submitted";
+this.style.width= "10ch";
+input.value= output.value;
+output.value= "";				
+}
+}
+//-------------------------------------------------
+
+
+input.placeholder= "Enter your input data/text here";	
+find.placeholder= "Find this value";	
+replace.placeholder= "Replace with this value";	
+output.placeholder= "The result will be shown here!";		
+
+
+//ADD DATA-NOSNIPPET TO ALL CHILDREN
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+</script>
+</body>
+</html>
