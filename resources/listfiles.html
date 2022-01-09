@@ -178,7 +178,7 @@ let reply= await request.json();
 let files= reply.map(i=>{
 let url= i.path, text= i.path.split(".")[0];
 let href= (radio[0].checked) ? url : "x.com/"+ url;
-if(href.endsWith(filetype.value||"")){
+if(href.endsWith(filetype.value||"") && i.type=="file"){
 talinks.push(href);
 divlinks.push(`<a class="link" href="${href}">${text}</a>`);
 }
