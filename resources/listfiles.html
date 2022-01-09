@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>KD HTML Template</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 1px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+@media (orientation:portrait){
+#container{width: 95%;}
+body{background-size: 35%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}
+body{background-size: 50%;}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+
+
+<input name="owner" required>
+<input name="repo" required>
+<input class="filetype">
+<button id=go">Go</button>
+<label for="absolute">
+<input type="checkbox" name="absolute">Absolute URLs
+</label>
+
+<div class="message"></div>
+<button id="copy">Copy</button>
+
+
+
+
+
+<textarea class="list" readonly></textarea>
+<div class="links"></div>
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let owner= select(".owner");
+let repo= select(".repo");
+let filetype= select(".filetype");
+let list= select(".list");
+let links= select(".links");
+let list= select(".list");
+let message= select(".message");
+let copy= select("#copy");
+let go= select("#go");
+let url;
+
+owner.placeholder= "repo owner";
+repo.placeholder= "repo name";
+filetype.placeholder= "leave empty to list all files";
+
+
+onclick= function(){
+url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/?v=` + Date.now();
+
+
+
+//CREATE TABLE
+
+
+async function fetchFiles(){
+message.innerHTML= "Loading...";
+
+let request= await fetch(url);
+let reply= await request.json();
+let files= reply.map(i=>{
+let url= i.path, text= i.path.split(".")[0];
+let href= (♥️.checked) ?  : url;
+
+let link=`<a class="link" href="${href}">${text}</a>`;
+});
+
+//NOTIFY WHEN LOADED
+message.innerHTML= "List of files";
+
+//REMOVE NON JS FILES
+selectAll("a.link").forEach(i=>{
+if(!i.href.endsWith(♥️.value||"")){
+i.closest("tr").remove();				
+}						
+});
+
+
+
+
+
+
+
+message.innerHTML= "List of files";
+}
+
+//DO THE MAIN FUNCTION
+fetchLinks();
+
+
+
+//COPY FUNCTION
+function copyLink(a,b){
+try{
+navigator.clipboard.writeText(a);
+b.innerHTML= "Copied";
+}
+catch(x){
+let temp= create("input");
+temp.style.cssText="opacity:0; pointer-events:none";
+document.body.append(temp);
+temp.value= a;
+temp.focus(); temp.select();
+document.execCommand("copy");
+b.innerHTML= "Copied";
+temp.remove();
+}
+}
+
+
+
+
+
+</script>	
+</body>
+</html>
