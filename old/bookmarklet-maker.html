@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="description" content="Bookmarklet maker">
+<meta name="keywords" content="Bookmarklet, Kawiesh, Android">
+<title> Bookmarklet Maker</title>
+<style>
+body{
+background-image:url(/css-bookmarklet/background.jpg);
+background-repeat:repeat;
+background-size:70%;
+}
+
+textarea:focus,button:focus{
+outline: none;
+}
+
+button{
+font-size: 15px;
+font-weight: bold;
+height: 22px;
+position: absolute;
+border:2px solid yellow;
+background: rgb(0,0,0,0.7);
+color: yellow;
+}
+
+.bmcode{
+top:10%;
+position:absolute;
+}
+
+#bmcode{
+border:2px solid yellow;
+border-radius:5px 5px 0 0;
+height:calc(100% - 20px);
+width:100%;
+background: rgb(0,0,0,0.7);
+color:white;
+font:15px 'Courier New';
+padding:10px;
+box-sizing:border-box;
+}
+
+#bmbuttonclear{
+border-radius:0 0 0 5px;
+bottom:0; left:0px;
+}
+
+#bmbuttoncopy{
+bottom:0;
+}
+
+#bmbuttonrun{
+border-radius:0 0 5px 0;
+bottom:0; right:0px;
+}
+
+</style>
+</head>
+<body>
+
+<h2 style="font:25px cursive; color:yellow; text-align:center;">✨Bookmarklet Maker✨</h2><br>
+
+<form class='bmcode'>
+<textarea id='bmcode' spellcheck="false"></textarea>
+<button type='button' id='bmbuttonrun'>RUN</button>
+<button type='button' id='bmbuttonclear'>CLEAR</button>
+<button type='button' id='bmbuttoncopy'>COPY</button>
+</form>
+	
+<script>
+let width = window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+
+let height = window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
+
+let x= document.querySelector('.bmcode');
+if(width>height){
+x.style.height='40%';
+x.style.width='60%';
+x.style.left='20%';
+}
+if(width<height){
+x.style.height='50%';
+x.style.width='80%';
+x.style.left='10%';
+}
+
+let a= document.querySelector('#bmbuttonrun');
+let b= document.querySelector('#bmbuttonclear');
+let c= document.querySelector('#bmcode');
+let d= document.querySelector('#bmbuttoncopy');
+
+let cvalue = localStorage.getItem('cvalue');
+c.value= cvalue;
+
+a.onclick= function(){
+let code=`try{
+${c.value}
+}
+catch(x){
+alert(x);
+}`;
+
+eval(code);
+};
+
+b.onclick=function(){
+c.value='';
+};
+
+d.onclick=function(){
+let par='javascript:'+ encodeURIComponent(`(function(){${c.value}})();`) ;
+navigator.clipboard.writeText(par);
+alert('copied');
+};
+
+d.style.left= (c.offsetWidth - d.offsetWidth)/2+'px';
+
+
+let obu = false;
+window.onunload = window.onbeforeunload= function(){
+if(!obu){ obu= true;
+localStorage.removeItem('cvalue');
+localStorage.setItem('cvalue',c.value);
+}
+};
+
+</script>
+</body>
+</html>

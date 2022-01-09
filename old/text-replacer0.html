@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Text Replacer</title>
+<style>
+body{
+background:#101831;
+}
+
+#trcontainer{
+box-sizing:border-box;
+position:absolute;
+width:90%; height:600px;
+left:5%;
+top:30px;
+border:none;
+}
+
+#input{
+position: absolute;
+width: 100%; height:40%;
+top:0;
+}
+
+#input>textarea{
+box-sizing:border-box;
+position: absolute;
+width: 100%; height:100%;
+padding:5px;
+}
+
+#one{
+position: absolute;
+width: 100%; height:5%;
+top:42%;
+}
+
+#one>input:nth-of-type(1){
+box-sizing:border-box;
+position: absolute;
+width: 50%; height:100%;
+padding:5px;
+font-size:15px;
+}
+
+#string{
+position: absolute;
+left: 51%;
+top:5px;
+}
+
+label{
+color: white;
+font:bold 15px Arial;
+position: absolute;
+top:22%;
+}
+
+#string+label{
+left:54%;
+}
+
+#regex{
+position: absolute;
+left:66%;
+top:5px;
+}
+
+#regex+label{
+left:69%;
+}
+
+button,textarea, input{
+border:2px double darkgray;
+outline:none;
+background:black;
+color:#e7e7ea;
+font: 15px Arial;
+}
+
+
+#two{
+position: absolute;
+width: 100%; height:5%;
+top:50%;
+}
+
+#two>input{
+font-size:15px;
+box-sizing:border-box;
+position: absolute;
+width: 50%; height:100%;
+padding:5px;
+}
+
+#replace{
+color: white;
+font:bold 15px Arial;
+position:absolute;
+left:51%;
+height:100%;
+width:80px;
+}
+
+#output{
+position:absolute;
+width: 100%; height:43%;
+bottom:0;
+}
+
+#output>textarea{
+box-sizing:border-box;
+position: absolute;
+width: 100%; height:90%;
+bottom:10%;
+padding:5px;
+}
+
+#copy{
+color: white;
+font:bold 15px Arial;
+position: absolute;
+right:0; bottom:0;
+height:10%;
+border-top:none;
+}
+
+#submit{
+color: white;
+font:bold 15px Arial;
+position:absolute;
+left:0; bottom:0;
+height:10%;
+border-top:none;
+}
+
+</style>
+</head>
+<body>
+				
+<div id="trcontainer">
+     <form id="input">
+          <textarea></textarea>
+     </form>
+     <form id="one">
+          <input type="text"/>
+          <input type="radio" id="string" name="x" checked="checked"/>
+          <label for="regex">Plain/String</label>
+          <input type="radio" id="regex" name="x"/>
+          <label for="regex">RegEx</label>       
+     </form>
+     <form id="two">
+          <input type="text"/>
+          <button id="replace" type="button">Replace</button>
+     </form>
+     <form id="output">
+          <textarea readonly></textarea>
+	  <button id="submit" type="button">Submit</button>
+          <button id="copy" type="button">Copy</button>
+     </form>
+</div>
+
+<script>
+let $= document.querySelector.bind(document),
+a= $('#input textarea'),
+b= $('#one input'),
+c= $('#two input'),
+d= $('#output textarea'),
+e= $('#replace'),
+f= $('#copy'),
+g= $('#string'),
+h= $('#regex'),
+i= /^\/(.*?)\/([gimuy]*)$/,
+m= $('#submit');
+
+
+e.onclick= function (){
+let j= b.value.match(i);
+
+if(h.checked){
+if(j){
+let k= new RegExp(j[1],j[2]);
+d.value= a.value.replace(k, c.value);
+}
+else{
+let l= new RegExp(b.value);
+d.value= a.value.replace(l, c.value);
+}
+}
+if(g.checked) d.value= a.value.split(b.value).join(c.value);
+};
+
+
+f.onclick = function() {
+if (!navigator.clipboard){
+d.select();
+document.execCommand('copy');
+alert('Copied!');
+}
+else{
+navigator.clipboard.writeText(d.value);
+alert('Copied!!');
+}
+};
+
+
+m.onclick= function(){
+a.value= d.value;
+alert('Output inserted as input!');
+};
+
+</script>
+</body>
+</html>
