@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -166,10 +165,13 @@ filetype.placeholder= "leave empty to list all files";
 //CREATE TABLE
 
 
+
 async function fetchFiles(){
 let talinks= [], divlinks= [];
 message.innerHTML= "Loading...";
-let url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/?v=` + Date.now();
+
+let folder= repo.value.split(/\/(.+)/)[1]||"";
+let url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/${folder}?v=` + Date.now();
 
 let request= await fetch(url);
 let reply= await request.json();
