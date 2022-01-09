@@ -48,6 +48,7 @@ border-collapse: separate;
 border-spacing: 5px;
 max-width: 100%;
 table-layout: fixed;
+align-self: flex-start;
 }
  
 td{
@@ -67,10 +68,11 @@ padding: 0;
 text-align: left;
 }
 
-td>input{
+
+input:not([type]){
+width: 25ch;
+height: 2em;
 color: blue;
-width: 15ch;
-height: 20px;
 padding: 2px;
 border: 1px solid black;
 }
@@ -85,7 +87,24 @@ height: 10px;
 .list{
 width: 100%;
 height: 350px;
+margin-top: -1px;
+border: 1px solid black;
 }
+
+button{
+border: 1px solid black;
+padding: 2px;
+}
+
+#go{
+align-self: flex-start;
+}
+
+#copy{
+margin-top: -1px;
+align-self: flex-start;
+}
+
 
 
 
