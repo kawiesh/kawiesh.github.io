@@ -230,9 +230,9 @@ divlinks.push(`<a class="link" href="${href}">${text}</a>`);
 list.value= talinks.join("\n");
 links.innerHTML= divlinks.join("<br>");
 
-let max= reply.headers.get("x-ratelimit-limit");
-let current= reply.headers.get("x-ratelimit-remaining");
-let rest= reply.headers.get("x-ratelimit-reset");
+let max= request.headers.get("x-ratelimit-limit");
+let current= request.headers.get("x-ratelimit-remaining");
+let rest= request.headers.get("x-ratelimit-reset");
 let msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
 message.innerHTML= msg;
 }
