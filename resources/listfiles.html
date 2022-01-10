@@ -148,11 +148,11 @@ body{background-size: 50%;}
 <table>
 <tbody>
 <tr>
-<td>Owner</td>
+<td>Owner*</td>
 <td><input class="owner"></td>
 </tr>
 <tr>
-<td>Repo name</td>
+<td>Repo name*</td>
 <td><input class="repo"></td>
 </tr>
 <tr>
@@ -185,6 +185,10 @@ body{background-size: 50%;}
 </td>
 </tbody>
 </table>
+<span style="font: italic bold 12px 'Courier New'>
+Fields with * are required. Other fields are optional<br>
+and can be left empty.
+</span>
 <br>
 
 <button id="go">GO!</button>
@@ -218,12 +222,12 @@ let copy= select("#copy");
 let go= select("#go");
 let radio= selectAll(".radio input");
 
-owner.placeholder= "required";
-repo.placeholder= "required";
-filetype.placeholder= "e.g html (optional)";
-token.placeholder= "to increase limit (optional)";
-base.placeholder= "base domain (optional)";
-contains.placeholder= "files containing this string (optional)";
+owner.placeholder= "owner name";
+repo.placeholder= "repo name";
+filetype.placeholder= "e.g. html";
+token.placeholder= "to increase limit";
+base.placeholder= "base domain";
+contains.placeholder= "files containing this string";
 
 
 
@@ -307,8 +311,12 @@ message.innerHTML= `<span class="green">${msg}</span>`;
 
 
 //DO THE MAIN FUNCTION
-go.onclick= fetchFiles;
-
+go.onclick=()=>{
+if(owner.value!="" && repo.value!=""){
+fetchFiles();
+}
+else alert("Fill both required fields");
+};
 
 copy.onclick= function(){
 copyData(list.value,this);
