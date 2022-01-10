@@ -148,10 +148,10 @@ body{background-size: 50%;}
 <tr class="radio">
 <td>URL Path</td>
 <td>
-<span>rel
+<span>file name
 <input type="radio" name="x" checked>
 </span>
-<span>abs
+<span>file path
 <input type="radio" name="x">
 </span>
 </td>
@@ -218,8 +218,8 @@ let request= await fetch(url,{headers:auth});
 let reply= await request.json();
 let files= reply.map(i=>{
 let url= i.path, text= i.path.split(".")[0];
-//let href= (radio[0].checked) ? url : "x.com/"+ url;
-let href= i["html_url"];
+let href= (radio[0].checked) ? url : `${repo.value}/${url}`;
+//let href= i["html_url"];
 if(href.endsWith(filetype.value||"") && i.type=="file"){
 talinks.push(href);
 divlinks.push(`<a class="link" href="${href}">${text}</a>`);
