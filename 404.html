@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>kawiesh.gq - error :(</title>
 <style>
 
@@ -85,10 +86,10 @@ $= document.querySelector.bind(document),
 $$= document.querySelectorAll.bind(document),
 create= document.createElement.bind(document);
 
-let url= location.href.split(".gq/");
+let url= location.href.split(".eu.org/");
    
 
-$("li>span").innerHTML+= `${url[0]}.gq/<span style="text-decoration:underline">${url[1]}</span>`;
+$("li>span").innerHTML+= `${url[0]}.gq/<span style="color: red">${url[1]}</span>`;
 
 $("svg").onclick= function(){
 location= "/";
