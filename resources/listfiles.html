@@ -141,12 +141,17 @@ body{background-size: 50%;}
 <td><input class="token"></td>
 </tr>
 <tr>
-<td>File extension </td>
-<td><input class="filetype" required></td>
+<td>File extension</td>
+<td><input class="filetype"></td>
+</tr>
+<tr>
+<tr>
+<td>Base domain</td>
+<td><input class="base"></td>
 </tr>
 <tr>
 <tr class="radio">
-<td>List </td>
+<td>List</td>
 <td>
 <span>file name
 <input type="radio" name="x" checked>
@@ -180,6 +185,7 @@ let owner= select(".owner");
 let repo= select(".repo");
 let filetype= select(".filetype");
 let token= select(".token");
+let base= select(".base");
 
 let links= select(".links");
 let list= select(".list");
@@ -190,9 +196,9 @@ let radio= selectAll(".radio input");
 
 owner.placeholder= "required";
 repo.placeholder= "required";
-filetype.placeholder= "optional";
-token.placeholder= "optional";
-
+filetype.placeholder= "e.g html (optional)";
+token.placeholder= "to increase limit (optional)";
+base.placehilder= "base domain (optional)";
 
 
 
@@ -209,6 +215,7 @@ let auth= (token.value=="") ? {} : {
 authorization: "token " + token.value
 };
 
+let domain= base.value||"";
 let path= repo.value.split(/\/(.+)/)[0];
 let folder= repo.value.split(/\/(.+)/)[1]||"";
 let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}?v=` + Date.now();
@@ -217,8 +224,8 @@ let request= await fetch(url,{headers:auth});
 
 let reply= await request.json();
 let files= reply.map(i=>{
-let url= i.path, text= i.path.split(".")[0];
-let href= (radio[0].checked) ? url : `${repo.value}/${url}`;
+let url= i.path, text= i.name.split(".")[0];
+let href= (radio[0].checked) ? i.name : `${domain}/${url}`;
 //let href= i["html_url"];
 if(href.endsWith(filetype.value||"") && i.type=="file"){
 talinks.push(href);
