@@ -1,0 +1,9 @@
+https://kawiesh.eu.org/tools/bookmarklet-maker.html
+https://kawiesh.eu.org/tools/html-editor.html
+https://kawiesh.eu.org/tools/link-lister.html
+https://kawiesh.eu.org/tools/table-generator.html
+https://kawiesh.eu.org/tools/text-extractor.html
+https://kawiesh.eu.org/tools/text-merger.html
+https://kawiesh.eu.org/tools/text-modifier.html
+https://kawiesh.eu.org/tools/text-numbering.html
+https://kawiesh.eu.org/tools/text-replacer.html
