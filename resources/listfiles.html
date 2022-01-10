@@ -241,10 +241,10 @@ if(reply.message){
 let bc= /Bad credentials/i;
 let nf= /Not Found/i;
 
-if(reply.message.includes(bc)){
+if(bc.test(reply.message)){
 message.innerHTML= `<span class="red">Authorization failed</span><br><span>Double-check token or leave it empty to fetch anonymously</span>`;
 }
-else if(reply.message.includes(nf)){
+else if(nf.test(reply.message)){
 message.innerHTML= `<span class="red">Not found</span><br><span>Double-check information filled in owner and repo field</span>`;
 }
 else{
