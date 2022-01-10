@@ -110,6 +110,20 @@ align-self: flex-start;
 font-style: normal;
 }
 
+.message{
+align-self: flex-start;
+}
+
+.green{
+font-weight: bold;
+color: green;
+}
+
+.red{
+font-weight: bold;
+color: red;
+}
+
 @media (orientation:portrait){
 #container{width: 95%;}
 body{background-size: 35%;}		
@@ -221,8 +235,24 @@ let folder= repo.value.split(/\/(.+)/)[1]||"";
 let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}?v=` + Date.now();
 
 let request= await fetch(url,{headers:auth});
-
 let reply= await request.json();
+
+if(reply.message){
+let bc= /Bad credentials/i;
+let nf= /Not Found/i;
+
+if(reply.message.includes(bc)){
+message.innerHTML= `<span class="red">Authorization failed</span><br><span>Double-check token or leave it empty to fetch anonymously</span>`;
+}
+if(reply.message.includes(nf)){
+message.innerHTML= `<span class="red">Not found</span><br><span>Double-check information filled in owner and repo field</span>`;
+}
+else{
+message.innerHTML= `<span class="red">Sorry, some error occured</span>`;
+}
+
+}
+else{//NO ERRORS FOUND
 let files= reply.map(i=>{
 let url= i.path, text= i.name.split(".")[0];
 let href= (radio[0].checked) ? i.name : `${domain}/${url}`;
@@ -234,6 +264,7 @@ divlinks.push(`<a class="link" href="${domain}/${url}">${text}</a>`);
 });
 
 
+
 list.value= talinks.join("\n");
 links.innerHTML= divlinks.join("<br>");
 
@@ -241,8 +272,10 @@ let max= request.headers.get("x-ratelimit-limit");
 let current= request.headers.get("x-ratelimit-remaining");
 let rest= request.headers.get("x-ratelimit-reset");
 let msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
-message.innerHTML= msg;
-}
+message.innerHTML= `<span class="green">${msg}</span>`;
+
+}//end if no message
+}//end function
 
 //DO THE MAIN FUNCTION
 
