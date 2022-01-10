@@ -229,7 +229,7 @@ let href= (radio[0].checked) ? i.name : `${domain}/${url}`;
 //let href= i["html_url"];
 if(href.endsWith(filetype.value||"") && i.type=="file"){
 talinks.push(href);
-divlinks.push(`<a class="link" href="${href}">${text}</a>`);
+divlinks.push(`<a class="link" href="${domain}/${url}">${text}</a>`);
 }
 });
 
