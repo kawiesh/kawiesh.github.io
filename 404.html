@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>kawiesh.gq - error :(</title>
+<title>ERROR</title>
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Zen+Dots&display=swap');
@@ -21,6 +21,7 @@ align-items: center;
 
 #container{
 position:relative;
+font-size: 12px;
 font-family: 'Montserrat', sans-serif;
 width:70%;
 height:auto;
@@ -47,6 +48,7 @@ fill:none;
 #home{
 height:50px;
 width:50px;
+cursor: pointer;
 }
 
 p{
@@ -70,7 +72,8 @@ font-style: italic;
 <ul>
 <li>Cuss me out for messing things up</li>
 <li>Look for the page in The Bermuda Triangle</li>
-<li>Double-check the URL &#8646; <span></span></li>
+<li>Double-check the URL &#8646;<br>
+<span></span></li>
 </ul>
 <br><br>
 
@@ -89,7 +92,7 @@ create= document.createElement.bind(document);
 let url= location.href.split(".eu.org/");
    
 
-$("li>span").innerHTML+= `${url[0]}.gq/<span style="color: red">${url[1]}</span>`;
+$("li>span").innerHTML+= `${url[0]}.eu.org/<span style="color: red">${url[1]}</span>`;
 
 $("svg").onclick= function(){
 location= "/";
