@@ -128,11 +128,15 @@ body{background-size: 50%;}
 <tbody>
 <tr>
 <td>Owner</td>
-<td><input class="owner" required></td>
+<td><input class="owner"></td>
 </tr>
 <tr>
 <td>Repo name</td>
-<td><input class="repo" required></td>
+<td><input class="repo"></td>
+</tr>
+<tr>
+<td>Token</td>
+<td><input class="token"></td>
 </tr>
 <tr>
 <td>File extension </td>
@@ -173,6 +177,7 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 let owner= select(".owner");
 let repo= select(".repo");
 let filetype= select(".filetype");
+let token= select(".token");
 
 let links= select(".links");
 let list= select(".list");
@@ -181,24 +186,31 @@ let copy= select("#copy");
 let go= select("#go");
 let radio= selectAll(".radio input");
 
-owner.placeholder= "repo owner";
-repo.placeholder= "repo name";
-filetype.placeholder= "leave empty to list all files";
+owner.placeholder= "required";
+repo.placeholder= "required";
+filetype.placeholder= "optional";
+token.placeholder= "optional";
 
 
-//CREATE TABLE
 
 
 
+
+
+//Main function
 async function fetchFiles(){
+resetAll();
 let talinks= [], divlinks= [];
-message.innerHTML= "Loading...";
 
 let path= repo.value.split(/\/(.+)/)[0];
 let folder= repo.value.split(/\/(.+)/)[1]||"";
 let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}?v=` + Date.now();
 
-let request= await fetch(url);
+let request= await fetch(url,{headers:{
+authorization:`token ${token.value||""}`
+}});
+
+
 let reply= await request.json();
 let files= reply.map(i=>{
 let url= i.path, text= i.path.split(".")[0];
@@ -213,7 +225,12 @@ divlinks.push(`<a class="link" href="${href}">${text}</a>`);
 
 list.value= talinks.join("\n");
 links.innerHTML= divlinks.join("<br>");
-message.innerHTML= "List of files";
+
+let max= reply.headers.get("x-ratelimit-limit");
+let current= reply.headers.get("x-ratelimit-remaining");
+let rest= reply.headers.get("x-ratelimit-reset");
+let msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
+message.innerHTML= msg;
 }
 
 //DO THE MAIN FUNCTION
@@ -244,8 +261,20 @@ temp.remove();
 }
 
 
+function resetAll(){
+list.value= "";
+links.innerHTML="";
+message.innerHTML= "Loading...";
+}
 
 
+function getTime(x){
+return new Date(x).toLocaleString('en-US',{
+hour: 'numeric',
+minute: 'numeric',
+hour12: true
+});
+}
 
 </script>	
 </body>
