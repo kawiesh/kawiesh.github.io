@@ -160,6 +160,10 @@ body{background-size: 50%;}
 <td><input class="token"></td>
 </tr>
 <tr>
+<td>Keyword</td>
+<td><input class="contains"></td>
+</tr>
+<tr>
 <td>File extension</td>
 <td><input class="filetype"></td>
 </tr>
@@ -203,6 +207,7 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 let owner= select(".owner");
 let repo= select(".repo");
 let filetype= select(".filetype");
+let contains= select(".contains");
 let token= select(".token");
 let base= select(".base");
 
@@ -218,6 +223,7 @@ repo.placeholder= "required";
 filetype.placeholder= "e.g html (optional)";
 token.placeholder= "to increase limit (optional)";
 base.placeholder= "base domain (optional)";
+contains.placeholder= "files containing this string (optional)";
 
 
 
@@ -274,7 +280,13 @@ let files= reply.map(i=>{
 let url= i.path, text= i.name.split(".")[0];
 let href= (radio[0].checked) ? i.name : `${domain}/${url}`;
 //let href= i["html_url"];
-if(href.endsWith(filetype.value||"") && i.type=="file"){
+
+let _ext= href.endsWith(filetype.value||"");
+let _keyw= new RegExp(contains.value||".","i").test(href);
+let _isfile= (i.type=="file");
+
+
+if(_ext && _keyw && _isfile){
 talinks.push(href);
 divlinks.push(`<a class="link" href="${domain}/${url}">${text}</a>`);
 }
