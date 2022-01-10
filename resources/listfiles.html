@@ -244,7 +244,7 @@ let nf= /Not Found/i;
 if(reply.message.includes(bc)){
 message.innerHTML= `<span class="red">Authorization failed</span><br><span>Double-check token or leave it empty to fetch anonymously</span>`;
 }
-if(reply.message.includes(nf)){
+else if(reply.message.includes(nf)){
 message.innerHTML= `<span class="red">Not found</span><br><span>Double-check information filled in owner and repo field</span>`;
 }
 else{
