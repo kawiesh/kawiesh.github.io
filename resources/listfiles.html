@@ -111,6 +111,7 @@ font-style: normal;
 }
 
 .message{
+padding: 10px 0;
 align-self: flex-start;
 }
 
@@ -237,18 +238,29 @@ let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}
 let request= await fetch(url,{headers:auth});
 let reply= await request.json();
 
+let max= request.headers.get("x-ratelimit-limit");
+let current= request.headers.get("x-ratelimit-remaining");
+let rest= request.headers.get("x-ratelimit-reset");
+let msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
+
+
 if(reply.message){
 let bc= /Bad credentials/i;
 let nf= /Not Found/i;
 
 if(bc.test(reply.message)){
-message.innerHTML= `<span class="red">Authorization failed</span><br><span>Double-check token or leave it empty to fetch anonymously</span>`;
+message.innerHTML= `<span class="red">Authorization failed</span><br>
+<span>Double-check token or leave it empty to fetch anonymously</span><br>
+<b>${msg}</b>`;
 }
 else if(nf.test(reply.message)){
-message.innerHTML= `<span class="red">Not found</span><br><span>Double-check information filled in owner and repo field</span>`;
+message.innerHTML= `<span class="red">Not found</span><br>
+<span>Double-check information filled in owner and repo field</span><br>
+<b>${msg}</b>`;
 }
 else{
-message.innerHTML= `<span class="red">Sorry, some error occured</span>`;
+message.innerHTML= `<span class="red">Sorry, some error occured</span><br>
+<b>${msg}</b>`;
 }
 
 }
@@ -267,11 +279,6 @@ divlinks.push(`<a class="link" href="${domain}/${url}">${text}</a>`);
 
 list.value= talinks.join("\n");
 links.innerHTML= divlinks.join("<br>");
-
-let max= request.headers.get("x-ratelimit-limit");
-let current= request.headers.get("x-ratelimit-remaining");
-let rest= request.headers.get("x-ratelimit-reset");
-let msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
 message.innerHTML= `<span class="green">${msg}</span>`;
 
 }//end if no message
