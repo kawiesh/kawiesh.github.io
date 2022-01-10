@@ -106,7 +106,9 @@ align-self: flex-start;
 }
 
 
-
+::placeholder{
+font-style: italic;
+}
 
 @media (orientation:portrait){
 #container{width: 95%;}
@@ -196,20 +198,22 @@ token.placeholder= "optional";
 
 
 
-
 //Main function
 async function fetchFiles(){
 resetAll();
 let talinks= [], divlinks= [];
 
+
+
+let auth= (token.value=="") ? {} : {
+authorization: "token " + token.value
+};
+
 let path= repo.value.split(/\/(.+)/)[0];
 let folder= repo.value.split(/\/(.+)/)[1]||"";
 let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}?v=` + Date.now();
 
-let request= await fetch(url,{headers:{
-authorization:`token ${token.value||""}`
-}});
-
+let request= await fetch(url,{headers:auth});
 
 let reply= await request.json();
 let files= reply.map(i=>{
