@@ -96,6 +96,10 @@ border: 1px solid black;
 padding: 2px;
 }
 
+button:hover{
+background: yellow;
+}
+
 #go{
 align-self: flex-start;
 }
@@ -218,13 +222,13 @@ base.placeholder= "base domain (optional)";
 
 
 
+let reply,msg,urlvalue;
 
-//Main function
+
+//Main function-------------
 async function fetchFiles(){
 resetAll();
 let talinks= [], divlinks= [];
-
-
 
 let auth= (token.value=="") ? {} : {
 authorization: "token " + token.value
@@ -233,16 +237,17 @@ authorization: "token " + token.value
 let domain= base.value||"";
 let path= repo.value.split(/\/(.+)/)[0];
 let folder= repo.value.split(/\/(.+)/)[1]||"";
-let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}?v=` + Date.now();
+let url= `https://api.github.com/repos/${owner.value}/${path}/contents/${folder}`;
 
-let request= await fetch(url,{headers:auth});
-let reply= await request.json();
-
+if(urlvalue != url){
+let request= await fetch(`${url}?v=${Date.now()}`,{headers:auth});
 let max= request.headers.get("x-ratelimit-limit");
 let current= request.headers.get("x-ratelimit-remaining");
 let rest= request.headers.get("x-ratelimit-reset");
-let msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
-
+msg= `Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`;
+reply= await request.json();
+urlvalue= url;
+}
 
 if(reply.message){
 let bc= /Bad credentials/i;
@@ -281,11 +286,15 @@ list.value= talinks.join("\n");
 links.innerHTML= divlinks.join("<br>");
 message.innerHTML= `<span class="green">${msg}</span>`;
 
-}//end if no message
+}//end if no message			
+
 }//end function
 
-//DO THE MAIN FUNCTION
 
+
+
+
+//DO THE MAIN FUNCTION
 go.onclick= fetchFiles;
 
 
