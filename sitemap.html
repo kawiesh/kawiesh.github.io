@@ -78,7 +78,9 @@ url('https://api.iconify.design/ant-design/folder-open-filled.svg?color=gold');
 
 
 .root{
-width: 200px;
+text-transform: lowercase;
+font: small-caps 14px Arial;
+width: 95%;
 }
 
 
@@ -126,10 +128,16 @@ list[a]= det.outerHTML;
 };
 
 
-let arr= ["lol","bol","zol"];
+
+let arr=[
+"<a href='/text-extractor.html'>text extractor</a>",
+"<a href='/text-merger.html'>text merger</a>",
+"<a href='/text-modifier.html'>text modifier</a>",
+"<a href='/text-numbering.html'>text numbering</a>",
+"<a href='/text-replacer.html'>text replacer</a>",
+];
+
 createDetails("texttools", "Text tools", arr);
-
-
 
 
 let arr1= [
