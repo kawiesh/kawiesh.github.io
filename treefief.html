@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>KD HTML Template</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 1px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+@media (orientation:portrait){
+#container{width: 95%;}
+body{background-size: 35%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}
+body{background-size: 50%;}			
+}	
+
+
+ul{
+list-style-image:
+url('https://api.iconify.design/ant-design/file-twotone.svg?color=gray');
+}
+
+
+details>summary{
+list-style: none;
+position: relative;
+left: 0px;
+}
+
+.closed{
+list-style-image:
+url('https://api.iconify.design/ant-design/folder-filled.svg?color=gold');
+}
+
+
+.open{
+list-style-image:
+url('https://api.iconify.design/ant-design/folder-open-filled.svg?color=gold');
+}
+
+
+
+.root{
+width: 200px;
+}
+
+
+details[open]>summary{
+color: red;
+}
+
+
+
+a{
+text-decoration: none;							
+}
+
+.root details ul{
+margin-left: 15px;
+}
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let list = {};
+
+function createDetails(a,b,arr){
+let det= create("details");
+det.className= a;
+let sum= create("summary");
+sum.innerHTML=	b;
+let ul= create("ul");
+arr.forEach(i=>{
+let li= create("li");
+li.innerHTML= i;
+ul.append(li);		
+});
+det.append(sum,ul);
+
+list[a]= det.outerHTML;
+};
+
+
+let arr= ["lol","bol","zol"];
+createDetails("texttools", "Text tools", arr);
+
+
+
+
+let arr1= [
+"<a href='/tools/bookmark-generator'>Bookmark Generator</a>",
+"<a href='/tools/bookmarklet-maker'>Bookmarklet Maker</a>",
+list["texttools"]
+];
+createDetails("tools", "Tools", arr1);
+
+
+let arr3= [
+"<a href='/old/bookmarklet-combiner.html'>bookmarklet-combiner.html</a>",
+"<a href='/old/bookmarklet-maker.html'>bookmarklet-maker.html</a>",
+"<a href='/old/bookmarklets.html'>bookmarklets.html</a>",
+"<a href='/old/css-bookmarklet.html'>css-bookmarklet.html</a>",
+"<a href='/old/html-editor.html'>html-editor.html</a>",
+"<a href='/old/index2.html'>index2.html</a>",
+"<a href='/old/notepad.html'>notepad.html</a>",
+"<a href='/old/table-generator.html'>table-generator.html</a>",
+"<a href='/old/text-merger-examples.html'>text-merger-examples.html</a>",
+"<a href='/old/text-merger.html'>text-merger.html</a>",
+"<a href='/old/text-merger0.html'>text-merger0.html</a>",
+"<a href='/old/text-numbering.html'>text-numbering.html</a>",
+"<a href='/old/text-numbering0.html'>text-numbering0.html</a>",
+"<a href='/old/text-replacer.html'>text-replacer.html</a>",
+"<a href='/old/text-replacer0.html'>text-replacer0.html</a>"
+];
+createDetails("old", "Old files", arr3);
+
+
+
+
+let arr2= [
+"<a href='/notes/css'>CSS</a>",
+"<a href='/notes/regex'>RegEx</a>"
+];
+createDetails("notes", "Notes", arr2);
+
+
+
+let arr0= [
+"<a href='/404.html'>404 Page</a>",
+"<a href='/about.html'>About</a>",
+"<a href='/favicon.ico'>Favicon</a>",
+"<a href='/index.html'>Index</a>",
+"<a href='/index2.html'>Index 2</a></a>",
+list["tools"],
+list["notes"],
+list["old"]
+];
+createDetails("root", "Root", arr0);
+let container= select("#container");
+container.innerHTML= list["root"];
+select(".root").open= true;
+
+
+selectAll(".root details").forEach(i=>{
+i.closest("li").classList.add("closed");
+
+i.firstElementChild.onclick=()=>{
+(i.open) ?
+i.closest("li").classList.remove("open"):
+i.closest("li").classList.add("open");
+
+};
+
+});
+
+
+select(".root summary").className= "open";
+select(".root summary").onclick= function(){
+this.className= (this.parentNode.open) ? "closed" : "open";				
+}
+
+</script>	
+</body>
+</html>
