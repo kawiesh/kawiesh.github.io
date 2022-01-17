@@ -1,1 +1,656 @@
+##TRUTHY FALSY
 
+`Conditional/Ternary operator
+Syntax=>  condition ? exprIfTrue : exprIfFalse
+Example=> (age>10) "old" ? "young"`
+
+If condition is true or truthy, do 1st expression else do 2nd expression
+
+//---------------------
+Falsy: value that is considered false when encountered in a Boolean context
+0, null, NaN, undefined, empty string: "  "
+
+Truthy: anything but falsy
+
+//----------------------
+Logical OR operator
+Syntax=> leftExpr || rightExpr
+Example=> let name= result || "Unknown";
+
+If result is 0, null, NaN, undefined or an empty string: "  ", let name be "Unknown"
+
+//----------------------
+Nullish coalescing operator
+Syntax=> leftExpr ?? rightExpr
+Example=> let name= result ?? "Unknown";
+
+If result is null or undefined let name be "Unknown"
+Same as logical OR but if first operand is NaN, 0, or an empty string, it uses the value,
+rather than taking the value of the 2nd operand
+
+
+//-----------------------QUERYSELECTOR---------------------------
+How to select elements whose IDs contain a dot
+Dots are meant for classes so you need to escape them using backslash
+Example: <span id="my.span">hi</span>
+
+CSS
+#my\.span{
+rules
+}
+
+JavaScript
+document.querySelector("#my\\.span")
+Note: 2 backslashes because strings naturally consume backslashes
+
+
+//------------------------AJAX------------------------------
+function lawlz(a){
+if(a==200){ alert("yes");}
+if(a==404){ alert("error");}
+}
+
+var xhr = new XMLHttpRequest();
+xhr.open('GET', location.href, true);
+
+
+xhr.onload = function () {
+if (xhr.readyState === xhr.DONE) {
+lawlz(xhr.status);
+}};
+
+xhr.send(null);
+
+//------------------------BATTERY------------------------------
+navigator.getBattery()
+  .then(function(battery) {
+    alert(battery.level*100+"%");
+});
+
+//------------------------CLIPBOARD & SELECTION------------------------------
+navigator.clipboard.writeText(❌);
+
+//---------
+document.body.onclick= function(){
+let a= window.getSelection(),
+    b= document.createRange();
+    b.selectNodeContents(event.target);
+    a.removeAllRanges();
+    a.addRange(b);
+};
+
+
+let a= getSelection().toString();
+b= window.open();
+b.document.write(a);
+
+//------------------------STYLESHEET------------------------------
+let a= document.querySelector("a"),
+b= getComputedStyle(a), // or (a,null) for pseudoelements
+c= "";
+
+b.backgroundColor
+b.getPropertyValue("background-color")
+
+//--------
+for (i= 0; i< b.length; i++) { 
+bProp = b.item(i)
+c+= bProp+" = "+b.getPropertyValue(bProp)+"<br>";
+}
+document.body.append(c);
+
+//------
+let x= document.styleSheets[0].cssRules[0].style,
+x.setProperty("background-color", "yellow","important");
+//last parameter is optional
+
+//--------------------Element Outerhtml----------------------------
+document.body.onclick= function(){
+alert(event.target.parentNode.outerHTML);
+}
+
+
+
+//--------------------Object Iteration------------------------------
+let urls= {
+"radio1":"url1",
+"radio2":"url2",
+"radio3":"url3",
+"radio4":"url4"
+};
+
+for(let i in urls){
+if (urls.hasOwnProperty(i)){
+alert(i + ":" + urls[i]);
+}}
+
+//------------
+for (let i of Object.keys(urls)) {
+alert(i + ":" + urls[i])
+}
+
+//------------
+for (let [i, x] of Object.entries(urls)){
+alert(i+":"+x);
+}
+
+//------------
+Object.entries(urls).forEach(
+([i,x]) => alert(i+":"+x)
+)
+
+//------------
+Object.keys(urls).forEach(
+i=> alert(i+":"+urls[i])
+);
+
+//------------
+for (let i in urls) {
+if (!urls.hasOwnProperty(i)) {
+continue;
+}
+alert(i+":"+urls[i])
+}
+
+//------------
+let keys = Object.keys(urls),
+length = keys.length,
+i= 0, prop, value;
+while (i < length) {
+prop = keys[i];
+value = urls[prop];
+i += 1;
+alert(prop+":"+value);
+}
+
+//----
+let list= {
+};
+
+let link= Object.keys(list),
+    tit= Object.values(list);
+
+let b= [];
+
+link.forEach((i,x)=>{
+b.push(`<span>${tit[x]}<br>
+<audio controls src="${i}"></audio>
+</span>`);
+});
+
+//--------------------VIDEO INJECTION------------------------------
+let z= window.open('','blank');
+z.document.head.innerHTML=`
+
+<title></title>
+
+<style>
+body{
+background-color:black;
+}
+#vid{
+margin: 0 auto; display:block;
+border: 1px solid gray;
+}
+#txt{
+color:#0f3; 
+text-align:center;
+font-family: arial;
+}
+
+</style>`;
+
+z.document.body.innerHTML=`
+<div id='txt'>
+Streaming over local network!
+</div>
+<video id= 'vid' controls autoplay>
+<source src='http://ik.nl/hey.mp4'>
+</video>`;
+
+//--------------------OPEN WINDOW & WRITE------------------------------
+/*Use backticks or template literals for
+multi ine strings and  to insert variables within the strings*/
+
+let a= window.open();
+let b= 'okay boomer';
+a.document.body.innerHTML=`
+<h3>hello<h3>
+<h2> ${b}<h2>`;
+
+//-------------
+let a= window.open('','','',false);
+
+a.document.head.innerHTML=`
+<title> okay </title>
+<style>
+body {
+text-align: center;
+border: 3px double green;
+color:red;
+}
+</style>`
+
+a.document.body.innerHTML= 'hey';
+
+//-------------
+let a= window.open('','','',false),
+    b= a.document.createElement('title'),
+    c= a.document.createTextNode('yes'),
+    d= a.document.createElement('style'),
+    e= a.document.createTextNode(`
+    body{color:red`);
+
+a.document.body.innerHTML= 'hey';
+d.appendChild(e);
+b.appendChild(c);
+a.document.head.appendChild(b);
+a.document.head.appendChild(d);
+
+
+
+//--------------------REGEX TEST------------------------------
+try{
+let a=`a
+b
+c`,
+b= a.split('\n'),
+c='20.',
+d=/\d+/,
+e= c.match(d);
+
+for(let i=0, x=e; i<b.length; i++, x++){
+let D= c.replace(e,x);
+b[i]= D+b[i];
+alert(b[i]);
+}
+}
+catch(x){
+alert(x);
+}
+
+//------------------------TYPEWRITER EFFECT------------------------------
+let a= document.querySelector("span");
+let c= document.querySelector("h1");
+let b= "Hello";
+let stopped = true;
+let stop= 8;
+
+
+let i=0;
+let r= setInterval(()=>{
+if(i==b.length){
+stopped = true;
+clearInterval(r);
+a.style.color="red";
+c.innerHTML= stopped;
+}
+if(i<b.length){
+a.innerHTML+= b[i];
+i++;
+}
+c.innerHTML= stop;
+stop++;
+},100);
+
+r;
+
+
+//------------------------PAGE ERRORS------------------------------
+Error 401
+Sorry, you aren’t authorized to access this page.
+
+Error 403 
+Sorry, you aren’t authorized to access this page.
+
+Error 400
+Oops, the request to the web server was somehow corrupted!
+
+Error 404
+Sorry this page does not exist!
+
+Error 500
+The web server encountered some form of internal error & was unable to handle the request properly.
+
+//------------------------CHANGE VIEWPORT------------------------------
+let a= document.querySelector("meta[name='viewport']");
+
+if (a){
+a.outerHTML=`<meta name="viewport" content="width=device-width, initial-scale=0.7">`;
+}
+else{
+let b= document.createElement("meta");
+b.name= "viewport";
+b.content= "width=device-width, initial-scale=0.7";
+document.head.append(b);
+}
+
+//------------------------LEADING ZEROS------------------------------
+function pad(num, size) {
+let s= "000" + num;
+return s.substr(s.length-size);
+}
+
+let a= "1";
+
+alert(pad(a,3));
+
+//------------------------CUSTOM CHECKBOX------------------------------
+<html>
+<head>
+<style>
+span{
+display: block;
+height: 12px; width: 12px;
+border: 1px solid black;
+}
+
+span>svg{
+stroke: black; stroke-width: 2;
+max-height:100%; max-width:100%;
+}
+</style>
+</head>
+<body>
+<script>
+
+let on= `<svg viewBox="0 0 24 24"><path d="M20 20L4 4m16 0L4 20"/></svg>`;
+let checkbox= document.queryselector("span");
+checkbox.innerHTML= "";
+
+//----------
+let checked= false;
+checkbox.onclick=()=>{
+if(checked){
+checkbox.innerHTML= "";
+checked= false;
+}
+else{
+checkbox.innerHTML= on;
+checked= true;
+}
+}
+
+//-------------
+checkbox.onclick= function(){
+this.classList.toggle("checked");
+if(this.className=="checked"){ //this.classList.contains("checked");
+this.innerHTML= "";
+this.style.background= "none";
+}
+else{
+this.innerHTML= on;
+this.style.background= "white";
+}
+};
+</script>
+</body>
+</html>
+
+//------------------------DROPDOWN SELECT ELEMENT------------------------------
+<select id="singular">
+<optgroup label= "Choose one:">
+<option value="a">Value a</option>
+<option value="a">Value b</option>
+<option value="a">Value c</option>
+</optgroup>			
+</select>
+
+<select id="multiple" multiple>
+<optgroup label= "Options:">
+<option value="a">Value a</option>
+<option value="a">Value b</option>
+<option value="a">Value c</option>
+</optgroup>			
+</select>
+
+let sing= document.querySelector("#singular");
+let singval= sing.options[sing.selectedIndex].value;
+
+let mult= document.querySelector("#multiple");
+let multval=
+Array.from(selectAll("option:checked",mult),e=>e.value);
+
+let sort= false, dupes= false;
+optionval.forEach(i=>{
+if (i=="a") sort= true;
+if (i=="a") dupes= true;			
+});
+//-------
+let select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let sing= selectAll("option", select("#singular"));
+let mult= selectAll("option", select("#singular"));
+
+if(sing[0].selected) bla bla
+if(mult[3].selected) bla bla
+
+
+//------------------------SORTING ARRAYS------------------------------
+function sortaz(str) {
+return str.split("\n").sort((a, b) => a.localeCompare(b)).join("\n");
+}
+
+output.value= sortaz(output.value);
+
+//------------------------Removing Duplicates------------------------------
+function remdupes(str){
+let a= str.split("\n"); // or given array
+let b= new Set(a);
+return [...b].join("\n");
+}
+
+//--------
+let oldArray= ["a",1,2,2,3,1];
+let uniqueArray= [...new Set(oldarray)]; //["a",1,2,3]
+
+
+//------------------------Bookmarklet------------------------------
+let code= javascript code;
+let url= url to javascript code;
+
+//Local bookmarklet
+javascript:(function(){${encodeURIComponent(code)}})();
+
+//Remote bookmarklet
+javascript:var%20q=document.createElement('script');q.src='${url}';document.body.appendChild(q);void%200;
+
+//------------------ARRAY MANIPULATION--------------------------
+let a= 'hey.this.is.a.test.lol-bye',
+    b= a.split('.'),  //creates array w. 6 elements
+    c= b[b.length-1], //element with index 5 (6-1)
+    d= b[b.length-4], //element with index 2 (6-4)
+    e= b.join('~');   //join elements w. seperator
+
+alert(d);
+
+/*------------
+To grab an element in an array:
+-Number the elements from right to left starting with 1
+-Then substract desired element('s number) from array.length
+-This will result in the index of the desired element
+
+Example: 
+let x= [hey,how,are,you];
+To get 'how' do x[x.length - number(how)] => x[4-3]--> x[1]
+
+---------------*/
+let oldone= [];
+
+let thisone= oldone.slice(1,5);
+//creates new array containing (4) elements from 'oldone' w. index 1,2,3,4
+
+let thisone= oldone.splice(1,5);
+//creates new array containing (5) elements from 'oldone' w. index 1,2,3,4,5           
+            
+/*-----
+Splice returns elements from given range [start, end] 
+Slice  returns elements from given ranhe [start, end) 
+** math notation  [ means included, ( means excluded**
+Splice modifies array, Slice doesn't modify the array.
+If no end value is entered, end = ∞ 
+(will stop at array.length, til last element in array)
+
+Use array.join('❌') to join arrays.
+Default separator in arrays are commas
+----------*/
+
+let oldone= ['hey', 'how', 'are', 'you'];
+let newone= old.slice(0,3);
+newone= newone.join('×'); //'hey×how×are'
+
+
+
+/*------------------DIGITS IN URLS--------------------------
+Observation:
+It seems like numbers/digits in URLs are viewed as strings and not numbers.
+So while using the strict equality operator, the numbers should be placed between quotes.
+Or the loose equality operator can be used which will automatically do the conversion.
+
+Example:
+if (d===1) will never result in true
+if (d==='1') can result in true
+if (d==1) can also result in true. 
+The loose equality operator converted 1 to a string
+
+assuming d is part of an URL------ */
+
+
+//------------------TIME AND DATE--------------------------
+//----Time
+function time(x="hm"){
+let a= new Date().toLocaleTimeString('en-US');
+let b= a.split(":");
+let h= b[0], m= b[1], s= b[2];
+if(x=="hm") return (h+":"+m+ s.match(/\D+/g)); 
+if(x=="hms") return (h+":"+m+":"+s); 
+};
+
+element.innerHTML= time;
+
+//----Date
+function datez(x="en-US"){
+let a= new Date();
+let b= {
+weekday: 'long',
+year: 'numeric',
+month: 'long',
+day: 'numeric'
+};
+
+return a.toLocaleDateString(x, b);
+};
+
+let lol1= datez();
+let lol2= datez("nl-NL");
+
+alert(lol1);
+
+
+//------------------JSON--------------------------
+JSON.stringify(obj);
+JSON.parse(obj);
+
+
+
+//------------------Fetch & Api--------------------------
+
+response.json() parses the response body text as JSON.
+This JSON is then used as input and parsed, producing an js *object*
+*
+
+let url= "https://type.fit/api/quotes";
+
+fetch(url)
+.then(response => response.json())
+.then(data => {
+let a= Math.floor(Math.random() * data.length);
+alert(data[a].text+ "~" + data[a].author);
+})
+
+
+//returns array with 1643 objects
+//each object contains text ans author peoperty and value
+
+
+//------------------LIST LINKS-------------------------
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let a= selectAll("a"),
+b= window.open(),
+c= create("textarea");
+c.style.cssText= `width: 100vw;
+min-height: 100vh;
+padding:5px;
+border:2px double blue;`;
+
+b.document.body.append(c);
+
+let ok= [...a].map(i=>{
+return i.textContent+" : "+ i.href;
+});
+
+c.value= ok.join("\n");
+
+
+
+//------------------FIND ELEMENTs-------------------------
+function findElements(elem, selector, filter) {
+let siblings= [],
+elem = elem.nextElementSibling;
+
+while (elem) {
+if (elem.matches(selector)) break;
+if (filter && !elem.matches(filter)) {
+elem = elem.nextElementSibling;
+continue;
+}
+siblings.push(elem);
+elem = elem.nextElementSibling;
+}
+
+return siblings;
+
+}
+
+//------------------ELEMENTs with certain text-------------------------
+function containsThis(selector,regex){
+let x= document.querySelectorAll(selector);
+return [...x].filter(e => e.childNodes && [...e.childNodes].find(n => n.nodeValue?.match(regex)))
+}
+
+let x= /regex/i
+let element= containsThis("div",x);
+
+//use *to search all elements 
+
+source: https://stackoverflow.com/questions/17799236/native-javascript-equivalent-of-jquery-contains-selector
+
+
+
+
+
+//------------------JSON NOTES-------------------------
+JSON.stringify(object,replacerfunction,space);
+
+Space=1=> beautified
+replacerfunction=> e.g array with all necessary keys ["key1","key2"] to be extracted
+
+Visualize: http://www.bodurov.com/JsonFormatter/
+
+
+
+------OBJECT (MERGE OBJECTS IN ARRAY)
+let headers= Object.assign({}, ...r.headers));
+
+GET TIME;
+function getTime(x){
+return new Date(x).toLocaleString('en-US',{
+hour: 'numeric',
+minute: 'numeric',
+hour12: true
+});
+}
