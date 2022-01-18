@@ -1,1 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+<title>CSS NOTES</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+min-width: 100vw; min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+table{
+border:1.5px solid black;		
+border-collapse: collapse;
+max-width: 100%;
+table-layout: fixed;
+caption-side: bottom;
+}
+ 
+th,td{
+padding: 2px;
+border:1px solid black;
+height: calc(1em + 5px);
+text-align: left;
+vertical-align: center;
+overflow: auto;
+}
+
+tr.kop > td{
+font-weight: bold;
+text-align: center;
+border-top: 2px solid green;
+border-bottom: 2px solid green;
+background:rgb(204, 255, 204);
+}
+
+caption, caption > a{
+text-align: right;
+font: bold 12px "Courier New";
+}
+
+
+
+
+@media (orientation:portrait){
+#container{
+width: 95%; height: auto;
+}
+body{background-size: 35%}		
+}	
+
+@media (orientation:landscape){
+#container{
+width: 75%; height: auto;
+}
+body{background-size: 50%}			
+}	
+
+</style>
+</head>
+<body>
+<div id="container">
+
+<table>
+<caption>Source: <a href="https://blog.natbat.net/post/46770156138/cssselectorreference">CSS pocketbook</a>
+</caption>
+
+
+<tr class="kop">
+<td>Simple selectors</td>
+<td></td>
+</tr>
+<tr>
+<td>universal selector, match any element</td>
+<td>*</td>
+</tr>
+<tr>
+<td>type (or element) selector</td>
+<td>E</td>
+</tr>
+<tr>
+<td>ID selector</td>
+<td>E#myid</td>
+</tr>
+<tr>
+<td>class selector</td>
+<td>E.myclass</td>
+</tr>
+
+
+<tr class="kop">
+<td>Combinators &amp; negation</td>
+<td></td>
+</tr>
+<tr>
+<td>F element, which is a descendant of an E element</td>
+<td>E F</td>
+</tr>
+<tr>
+<td>F element which is the direct child of an E element</td>
+<td>E &gt; F</td>
+</tr>
+<tr>
+<td>F element that is immediately preceded by an E element</td>
+<td>E + F</td>
+</tr>
+<tr>
+<td>F element preceded at some point by an E element</td>
+<td>E ~ F</td>
+</tr>
+<tr>
+<td>E element that does not match simple selector s</td>
+<td>E:not(s)</td>
+</tr>
+
+
+<tr class="kop">
+<td>Attribute selectors</td>
+<td></td>
+</tr>
+<tr>
+<td>E’s attribute foo, value is exactly equal to bar</td>
+<td>E[foo="bar"]</td>
+</tr>
+<tr>
+<td>E’s attribute foo, value is whitespace separated values, one of which is exactly "bar"</td>
+<td>E[foo~="bar"]</td>
+</tr>
+<tr>
+<td>E’s attribute foo, value begins exactly "bar"</td>
+<td>E[foo^="bar"]</td>
+</tr>
+<tr>
+<td>E’s attribute foo, value ends exactly "bar"</td>
+<td>E[foo$="bar"]</td>
+</tr>
+<tr>
+<td>E’s attribute foo, value contains substring "bar"</td>
+<td>E[foo*="bar"]</td>
+</tr>
+<tr>
+<td>E’s attribute foo has a hyphen-separated list of values beginning (from the left) with "en"</td>
+<td>E[foo|="en"]</td>
+</tr>
+
+<tr class="kop">
+<td>Structural pseudo-classes</td>
+<td></td>
+</tr>
+<tr>
+<td>an E element, first child of its parent</td>
+<td>E:first-child</td>
+</tr>
+<tr>
+<td>an E element, first sibling of its type</td>
+<td>E:first-of-type</td>
+</tr>
+<tr>
+<td>an E element, last child of its parent</td>
+<td>E:last-child</td>
+</tr>
+<tr>
+<td>an E element, last sibling of its type</td>
+<td>E:last-of-type</td>
+</tr>
+<tr>
+<td>an E element, only child of its parent</td>
+<td>E:only-child</td>
+</tr>
+<tr>
+<td>an E element, only sibling of its type</td>
+<td>E:only-of-type</td>
+</tr>
+<tr>
+<td>an E element that has no children (including text nodes)</td>
+<td>E:empty</td>
+</tr>
+<tr>
+<td>an E element, the n-th child of its parent</td>
+<td>E:nth-child(n)</td>
+</tr>
+<tr>
+<td>an E element, the n-th child of its parent, counting from the last one</td>
+<td>E:nth-last-child(n)</td>
+</tr>
+<tr>
+<td>an E element, the n-th sibling of its type</td>
+<td>E:nth-of-type(n)</td>
+</tr>
+<tr>
+<td>an E element, the n-th sibling of its type, counting from the last one</td>
+<td>E:nth-last-of-type(n)</td>
+</tr>
+<tr>
+<td>an E element that is the document root, i.e. html</td>
+<td>E:root</td>
+</tr>
+
+
+<tr class="kop">
+<td>Pseudo-classes</td>
+<td></td>
+</tr>
+<tr>
+<td>matches a link E when E is a link and not visited, hovered over focused on or active</td>
+<td>E:link</td>
+</tr>
+<tr>
+<td>the href target of the link E has been visited</td>
+<td>E:visited</td>
+</tr>
+<tr>
+<td>the link E has been activated</td>
+<td>E:active</td>
+</tr>
+<tr>
+<td>any element E when hovered over with a mouse</td>
+<td>E:hover</td>
+</tr>
+<tr>
+<td>the link or form control E when tabbed to with a keyboard</td>
+<td>E:focus</td>
+</tr>
+<tr>
+<td>element E is the fragment in the referring URI</td>
+<td>E:target</td>
+</tr>
+<tr>
+<td>an element of type E in language "fr"</td>
+<td>E:lang(fr)</td>
+</tr>
+
+
+<tr class="kop">
+<td >Forms &amp; Pseudo-Elements</td>
+<td></td>
+</tr>
+<tr>
+<td>a user interface element E which is enabled</td>
+<td>E:enabled</td>
+</tr>
+<tr>
+<td>a user interface element E which is disabled</td>
+<td>E:disabled</td>
+</tr>
+<tr>
+<td>a user interface element E which is checked</td>
+<td>E:checked</td>
+</tr>
+<tr>
+<td>the first formatted line of an E element</td>
+<td>E::first-line</td>
+</tr>
+<tr>
+<td>the first formatted letter of an E element</td>
+<td>E::first-letter</td>
+</tr>
+<tr>
+<td>generated content before an E element</td>
+<td>E::before</td>
+</tr>
+<tr>
+<td>generated content after an E element</td>
+<td>E::after</td>
+</tr>
+
+</table>
+							
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+</script>	
+</body>
+</html>
