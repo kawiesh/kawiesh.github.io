@@ -1,6 +1,4 @@
-<html>
-<body>
-<pre>
+
 TRUTHY FALSY
 
 Conditional/Ternary operator
@@ -658,10 +656,3 @@ minute: 'numeric',
 hour12: true
 });
 }
-</pre>
-<script>
-let pretag= document.querySelector("pre");
-pretag.innerHTML= new Option(pretag.innerHTML).innerHTML;
-</script>
-</body>
-</html>
