@@ -1,1 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RegEx Notes</title>
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap');
 
+body{
+font: 12px "Delius Swash Caps";				
+background:#800000; color:white;
+}
+code{
+background:#ffe6cc!important;
+}
+
+pre{ 
+max-width:100%; 
+margin-top:10px; 
+padding:5px;
+line-height: 2em;
+border: 2px solid #ffe6cc;
+overflow: auto;
+font-family: "Courier New";
+font-weight:bold;
+font-size:10px;
+}
+
+h4{margin-bottom:0;}				
+				
+</style>
+</head>
+<body>
+A regular expression (RegEx) consists of a pattern and optional flags. It's used to search through text.
+
+<pre> 
+In JavaScript there are 2 ways to use RegEx:
+1. Literal Syntax
+let regexp= /pattern/flags;
+Literal syntax is shorter, but it doesn't allow for expressions to be inserted (like string template literals).
+So only usable when you know the RegEx pattern beforehand (which is most of the time the case).
+
+2. RegExp object
+let regexp= new RegExp("pattern", "flags"); 
+RegEx via the RegExp object is used when you need to create a RegEx “on the fly” from a dynamically generated string
+</pre>
+
+<h4>Flags</h4>
+Flags are modifiers that affect the search.
+<pre>i- case-insensitive search
+g- global search (without it – only the first match is returned)
+m- multiline mode
+s- “dotall” mode (allows dot to match newline character \n)
+u- full unicode support.
+y- “sticky” mode (searching at the exact position in the text)
+</pre>
+
+<h4>Matching</h4>
+Syntax: str.match(regexp)<br>
+Finds all matches of regexp in the string str.
+<pre>let str = "We will, we will rock you"; 
+    str.match(/we/gi)  => [We,we]
+    str.match(/we/i)   => [We]
+    str.match(/xo/g)   => null
+</pre>
+
+<h4>Testing</h4>
+Syntax: regexp.test(str)<br>
+Returns a boolean. True if there's at least one match, otherwise false.
+<pre>let str = "We will, we will rock you"; 
+let regexp = /Rock/i;
+regexp.test(str)  => true
+</pre>
+
+<h4>Replacing</h4>
+Syntax: str.replace(regexp, replacement)<br>
+Replaces matches found using regexp in string str with replacement.
+<pre>let str = "We will, we will rock you"; 
+str.replace(/we/i, "I")  => I will, we will rock you
+str.replace(/we/ig, "I") => I will, I will rock you
+</pre>
+<br>
+You can use special character combinations in the replacement string to insert fragments of the match
+<pre>$& - inserts the whole match
+$` - inserts a part of the string before the match
+$' - inserts a part of the string after the match
+$n - if n is a 1-2 digit number, then it inserts the contents of n-th parentheses,
+$&lt;name&gt; - inserts the contents of the parentheses with the given name
+$$ - inserts character $
+
+let str= "I love HTML";
+    str.replace(/HTML/, "$& and JavaScript") => I love HTML and JavaScript
+</pre>
+
+<h4>Character classes</h4>
+A character class is a special notation that matches any symbol from a certain set.
+<pre>let str = "+7(903)-123-45-67"; 
+let regexp = /\d/
+str.match(regexp) => 7
+</pre>
+Without the flag g, the regular expression only looks for the first match, that is the first digit \d.
+Let’s add the g flag to find all digits:
+<pre>let str = "+7(903)-123-45-67";
+let regexp = /\d/g;
+
+str.match(regexp)          => [7,9,0,3,1,2,3,4,5,6,7]
+str.match(regexp).join('') => 79031234567
+</pre>
+Most used character classes:
+<pre>\d - digit: a character from 0 to 9
+\s - spaces (includes spaces, tabs \t, newlines \n and \v, \f, \r
+\w - letters of Latin alphabet, digit or an underscore _
+</pre>
+
+\d\s\w means a “digit” followed by a “space character” followed by a “word”<br>
+A regexp may contain both regular symbols and character classes.
+<pre>let str = "Is there CSS4?";
+let regexp = /CSS\d/ 
+
+str.match(regexp) => CSS4
+</pre>
+Also we can use many character classes:
+<pre>let str= "I love HTML5!";
+    str.match(/\s\w\w\w\w\d/) => HTML5
+</pre>
+
+<h4>Inverse classes</h4>
+For every character class there exists an “inverse class”, denoted with the same letter, but uppercased.
+The “inverse” means that it matches all other characters, for instance:
+<pre>\D - Non-digit: any character except \d, for instance a letter
+\S - Non-space: any character except \s, for instance a letter
+\W - Non-wordly character: anything but \w, e.g a non-latin letter or a space.
+</pre>
+<pre>let str = "+7(903)-123-45-67";
+    str.replace(/\D/g, "") => 79031234567
+</pre>
+<h4>Dot</h4>
+A dot can be used as a placeholder for “any character”
+It's a special character class that matches “any character except a newline”.
+<pre>let str= "Z";
+    str.match(/./) => Z
+</pre>
+<pre>let regexp = /CS.4/; 
+"CSS4".match(regexp) => CSS4
+
+"CS4".match(/CS.4/)  => null
+No match because there's no character  between S and 4
+</pre>
+Dot with “s” flag<br>
+By default, a dot doesn’t match the newline character \n.<br>
+For instance, the regexp A.B matches A, and then B with any character between them, except a newline \n:
+<pre>"A\nB".match(/A.B/)      => null
+"A\nB".match(/A.B/s)     => A\nB
+</pre>
+<h4>Matching any character</h4>
+<pre>"A\nB".match(/A[\s\S]B/) => A\nB 
+</pre>
+The pattern [\s\S] means “a space character OR not a space character”.<br>
+In other words: anything. You can use any pair of complementary classes, such as [\d\D]<br>
+	You can also use [^]. It means match any character except nothing.<br>
+We can also use this trick if we want both kind of “dots” in the same pattern;<br>
+	the actual dot . behaving the regular way (“not including a newline”)<br>
+		and also a way to match “any character” with [\s\S] or alike.
+
+<h4>Spaces matter!</h4>
+<pre>"1 - 5".match(/\d-\d/)     => null
+"1 - 5".match(/\d - \d/)   => 1 - 5
+"1 - 5".match(/\d\s-\s\d/) => 1 - 5
+</pre>				
+
+<h4>Anchors</h4>
+Anchors are tests. They do not match a character, but rather force the regexp engine to check the condition.
+<br>
+^ matches at the beginning of the text
+$ matches at the end of the text
+<pre>let str= "Mary had a little lamb";
+/^Mary/.test(str)      => true
+str.startswith("Mary") => true
+The pattern ^Mary means: “string start and then Mary”.
+
+let str= "it's fleece was white as snow";
+/snow$/.test(str)    => true
+str.endswith("snow") => true
+The pattern snow$ means: “snow, then string end”.
+</pre>
+<h4>Testing for a full match</h4>
+Both anchors together ^...$ are often used to test whether or not a string fully matches the pattern. 
+<pre>let goodInput = "12:34";
+let badInput = "12:345";
+let regexp = /^\d\d:\d\d$/;
+regexp.test(goodInput) => true
+regexp.test(badInput)  => false
+If there’s any deviation or extra characters between the anchors, the result is false.
+</pre>
+An empty string is the only match for /^$/ (It starts and immediately finishes).
+
+
+<h4>Multiline</h4>
+The multiline mode is enabled by the flag m.
+It only affects the behavior of ^ and $.<br><br>
+
+
+“Start of a line”
+<ul>
+<li>text start/beginning</li>
+<li>text immediately after a newline \n</li>
+</ul>
+<pre>let str = `1st place: Winnie
+2nd place: Piglet
+3rd place: Eeyore`;
+
+str.match(/^\d/g)  =>  1
+str.match(/^\d/gm) => [1, 2, 3]
+</pre>
+
+
+“End of a line”
+<ul>
+<li>text end<br></li>
+<li>text immediately followed by a newline \n</li>
+</ul>
+<pre>let str = `Winnie: 1
+Piglet: 2
+Eeyore: 3`;
+
+str.match(/\d$/g)  => 3
+str.match(/\d$/gm)  => [1,2,3]
+str.match(/\d\n/gm) => [1\n,2\n]
+</pre>
+
+
+<h4>Searching for \n</h4>
+To find a newline you can also use the newline character \n.<br>
+There are 2 matches instead of 3, because there’s no newline after 3.<br>
+Every match includes a newline character \n.<br><br>
+
+\n in the pattern is used when you need newline characters in the result,
+while anchors are used to find something at the beginning/end of a line.<br><br>
+
+
+<h4>Word boundary \b</h4>
+A word boundary \b is a test, just like ^ and $.<br>
+There are three different positions that qualify as word boundaries:
+<ul>
+<li>At string start, if the first string character is \w</li>
+<li>Between 2 characters, where one is \w and the other is not.</li>
+<li>At string end, if the last string character is \w.</li>
+</ul>
+<i>
+The desired string should be surrounded by characters different from \w,<br>
+such as spaces or punctuation (or text start/end).				
+</i>
+
+
+<pre>"Hello, Java!".match(/\bJava\b/) => Java
+"Hello, JavaScript!".match(/\bJava\b/) => null
+</pre>
+
+<pre>let str= "Hello, Java!";
+
+str.match(/\bHello\b/) => Hello
+str.match(/\bJava\b/)  => Java
+str.match(/\bHell\b/)  => null
+str.match(/\bJava!\b/) => null
+</pre>
+Note: For convenience see string/text start and end as non-worldy characters.<br>
+By that definition a boundary will only work when on one side of \b there's <br>
+	a worldy character and on the other side of \b there's a non-worldy character.<br>
+	\bJava!\b doesn't match because ! is non-worldy and string end is also non-worldly
+<pre>"1 23 456 78".match(/\b\d\d\b/g) => [23,78]
+"12,34,56".match(/\b\d\d\b/g)    => [12,34,56]
+</pre>
+
+<i>Note:</i>
+Word boundary \b doesn’t work for non-latin alphabet (\w only).
+
+<h4>Special characters</h4>
+Special characters are characters that have a special meaning in a RegEx.
+<br>
+These are the special characters:
+<pre>[ \ ^ $ . | ? * + ( )
+</pre>
+
+<h4>Escaping</h4>
+Special characters need to be escaped when included in a pattern.<br>
+Escaping is done by converting the character into a literal character, by prepending it with a backslash \
+
+<pre>"Chapter 5.1".match(/\d\.\d/) => 5.1
+"Chapter 511".match(/\d\.\d/) => null 
+511 is not a match because the dot in the patern is a literal dot 
+.\ means "." and not "any character"
+
+"function g()".match(/g\(\)/) => g()
+</pre>
+
+<i> Forward slash </i><br>
+<pre>"/".match(/\//) => /
+Forward slash needs to be escaped when it's used in literal RegEx notation
+
+"/".match(new RegExp("/")) => /
+Forward slash doesn't need to be escaped when used in RegExp object
+</pre>
+
+<i> Backslash </i><br>
+<pre>let regexp = new RegExp("\d\.\d");
+"Chapter 5.1".match(regexp) => null
+
+Backslashes are “consumed” by string quotes, so they need to be escaped when used in RegExp object 
+
+"\d\.\d"    is perceived as d.d
+"\\d\\.\\d" is perceived as \d\.\d
+
+let regStr= "\\d\\.\\d";
+let regexp = new RegExp(regStr);
+"Chapter 5.1".match(regexp) => 5.1
+</pre>
+When using the literal RegEx notation, backslashes also need to be escaped(in the test string) <br>
+because they are consumed by string quotes
+<pre>"1\\2".match(/\\/) => \				
+</pre>
+
+<h4>Sets</h4>
+Sets are group of characters inside [square brackets]<br>
+They can be used in RegEx along with regular characters.<br>
+
+
+<pre>let str= "Mop top";
+str.match(/[tm]op/gi) => [Mop,top]
+</pre>
+
+<i></i>A set simply means to "search for any (1) character in the brackets".</i>
+<pre>let str= "Voila";
+str.match(/V[oi]la/) => null
+
+Voila is not a match because in the pattern, there is place for only one character (either o or i) between V and l
+</pre>
+
+<h4>Ranges</h4>
+Square brackets may also contain character ranges.
+[a-z] is any letter from a to z<br>
+[0-5] is any digit from 0 to 5.<br><br>
+
+Multiple character ranges can be used inside one pair of square brackets. <br>
+For example: [0-9A-Fa-f]
+
+<pre>let str= "Exception 0xAF";
+str.match(/x[0-9A-F][0-9A-F]/g) => xAF
+
+[0-9A-F] has two ranges meaning find 
+a digit from 0-9 OR a letter from A-F.
+</pre>
+
+
+Character classes can also be used in [square brackets].<br>
+E.g. [\s\d] means “a space character or a digit”.
+
+<pre>Character classes are shorthands for certain character sets
+
+\d – is the same as [0-9]
+\w – is the same as [a-zA-Z0-9_]
+\s – is the same as [\t\n\v\f\r ]
+</pre>
+
+
+<h4>Excluding ranges</h4>
+Besides normal ranges, there are “excluding” ranges.<br>
+They are denoted by a ^ at the start and match any character except the given ones.
+
+<pre>[^aeyo] – any character except 'a', 'e', 'y' or 'o'
+[^0-9]  – any character except a digit (same as \D)
+[^\s]   – any non-space character (same as \S)
+</pre>
+
+<pre>let str= "<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c5a4a9aca6a0f4f085a2a8a4aca9eba6aaa8">[email&#160;protected]</a>";
+str.match(/[^\d\sA-Z]/gi) => [@,.]
+</pre>
+
+<h4>Escaping in […]</h4>
+<pre>] is ALWAYS escaped 
+- is ONLY escaped when it's between other characters
+^ is ONLY escaped when it's in the start
+. + ( ) are NEVER escaped 
+</pre>
+
+<pre>let regexp = /[-().^+]/g;
+let str= "1 + 2 - 3";
+str.match(regexp) => [+, -]
+</pre>
+
+Characters that don't need to be escaped can always be escaped<br>
+when you're not entirely sure. Escaping them won't have any effect.
+<pre>let regexp = /[\-\(\)\.\^\+]/g;
+let str= "1 + 2 - 3";
+str.match(regexp) => [+, -]
+</pre>
+
+<pre>let regexp= /Java[^script]/;
+let str1= "Java";
+let str2= "JavaScript";
+
+str1.match(regexp) => null
+str2.match(regexp) => JavaS
+</pre>
+
+<i>Looking for "Java" followed by 1 character that's not s,c,r,i,p OR t<br>
+In str1 there’s a string end after Java, so no match (5th spot is empty)<br>
+In str2 there’s a (capital) S after Java, so there's a match.</i>
+
+<pre>let regexp = /\d\d[-:]\d\d/g; 
+let str= "Breakfast at 09:00. Dinner at 21-30";
+str.match(regexp) => [09:00,21-30]
+</pre>
+
+<h4>Quantifiers</h4>
+
+
+Quantifiers are symbols that are inserted after (a group of) characters.<br>
+They specify how many of that character to look for (the quantity).<br>
+<pre>+, *, ? and {n}
+</pre>
+
+<h4>Quantity {n}</h4>
+The simplest quantifier is a number in curly braces: {n}.
+<br>
+
+<u>Exact quantity: {n}</u><br>
+Looks for n characters.
+
+<pre>let str= "I'm 12345678 years old";
+    str.match(/\d{5}/)     =>  [12345]
+    str.match(/\b\d{5}\b/) =>  null
+
+Boundaries \b are added to exclude results from longer numbers
+</pre>
+
+
+<u>Quantity range: {n,m}</u><br>
+Looks for minimum n and maximum m characters.
+<pre>let str= "I'm 12345678 years old";
+    str.match(/\d{3,5}/)   =>  [12345]
+</pre>
+
+
+<u>Minimum quantity: {n,}</u><br>
+Looks for n characters or more.
+<pre>let str= "I'm not 12, but 345678 years old";
+    str.match(/\d{3,}/)    =>  [345678]
+
+let str = "+7(903)-123-45-67";
+    str.match(/\d{1,}/g)   =>  [7,903,123,45,67]
+</pre>
+
+<u>Shorthands</u><br>
+There are shorthands for most used quantifiers:
+<pre>? means “zero or one”, the same as {0,1}
+* means “zero or more”, the same as {0,}
++ means “one or more”, the same as {1,}
+</pre>
+<pre>let str = "Should I write color or colour?";
+    str.match(/colou?r/g)   => [color, colour]    
+? makes the character before it optional.
+
+let str = "+7(903)-123-45-67";
+    str.match(/\d+/g)    => [7,903,123,45,67]
+
+let str= "100 10 1";
+    str.match(/\d0*/g)   => [100, 10, 1]
+    str.match(/\d0+/g)   => [100, 10]
+1 not matched because 0+ requires at least one zero
+</pre>
+
+<pre>let str= &quot;0 1 12.345 7890&quot;;
+    str.match(/\d+\.\d+/g)         =&gt; 12.345
+
+let str= &quot;&lt;body&gt; ... &lt;/body&gt;&quot;
+    str.match(/&lt;[a-z]+&gt;/gi)  =&gt; &lt;body&gt;
+
+The regex looks for'&lt;' followed by one or more Latin letters and ending with '&gt;'.
+
+let regexp= /&lt;[a-z][a-z0-9]*&gt;/gi;
+let str= &quot;&lt;h1&gt;Hi!&lt;/h1&gt;&quot;;
+    str.match(regexp) =&gt; &lt;h1&gt;
+
+let regexp= /&lt;\/?[a-z][a-z0-9]*&gt;/gi;
+let str= &quot;&lt;h1&gt;Hi!&lt;/h1&gt;&quot;;
+    str.match(regexp) =&gt; [&lt;h1&gt;,&lt;/h1&gt;]
+
+let regexp = /\.{3,}/g;
+let str= &quot;Hello!... How goes?.....&quot;;
+    str.match(regexp) =&gt; [...,.....]
+</pre>    
+<pre>let regexp = /#[a-f0-9]{6}/gi;
+let str1= "color:#121212; background-color:#AA00ef bad-colors:f#fddee #fd2 #12345678";
+let str2= "#12345678";
+    str2.match(regexp) => #123456
+    str1.match(regexp) => [#121212,#AA00ef,#123456]
+</pre>
+
+<i>It finds matches in longer strings. To fix that, add \b to the end:</i>
+<pre>let regexp= /#[a-f0-9]{6}\b/gi;
+let str1= "#123456";
+let str2= "#12345678"
+    str2.match(regexp) => null
+    str1.match(regexp) => #123456
+</pre>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+let pre= document.querySelectorAll("pre");
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
+pre.forEach(i=>{
+escapeHtml(i.innerHTML);
+i.innerHTML= "<code class='JavaScript'>"+i.innerHTML+"</code>";
+});
+</script>
+</body>
+</html>
