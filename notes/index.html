@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>GithubTree</title>
+<title>Notes</title>
 
 <style>				
 *{
@@ -199,16 +199,15 @@ let tree= select("#tree");
 
 
 let full= {
-"regex.html",
+"root": ["regex.html",
 "css.html",
 "tree.txt",
 "javascript.txt"
-}
-
+]
+};
 
 
 makeTree(full);
-
 
 function makeTree(obj){
 let list = {};
@@ -244,8 +243,6 @@ return `<a href="/${j}">${text}</a>`;
 
 
 
-
-
 //Create root folder and remove it from object
 createDetails("root", obj["root"]);
 let root= list["root"];
@@ -254,7 +251,6 @@ root.open= true;
 tree.innerHTML= "";
 tree.append(root);
 delete obj["root"];
-
 
 
 //Handle other folders
@@ -266,7 +262,6 @@ let klassname= i.split(">");
 createDetails(i,obj[i]);
 list[i].className= klassname.join(" ");
 select("summary",list[i]).innerHTML= klassname.pop();
-//list[i].style.marginLeft= "15px";
 }
 else{
 createDetails(i,obj[i]);
@@ -276,31 +271,29 @@ li.append(list[i]);
 select("ul",root).append(li);
 }
 
-
 }}
 
 
 for(let i in obj){
 if (obj.hasOwnProperty(i)){
+
 if(i.includes(">")){
 let hmm= i.split(">");
 
 for(let h=1; h<hmm.length; h++){
 let par= hmm.slice(0,h).join(">");
 let ch= hmm.slice(0,h+1).join(">");
-
 let li= create("li");
 li.append(list[ch]);
 select("ul",list[par]).append(li);
 }
 
 }
+
 }}
 
 
-}
-
-
+}//END OF MAKETREE
 </script>	
 </body>
 </html>
