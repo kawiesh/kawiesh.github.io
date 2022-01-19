@@ -130,52 +130,17 @@ select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 let tree= select("#tree");
+let list = {};
 
-
-let a= selectAll("input");
-let b= select("button");
-
-a[0].oninput=()=>{
-a[1].value= a[0].value + ".github.io";
+let full= {
+"root":[]
 };
 
-
-
-let full= {};
-function doit(x){
-let ok=[];
-fetch(x).then(r=>r.json())
-.then(d=>{
-d.forEach(i=>{
-if(i.type!="dir") ok.push(i.path);
-else doit(i.url);
-});
-
-let xp= ok[0].split("/").slice(0,-1).join(">");
-full[xp||"root"]= ok;
-
-});
-}
-
-
-b.onclick=()=>{
-full= {};
-let owner= a[0].value;
-let repo= a[1].value;
-let url= `https://api.github.com/repos/${owner}/${repo}/contents/?recursive=1`;
-doit(url);
-
-tree.innerHTML= "Loading....";
-
-setTimeout(()=>{
 makeTree(full);
-},3000);
-
-};
 
 
 function makeTree(obj){
-let list = {};
+list = {};
 
 function createDetails(name,arr){
 let det= create("details");
@@ -191,7 +156,6 @@ det.append(sum,ul);
 
 list[name]= det;
 };
-
 
 
 
