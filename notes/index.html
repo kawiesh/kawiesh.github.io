@@ -195,8 +195,9 @@ let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
-let tree= select("#tree");
 
+let tree= select("#tree");
+let list= {};
 
 let full= {
 "root": ["regex.html",
@@ -209,51 +210,34 @@ let full= {
 
 makeTree(full);
 
+
+//Main function----------------
 function makeTree(obj){
-let list = {};
+list= {};
 
-function createDetails(name,arr){
-let det= create("details");
-let sum= create("summary");
-sum.innerHTML= name;
-let ul= create("ul");
-arr.forEach(i=>{
-let li= create("li");
-li.innerHTML= i;
-ul.append(li);		
-});
-det.append(sum,ul);
+for(let i in obj){if(obj.hasOwnProperty(i)){
 
-list[name]= det;
-};
-
-
-
-
-
-for(let i in obj){
-if (obj.hasOwnProperty(i)){
 obj[i]= obj[i].map(j=>{
 let text= j.split("/");
 text= text[text.length-1];
-return `<a href="/${j}">${text}</a>`;
+return `<a href="${j}">${text}</a>`;
 });
-}
-}
+
+}}
 
 
-
-//Create root folder and remove it from object
+//Create root folder and remove it from object----------
 createDetails("root", obj["root"]);
+delete obj["root"];
 let root= list["root"];
-root.className= "root";
-root.open= true;
+    root.className= "root";
+    root.open= true;
+
 tree.innerHTML= "";
 tree.append(root);
-delete obj["root"];
 
 
-//Handle other folders
+//Handle other folders--------------
 for(let i in obj){
 if (obj.hasOwnProperty(i)){
 
@@ -274,26 +258,43 @@ select("ul",root).append(li);
 }}
 
 
-for(let i in obj){
-if (obj.hasOwnProperty(i)){
+for(let i in obj){if (obj.hasOwnProperty(i)){
 
 if(i.includes(">")){
-let hmm= i.split(">");
-
-for(let h=1; h<hmm.length; h++){
-let par= hmm.slice(0,h).join(">");
-let ch= hmm.slice(0,h+1).join(">");
-let li= create("li");
-li.append(list[ch]);
-select("ul",list[par]).append(li);
+let path= i.split(">");
+for(let h=1; h<path.length; h++){
+   let folder= path.slice(0,h).join(">");
+   let subfolder= path.slice(0,h+1).join(">");
+   let li= create("li");
+   li.append(list[subfolder]);
+   select("ul",list[folder]).append(li);
 }
 
 }
-
 }}
 
 
-}//END OF MAKETREE
+}
+
+
+
+//HELPER FUNCTIONS---------------
+function createDetails(name,arr){
+let details= create("details");
+let summary= create("summary");
+    summary.innerHTML= name;
+let ul= create("ul");
+arr.forEach(i=>{
+let li= create("li");
+    li.innerHTML= i;
+ul.append(li);		
+});
+
+details.append(summary,ul);
+list[name]= det;
+}
+
+
 </script>	
 </body>
 </html>
