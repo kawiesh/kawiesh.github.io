@@ -1,11 +1,23 @@
 <html>
-<body>
-<pre>
-TRUTHY FALSY
+<head>
+<style>
+textarea{
+width: 99vw;
+height: auto;
+}
 
+body{
+white-space: pre;
+}
+</style>
+</head>
+<body>
+TRUTHY FALSY
+<textarea>
 Conditional/Ternary operator
 Syntax=>  condition ? exprIfTrue : exprIfFalse
 Example=> (age>10) "old" ? "young"`
+</textarea>
 
 Falsy: value that is considered false when encountered in a Boolean context:
 0, null, NaN, undefined, empty string: ""
@@ -15,18 +27,21 @@ Truthy: anything but falsy
 If condition is true or truthy, do 1st expression else do 2nd expression
 
 
-
 //----------------------
 Logical OR operator
+<textarea>
 Syntax=> leftExpr || rightExpr
 Example=> let name= result || "Unknown";
+</textarea>
 
 If result is 0, null, NaN, undefined or an empty string: "  ", let name be "Unknown"
 
 //----------------------
 Nullish coalescing operator
+<textarea>
 Syntax=> leftExpr ?? rightExpr
 Example=> let name= result ?? "Unknown";
+</textarea>
 
 If result is null or undefined let name be "Unknown"
 Same as logical OR but if first operand is NaN, 0, or an empty string, it uses the value,
@@ -37,14 +52,17 @@ rather than taking the value of the 2nd operand
 How to select elements whose IDs contain a dot
 Dots are meant for classes so you need to escape them using backslash
 Example: <span id="my.span">hi</span>
-
+<textarea>
 CSS
 #my\.span{
 rules
 }
+<textarea>
 
 JavaScript
+<textarea>
 document.querySelector("#my\\.span")
+</textarea>
 Note: 2 backslashes because strings naturally consume backslashes
 
 
@@ -658,18 +676,9 @@ minute: 'numeric',
 hour12: true
 });
 }
-</pre>
-<script>
-function HtmlEncode(s){
-var el = document.createElement("div");
-el.innerText = el.textContent = s;
-s = el.innerHTML;
-return s;
-}
 
-let pre= document.querySelector("pre");
-pre.innerHTML= 
-HtmlEncode(pre.innerHTML);
+<script>
+
 </script>
 </body>
 </html>
