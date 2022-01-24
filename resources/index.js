@@ -190,13 +190,6 @@ let audiosrc=[
 ];
 
 
-				
-audio.src= "";
-audio.load(); audio.play();
-
-
-
-
 let stations= selectAll(".radio");
 
 stations.forEach(i=>{
@@ -204,8 +197,6 @@ let spanz= create("span");
 i.append(spanz);
 spanz.className= "icon";
 });
-
-
 
 
 
