@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="theme-color" content="#889bb3">
+<meta name="msapplication-navbutton-color" content="#889bb3">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+<title>Notepad</title>
+<style>
+/* Design inspired by predic8 GmbH http://www.predic8.de */
+
+*{
+box-sizing: border-box;
+margin: 0; padding:0;
+outline: none;
+}
+
+
+html,body{
+width: 100vw;
+overflow-x: hidden;
+}
+
+
+body{
+position: relative;
+background: url(/storage/emulated/0/ApkEditor/bg.png);
+color: #4c566c;
+font: normal 15px Arial;
+text-align: center;
+text-shadow: 0px 1px -1px #fff;
+-webkit-tap-highlight-color: transparent;
+}
+
+a{
+text-decoration: none;
+}
+
+a:hover{
+color: red;
+}
+
+a:visited{
+color: blue;
+}
+
+
+
+
+p{
+margin-top: 20px;
+}
+
+
+/*------UNORDERED LISTS-----------*/
+
+ul{
+list-style: none;
+margin: 0 10px;
+}
+
+li{
+background-color: white;
+border: 1px solid #ababab;
+text-align: left;
+color: black;
+font-weight: bold;
+margin-top: -1px;
+}
+
+
+
+li>*{
+display: inline-block;
+width: 90%;
+padding: 12px 10px;
+}
+
+
+
+
+li:first-child{
+-webkit-border-top-left-radius: 12px;
+-webkit-border-top-right-radius: 12px;
+}
+
+li:last-child {
+-webkit-border-bottom-left-radius: 12px;
+-webkit-border-bottom-right-radius: 12px;
+}
+
+
+/*------TOP BAR-----------*/
+#topbar{
+background-image: -webkit-gradient(linear, left top, left bottom, 
+from(#b4bfce), color-stop( 50%, #889bb3), color-stop(50%, #7f94b0), to(#6d83a1));
+border-bottom: 1px solid black;
+width: 100%;
+height: 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;		
+padding: 0 5px;		
+}
+
+#topbar>*{
+display: flex;
+justify-content: center;
+align-items: center;				
+}
+
+
+h1{
+font-size: 22px;
+text-shadow: 0px -1px 1px #000;
+color: white;
+}
+
+.button{
+-webkit-box-shadow: 0px -1px 1px #2f3740, 0px 1px 1px #bfcbdb;
+background-image: -webkit-gradient(linear, left top, left bottom, 
+from(#8aa1bf), color-stop( 50%, #5877a2), color-stop(50%, #476999), to(#4a6c9b));
+border: 1px solid #3e444c;
+-webkit-border-radius: 4px;
+z-index: 3;
+width: 30px;
+height: 30px;
+padding: 5px;
+color: white;
+}
+
+.button>svg{
+fill: white;
+width: 100%;
+height: 100%;				
+}
+
+
+#tools{
+left: 6px;
+}
+
+#settings{
+right: 6px;							
+}
+
+
+
+/*------SIDEBAR-----------*/
+.sidebar{
+position: absolute;
+width: 40%; height: 100%;
+top:0;
+z-index: 2;
+background: rgb(176,196,222,0.7);
+transition: .5s linear;
+border: 1px solid black;
+border-radius: 12px;
+}
+
+.sidebar.left{
+left:-45%;							
+}
+
+.sidebar.right{
+right:-45%;				
+}
+
+
+
+.sidebar.left.open{
+left: 0; 								
+}
+
+.sidebar.right.open{
+right: 0;								
+}
+
+.sidebar>h2:first-child{
+margin-top: 40px;							
+}
+
+h2{
+text-align: left;
+text-transform: lowercase;
+font: small-caps bold 18px Arial;
+margin: 12px 0 0 12px;
+}
+
+/*------MAIN BODY-----------*/
+#main{
+margin: 0 10px;	
+width: calc(100% - 20px);
+display: flex;
+flex-direction: column;				
+}
+
+#main h2{
+margin: 5px 0 0 0;
+}
+
+
+
+#title, #notepad{
+width: 100%;
+padding: 5px;	
+border: 1px solid black;			
+border-radius: 5px;
+}
+
+
+#title{
+font-weight: bold;
+height: 30px;		
+}
+
+#notepad{
+font-size: 18px;
+height: 600px;
+margin: 5px 0;		
+}
+
+.lastblock{
+display: flex;
+justify-content: space-between;							
+}
+
+#clear, #save{
+text-transform: lowercase;
+font: small-caps bold 15px Arial;
+width: 50px;
+padding: 2px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+
+
+
+
+.rs{
+background-color: white;
+border: 1px solid black;
+border-radius: 5px;
+width: calc(100% - 30px);
+padding: 5px;
+margin: 0 10px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.fontstyle.rs{
+justify-content: space-between;
+align-items: center;
+}
+
+.fontstyle.rs>div{
+display: flex;
+justify-content: flex-start;
+align-items: center;
+height: 20px;
+width: 100%;		
+}
+
+.cb{
+display: inline-block;
+height: 100%; width: 20px;
+border: 1px solid black;	
+border-radius: 2px;						
+}
+
+
+#increase, #decrease{
+width: 30px;
+height: 30px;
+cursor: pointer;								
+}
+
+.rs svg{
+width: 100%;
+height: 100%;
+stroke: .5;				
+}
+
+
+.hover{
+background: yellow;						
+}
+
+
+
+#fontfamily{
+width: 100%;
+height: 40px;						
+}
+
+
+#fontcolor, #bgcolor{
+width: 30px;
+height: 30px;								
+}
+
+#fontcolor + input,
+#bgcolor + input{
+width: calc(100% - 35px);				
+height: 30px;
+padding: 5px;			
+}
+
+
+
+#notepad.bold{ font-weight: bold;}
+#notepad.italic{ font-style: italic;	}
+
+
+#tools{
+visibility: hidden;				
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+<div id="topbar">
+  <div class="button fixed" id="tools">+</div>
+  <h1>Notepad</h1>
+  <div class="button fixed" id="settings">+</div>
+</div>
+
+
+<section id="main">
+
+<h2>Title</h2>
+<input type="text" id="title">
+<textarea id="notepad"></textarea>
+<div class="lastblock">
+  <div class="button" id="clear">Clear</div>
+  <div class="button" id="save">Save</div>
+</div>
+</section>
+
+<!-- LEFT SIDEBAR
+<div class="sidebar left fixed">
+<h2>Social</h2>
+<ul>
+<li><a href="https://twitter.com/Kawiesh">Twitter</a></li>
+<li><a href="https://youtube.com/c/Kawiesh">YouTube</a></li>
+<li><a href="https://t.me/Kawiesh">Telegram</a></li>
+</ul>
+
+
+<h2>Blog</h2>
+<ul>
+<li><a href="https://www.kawiesh.ga">kawiesh.ga</a></li>
+<li><a href="https://blog.kawiesh.ml">blog.kawiesh.ml</a></li>
+</ul>
+
+
+<h2>other</h2>
+<ul>
+<li><a href="https://github.com/Kawiesh">Github</a></li>
+<li><a href="https://pastebin.com/u/Kawiesh">Pastebin</a></li>
+</ul>
+
+
+<h2>Radio</h2>
+<ul>
+<li><span class="radio bollyhits">Bombay Beats</span></li>
+<li><span class="radio bollyhits">Bolly Hits</span></li>
+</ul>
+</div>
+-->
+
+<div class="sidebar right fixed">
+
+<h2>Font size</h2>
+<div class="fontsize rs">
+<div id="decrease">-</div>
+<div id="fontsize">18 px</div>
+<div id="increase">+</div>
+</div>
+
+<h2>Font family</h2>
+<div class="fontfamily rs">
+<select id="fontfamily">
+<option>Arial</option>
+<option>Cursive</option>
+<option>Courier New</option>
+</select>				
+</div>
+
+<h2>Font style</h2>
+<div class="fontstyle rs">
+<div><span class="bold cb"></span>&nbsp;Bold</div>
+<div><span class="italic cb"></span>&nbsp;Italic</div>
+</div>
+
+<h2>Font color</h2>
+<div class="fontcolor rs">
+<input type="color" id="fontcolor" value="#000000">
+<input type="text" value="#000000">
+</div>
+
+<h2>Background color</h2>
+<div class="bgcolor rs">
+<input type="color" id="bgcolor" value="#ffffff">
+<input type="text" value="#ffffff">
+</div>
+
+
+
+
+
+</div>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);				
+
+
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+
+
+let minus= `<svg viewBox="0 0 64 64">
+<path d="M2 26h60v12H2z"/>
+</svg>`;			
+					
+let plus= `	
+<svg viewBox="0 0 64 64">
+<path d="M38 26V2H26v24H2v12h24v24h12V38h24V26z"/>
+</svg>`;
+
+let decr= `<svg viewBox="0 0 16 16"><g fill="black">
+<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 
+1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 
+2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+<path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 
+1h-7A.5.5 0 0 1 4 8z"/></g>
+</svg>`;
+
+
+
+let incr= `<svg viewBox="0 0 16 16"><g fill="black">
+<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 
+1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 
+2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 
+0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></g>
+</svg>`;
+
+
+let decrease= select("#decrease"),
+increase= select("#increase"),
+fontsize= select("#fontsize");
+
+
+decrease.innerHTML= decr;
+increase.innerHTML= incr;
+
+
+				
+let buttons= selectAll(".button.fixed");
+let sidebars= selectAll(".sidebar");
+
+
+//addEvent(buttons[0],sidebars[0]);
+addEvent(buttons[1],sidebars[0]);
+
+
+function addEvent(button,sidebar){
+button.onclick= function(){
+sidebar.classList.toggle("open");
+if(sidebar.classList.contains("open")){
+blur4me("3px","none",[button,sidebar]);
+this.innerHTML= "-";	
+this.innerHTML= minus;	
+}
+else{
+blur4me("0","auto",[button,sidebar]);
+this.innerHTML= "+";
+this.innerHTML= plus;
+}							
+};
+
+							
+				
+}//End
+
+
+
+
+
+function blur4me(x,y,z){
+selectAll("body>*:not(#topbar)").forEach(i=>{
+i.style.filter= `blur(${x})`;
+i.style.pointerEvents= y;
+});
+
+
+selectAll("#topbar>*").forEach(i=>{
+i.style.filter= `blur(${x})`;
+i.style.pointerEvents= y;							
+});
+
+z.forEach(i=>{
+i.style.filter= "blur(0)";
+i.style.pointerEvents= "auto";
+});
+
+}
+					
+				
+buttons.forEach(i=>{				
+i.innerHTML= plus;				
+});
+
+
+let
+title= select("#title"),
+notepad= select("#notepad"),
+clear= select("#clear"),
+save= select("#save");
+
+
+clear.onclick=()=>{
+notepad.value= "";				
+};
+
+
+save.onclick=()=>{
+let a= notepad.value.replace(/\n/g, "\r\n"),
+b= new Blob([a], { type: "text/plain"}),
+c= create("a");
+c.download= title.value||"My note" + ".txt";
+c.href= window.URL.createObjectURL(b);
+c.target="_blank";
+c.style.display = "none";
+document.body.append(c);
+c.click(); c.remove();
+};
+
+
+let _fontsize= 18;
+function adjustFont(x){
+if(_fontsize < 6) _fontsize= 6;
+_fontsize= _fontsize + x;
+fontsize.innerHTML= _fontsize + " px";
+notepad.style.fontSize= _fontsize+"px";				
+}
+
+
+
+
+
+
+
+
+let _timer;
+
+decrease.ontouchstart= function(e){
+this.classList.add("hover");
+_timer= setInterval(()=>{
+adjustFont(-1);
+}, 50);
+return false;
+};
+
+
+increase.ontouchstart= function(e){
+this.classList.add("hover");
+_timer= setInterval(()=>{
+adjustFont(1);
+}, 50);
+return false;
+};
+
+
+document.body.ontouchend=()=>{
+increase.classList.remove("hover");
+decrease.classList.remove("hover");
+clearInterval(_timer);
+//return false;
+};
+
+
+
+
+function checkBox(el,cl){
+select(el).onclick= function(){
+notepad.classList.toggle(cl);
+this.style.background=
+notepad.classList.contains(cl) ? "#8aa1bf" : "white";
+};
+}
+
+
+
+checkBox(".bold.cb", "bold")
+checkBox(".italic.cb", "italic")
+
+
+select("#fontfamily").onchange= function(){
+let a= this.options[this.selectedIndex].innerHTML;
+notepad.style.fontFamily= a;						
+};
+
+
+let fontcolor= select("#fontcolor");
+let bgcolor= select("#bgcolor");
+let _fontcolor= fontcolor.nextElementSibling;
+let _bgcolor= bgcolor.nextElementSibling;
+
+function changeColors(a,b){
+notepad.style.color= 	a;
+notepad.style.background= b;	
+}
+
+fontcolor.oninput= function(){
+_fontcolor.value= this.value;
+changeColors(fontcolor.value, bgcolor.value);
+};
+
+
+bgcolor.oninput= function(){
+_bgcolor.value= this.value;
+changeColors(fontcolor.value, bgcolor.value);
+};
+
+
+
+
+
+_fontcolor.oninput= function(){
+changeColors(_fontcolor.value, _bgcolor.value);
+}
+
+_bgcolor.oninput= function(){
+changeColors(_fontcolor.value, _bgcolor.value);
+}
+
+
+
+</script>
+
+</body>
+</html>
