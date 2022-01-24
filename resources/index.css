@@ -18,7 +18,7 @@ body{
 position: relative;
 background: url(/resources/bg.png);
 color: #4c566c;
-font: normal 15px Arial;
+font: normal 12px Arial;
 text-align: center;
 text-shadow: 0px 1px -1px #fff;
 -webkit-tap-highlight-color: transparent;
@@ -41,7 +41,7 @@ color: #2374ab;
 h2{
 text-align: left;
 text-transform: lowercase;
-font: small-caps bold 18px Arial;
+font: small-caps bold 16px Arial;
 margin: 10px 0 0 12px;
 }
 
@@ -109,7 +109,7 @@ align-items: center;
 
 
 h1{
-font-size: 22px;
+font-size: 20px;
 text-shadow: 0px -1px 1px #000;
 color: white;
 }
