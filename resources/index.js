@@ -112,7 +112,10 @@ let github= `<svg viewBox="0 0 24 24" style="-ms-transform: rotate(360deg); -web
 
 let dead = `<svg viewBox="0 0 512 512"><path fill="gray" d="M256 16C123.452 16 16 123.452 16 256s107.452 240 240 240s240-107.452 240-240S388.548 16 256 16zm147.078 387.078a207.253 207.253 0 1 1 44.589-66.125a207.332 207.332 0 0 1-44.589 66.125z"/><path fill="gray" d="M168 320h176v32H168z"/><path fill="gray" d="M210.63 228.042l-24.042-21.371l21.37-24.041l-23.916-21.26l-21.371 24.042l-24.041-21.37l-21.26 23.916l24.042 21.371l-21.37 24.041l23.916 21.26l21.371-24.042l24.041 21.37l21.26-23.916z"/><path fill="gray" d="M383.958 182.63l-23.916-21.26l-21.371 24.042l-24.041-21.37l-21.26 23.916l24.042 21.371l-21.37 24.041l23.916 21.26l21.371-24.042l24.041 21.37l21.26-23.916l-24.042-21.371l21.37-24.041z"/></svg>`;
 
-let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,table,html,lister,bm,folder,dead,dead,dead,dead];
+
+
+
+let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,blog,table,html,lister,bm,folder,dead,dead,dead,dead];
 
 let selectors=`.sidebar a[href*=twitter]
 .sidebar a[href*=youtube]
@@ -124,6 +127,7 @@ let selectors=`.sidebar a[href*=twitter]
 .sidebar a[href="http://kawiesh.tk"]
 .sidebar a[href="https://kawiesh.ml"]
 .texttools a[href*=text]
+.othertools a[href*=notepad]
 .othertools a[href*=table]
 .othertools a[href*=html-editor]
 .othertools a[href*=lister]
