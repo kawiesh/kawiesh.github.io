@@ -651,6 +651,23 @@ changeColors(_fontcolor.value, _bgcolor.value);
 
 
 
+//STORE DATA TO LOCAL STORAGE
+
+title.value= localStorage.titlevalue || "";
+notepad.value= localStorage.notepadvalue || "";
+
+let obu = false;
+window.onunload = window.onbeforeunload= function(){
+if(!obu){
+obu= true;
+localStorage.removeItem("titlevalue");
+localStorage.removeItem("notepadvalue");
+
+localStorage.titlevalue= title.value;
+localStorage.notepadvalue= notepad.value;
+}
+};
+
 </script>
 
 </body>
