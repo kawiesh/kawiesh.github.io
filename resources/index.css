@@ -157,12 +157,16 @@ border-radius: 12px;
 
 .sidebar.left{
 top:0;
-left:-55%;							
+left:-55%;
+border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;							
 }
 
 .sidebar.right{
 top:0;
-right:-55%;				
+right:-55%;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;			
 }
 
 
