@@ -16,7 +16,7 @@ overflow-x: hidden;
 
 body{
 position: relative;
-background: url(/storage/emulated/0/ApkEditor/bg.png);
+background: url(/resources/bg.png);
 color: #4c566c;
 font: normal 15px Arial;
 text-align: center;
