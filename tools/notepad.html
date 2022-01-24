@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="theme-color" content="#889bb3">
-<meta name="msapplication-navbutton-color" content="#889bb3">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta charset="UTF-8">
+<meta name="description" content="Simple notepad with clipboard and option to save note as txt file!"/>
+<meta name="keywords" content="kawiesh, Notepad, txt file, txt"/>
+<meta name="author" content="Kawiesh"/>
 
+<meta name="theme-color" content="#889bb3">
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="#889bb3"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="msapplication-config" content="/resources/favicon/browserconfig.xml">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon/favicon-16x16.png">
+<link rel="manifest" href="/resources/favicon/site.webmanifest">
+<link rel="mask-icon" href="/resources/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/resources/favicon/favicon1.ico">
 <title>Notepad</title>
+
 <style>
 /* Design inspired by predic8 GmbH http://www.predic8.de */
 
@@ -33,64 +47,6 @@ text-align: center;
 text-shadow: 0px 1px -1px #fff;
 -webkit-tap-highlight-color: transparent;
 }
-
-a{
-text-decoration: none;
-}
-
-a:hover{
-color: red;
-}
-
-a:visited{
-color: blue;
-}
-
-
-
-
-p{
-margin-top: 20px;
-}
-
-
-/*------UNORDERED LISTS-----------*/
-
-ul{
-list-style: none;
-margin: 0 10px;
-}
-
-li{
-background-color: white;
-border: 1px solid #ababab;
-text-align: left;
-color: black;
-font-weight: bold;
-margin-top: -1px;
-}
-
-
-
-li>*{
-display: inline-block;
-width: 90%;
-padding: 12px 10px;
-}
-
-
-
-
-li:first-child{
--webkit-border-top-left-radius: 12px;
--webkit-border-top-right-radius: 12px;
-}
-
-li:last-child {
--webkit-border-bottom-left-radius: 12px;
--webkit-border-bottom-right-radius: 12px;
-}
-
 
 /*------TOP BAR-----------*/
 #topbar{
@@ -365,16 +321,7 @@ padding: 5px;
 #notepad.bold{ font-weight: bold;}
 #notepad.italic{ font-style: italic;	}
 
-
-
-
-
-
-
 </style>
-
-
-
 </head>
 <body>
 
