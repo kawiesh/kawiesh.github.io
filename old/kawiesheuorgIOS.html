@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Here are some tools I created with my limited set of skills and knowledge. - Kawiesh."/>
+<meta name="keywords" content="kawiesh, HTML, CSS, JavaScript, Kawiesh, Tools"/>
+<meta name="author" content="Kawiesh"/>
+
+<meta name="theme-color" content="#889bb3">
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="#889bb3"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="msapplication-config" content="/resources/favicon/browserconfig.xml">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon/favicon-16x16.png">
+<link rel="manifest" href="/resources/favicon/site.webmanifest">
+<link rel="mask-icon" href="/resources/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/resources/favicon/favicon1.ico">
+
+<title>Kawiesh | Krishan</title>
+
+<style>
+/* Design inspired by predic8 GmbH http://www.predic8.de */
+
+*{
+box-sizing: border-box;
+margin: 0; padding:0;
+outline: none;
+}
+
+
+html,body{
+width: 100vw;
+overflow-x: hidden;
+}
+
+
+body{
+position: relative;
+background: url(/resources/bg.png);
+color: #4c566c;
+font: normal 15px Arial;
+text-align: center;
+text-shadow: 0px 1px -1px #fff;
+-webkit-tap-highlight-color: transparent;
+}
+
+a{
+text-decoration: none;
+}
+
+a:hover{
+color: red;
+}
+
+a:visited{
+color: blue;
+}
+
+
+h2{
+text-align: left;
+text-transform: lowercase;
+font: small-caps bold 18px Arial;
+margin: 10px 0 0 12px;
+}
+
+p{
+margin-top: 20px;
+}
+
+
+ul{
+list-style: none;
+margin: 0 10px;
+}
+
+li{
+background-color: white;
+border: 1px solid #ababab;
+text-align: left;
+color: black;
+font-weight: bold;
+margin-top: -1px;
+}
+
+
+li>*{
+display: inline-block;
+width: 90%;
+padding: 12px 10px;
+}
+
+
+li:hover{
+background: rgb(220,220,250);
+}
+
+li:first-child{
+-webkit-border-top-left-radius: 12px;
+-webkit-border-top-right-radius: 12px;
+}
+
+li:last-child {
+-webkit-border-bottom-left-radius: 12px;
+-webkit-border-bottom-right-radius: 12px;
+}
+
+
+#topbar{
+background-image: -webkit-gradient(linear, left top, left bottom, 
+from(#b4bfce), color-stop( 50%, #889bb3), color-stop(50%, #7f94b0), to(#6d83a1));
+border-bottom: 1px solid black;
+width: 100%;
+height: 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;		
+padding: 0 5px;		
+}
+
+#topbar>*{
+display: flex;
+justify-content: center;
+align-items: center;				
+}
+
+
+h1{
+font-size: 22px;
+text-shadow: 0px -1px 1px #000;
+color: white;
+}
+
+.button{
+-webkit-box-shadow: 0px -1px 1px #2f3740, 0px 1px 1px #bfcbdb;
+background-image: -webkit-gradient(linear, left top, left bottom, 
+from(#8aa1bf), color-stop( 50%, #5877a2), color-stop(50%, #476999), to(#4a6c9b));
+border: 1px solid #3e444c;
+-webkit-border-radius: 4px;
+z-index: 3;
+width: 30px;
+height: 30px;
+padding: 5px;
+color: white;
+}
+
+.button>svg{
+fill: white;
+width: 100%;
+height: 100%;				
+}
+
+
+.button.left{
+left: 6px;
+}
+
+.button.right{
+right: 6px;							
+}
+
+
+
+
+.sidebar{
+position: absolute;
+width: 40%; height: 100%;
+top:0;
+z-index: 2;
+background: rgb(176,196,222,0.7);
+transition: .5s linear;
+border: 1px solid black;
+border-radius: 12px;
+}
+
+.sidebar.left{
+left:-45%;							
+}
+
+.sidebar.right{
+right:-45%;				
+}
+
+
+
+.sidebar.left.open{
+left: 0; 								
+}
+
+.sidebar.right.open{
+right: 0;								
+}
+
+.sidebar>h2:first-child{
+margin-top: 40px;							
+}
+
+
+
+
+		
+</style>
+
+
+
+</head>
+<body>
+<section id="topbar">
+<div class="button left fixed">+</div>
+<h1>Kawiesh | Krishan</h1>
+<div class="button right fixed">+</div>
+</section>
+
+<section>
+<div class="texttools">
+<h2>Text Tools</h2>
+<ul>
+<li><a href="/tools/text-extractor.html">Text Extractor</a></li>
+<li><a href="/tools/text-merger.html">Text Merger</a></li>
+<li><a href="/tools/text-modifier.html">Text Modifier</a></li>
+<li><a href="/tools/text-numbering.html">Text Numbering</a></li>
+<li><a href="/tools/text-replacer.html">Text Replacer</a></li>
+</ul>
+</div>
+
+<div class="othertools">
+<h2>Other Tools</h2>
+<ul>
+<li><a href="/tools/bookmarklet-maker.html">Bookmarklet Maker</a></li>
+<li><a href="/tools/html-editor.html">HTML Editor</a></li>
+<li><a href="/tools/link-lister.html">Link Lister</a></li>
+<li><a href="/tools/table-generator.html">Table Generator</a></li>
+</ul>
+</div>
+
+
+<div class="other">
+<h2>Other</h2>
+<ul>
+<li><a href="/lyrics/">Lyrics</a></li>
+<li><a href="/notes/">Notes</a></li>
+<li><a href="/old/">Old Files</a></li>
+</ul>
+</div>
+
+<p>&copy; Kawiesh | 
+<a href="/about.html">About</a> | 
+<a href="/sitemap.html">Sitemap</a>
+</p>
+</section>
+
+<div class="sidebar left fixed">
+<h2>Social</h2>
+<ul>
+<li><a href="https://twitter.com/Kawiesh">Twitter</a></li>
+<li><a href="https://youtube.com/c/Kawiesh">YouTube</a></li>
+<li><a href="https://t.me/Kawiesh">Telegram</a></li>
+</ul>
+
+
+<h2>Blog</h2>
+<ul>
+<li><a href="https://www.kawiesh.ga">kawiesh.ga</a></li>
+<li><a href="https://blog.kawiesh.ml">blog.kawiesh.ml</a></li>
+</ul>
+
+
+<h2>other</h2>
+<ul>
+<li><a href="https://github.com/Kawiesh">Github</a></li>
+<li><a href="https://pastebin.com/u/Kawiesh">Pastebin</a></li>
+</ul>
+
+
+<h2>Radio</h2>
+<ul>
+<li><span class="radio bollyhits">Bombay Beats</span></li>
+<li><span class="radio bollyhits">Bolly Hits</span></li>
+</ul>
+</div>
+
+<div class="sidebar right fixed">
+<h2>Active sites</h2>
+<ul>
+<li><a href="http://kawiesh.tk">kawiesh.tk</a></li>
+<li><a href="https://kawiesh.ml">kawiesh.ml</a></li>
+</ul>
+
+<h2>Idle sites</h2>
+<ul>
+<li><a href="http://kawiesh.cf">kawiesh.cf</a></li>
+<li><a href="https://krishan.gq">krishan.gq</a></li>
+<li><a href="https://kawiesh.uk.to">kawiesh.uk.to</a></li>
+<li><a href="https://krishan.eu.org">krishan.eu.org</a></li>
+</ul>
+
+</div>
+
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);				
+
+
+selectAll("body *").forEach(i=>{
+i.dataset.nosnippet= "";
+});
+
+
+
+let minus= `<svg viewBox="0 0 64 64">
+<path d="M2 26h60v12H2z"/>
+</svg>`;			
+					
+let plus= `	
+<svg viewBox="0 0 64 64">
+<path d="M38 26V2H26v24H2v12h24v24h12V38h24V26z"/>
+</svg>`;
+
+
+
+				
+let buttons= selectAll(".button");
+let sidebars= selectAll(".sidebar");
+
+
+addEvent(buttons[0],sidebars[0]);
+addEvent(buttons[1],sidebars[1]);
+
+
+function addEvent(button,sidebar){
+button.onclick= function(){
+sidebar.classList.toggle("open");
+if(sidebar.classList.contains("open")){
+blur4me("3px","none",[button,sidebar]);
+this.innerHTML= "-";	
+this.innerHTML= minus;	
+}
+else{
+blur4me("0","auto",[button,sidebar]);
+this.innerHTML= "+";
+this.innerHTML= plus;
+}							
+};
+
+							
+				
+}//End
+
+
+
+
+
+function blur4me(x,y,z){
+selectAll("body>*:not(#topbar)").forEach(i=>{
+i.style.filter= `blur(${x})`;
+i.style.pointerEvents= y;
+});
+
+
+selectAll("#topbar>*").forEach(i=>{
+i.style.filter= `blur(${x})`;
+i.style.pointerEvents= y;							
+});
+
+z.forEach(i=>{
+i.style.filter= "blur(0)";
+i.style.pointerEvents= "auto";
+});
+
+}
+					
+					
+
+
+buttons.forEach(i=>{				
+i.innerHTML= plus;				
+});
+
+				
+</script>
+
+</body>
+</html>
+         
