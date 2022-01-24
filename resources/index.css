@@ -25,6 +25,7 @@ text-shadow: 0px 1px -1px #fff;
 }
 
 a{
+color: #2374ab;
 text-decoration: none;
 }
 
@@ -33,7 +34,7 @@ color: red;
 }
 
 a:visited{
-color: blue;
+color: #2374ab;
 }
 
 
