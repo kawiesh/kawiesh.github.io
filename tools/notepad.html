@@ -138,16 +138,20 @@ left: 0;
 right: 0;								
 }
 
-.sidebar>h2:first-child{
-margin-top: 40px;							
-}
+
+
 
 h2{
 text-align: left;
 text-transform: lowercase;
-font: small-caps bold 18px Arial;
+font: small-caps bold 14px Arial;
 margin: 12px 0 0 12px;
 }
+
+#main h2{ margin: 5px 0 0 0; }
+.sidebar>h2:first-child{ margin-top: 40px;}
+
+
 
 /*------MAIN BODY-----------*/
 #main{
@@ -157,10 +161,7 @@ display: flex;
 flex-direction: column;				
 }
 
-#main h2{
-font-size: 12px;
-margin: 5px 0 0 0;
-}
+
 
 
 
@@ -184,6 +185,7 @@ margin: 5px 0;
 }
 
 .lastblock{
+margin-bottom: 10px;
 display: flex;
 justify-content: space-between;							
 }
@@ -384,7 +386,9 @@ into the notepad field
 <select id="fontfamily">
 <option>Arial</option>
 <option>Cursive</option>
+<option>Georgia</option>
 <option>Courier New</option>
+<option>Times New Roman</option>
 </select>				
 </div>
 
