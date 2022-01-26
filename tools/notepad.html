@@ -683,7 +683,7 @@ checkBoxCB(".unlocked.cb",".locked.cb",false);
 
 
 /*__________________________________________________*/
-let savedData= localStorage["_score"];
+let savedData= localStorage.getItem("_score");
 
 if(savedData){
 savedData= JSON.parse(savedData);
