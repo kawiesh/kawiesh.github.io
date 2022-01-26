@@ -20,7 +20,7 @@ align-items: center;
 text-align: center;
 font: 12px 'Delius', cursive;
 border: 1em solid;
-border-image: url("/lyrics/resources/border.png") 150;
+border-image: url("/resources/goldborder.png") 150;
 margin: 0 10% 10px 10%;
 }	
 
