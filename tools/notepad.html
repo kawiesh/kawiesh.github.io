@@ -377,7 +377,7 @@ into the notepad field
 <h2>Font size</h2>
 <div class="fontsize rs">
 <div id="decrease">-</div>
-<div id="fontsize">18 px</div>
+<div id="fontsize">15 px</div>
 <div id="increase">+</div>
 </div>
 
@@ -682,32 +682,51 @@ checkBoxCB(".unlocked.cb",".locked.cb",false);
 
 
 
+/*__________________________________________________*/
+let savedData= localStorage["_score"];
 
-/*________________________________________________*/
-title.value= localStorage.titlevalue || "";
-notepad.value= localStorage.notepadvalue || "";
-textareas[0].value= localStorage.ta0value || "";
-textareas[1].value= localStorage.ta1value || "";
-textareas[2].value= localStorage.ta2value || "";
+if(savedData){
+savedData= JSON.parse(savedData);
+title.value= savedData["_title"] || "";
+notepad.value= savedData["_notepad"] || "";
+textareas[0].value= savedData["_field0"] || "";
+textareas[1].value= savedData["_field1"] || "";
+textareas[2].value= savedData["_field2"] || "";
+title.style.color= savedData["_color"] || "#000000";
+notepad.style.color= savedData["_color"] || "#000000";
+title.style.background= savedData["_bgcolor"] || "#ffffff";
+notepad.style.background= savedData["_bgcolor"] || "#ffffff";
+notepad.style.fontSize= savedData["_size"] || "15px";
+notepad.classList= savedData["_style"] || "";
+notepad.style.fontFamily= savedData["_family"] || "Arial";
+}
+
 
 let obu = false;
 window.onunload = window.onbeforeunload= function(){
 if(!obu){
 obu= true;
-localStorage.removeItem("titlevalue");
-localStorage.removeItem("notepadvalue");
-localStorage.removeItem("ta0value");
-localStorage.removeItem("ta1value");
-localStorage.removeItem("ta2value");
 
-localStorage.titlevalue= title.value;
-localStorage.notepadvalue= notepad.value;
-localStorage.ta0value= textareas[0].value;
-localStorage.ta1value= textareas[1].value;
-localStorage.ta2value= textareas[2].value
+let _store= {
+_title : title.value,
+_notepad : notepad.value,
+_field0 : textareas[0].value,
+_field1 : textareas[1].value,
+_field2 : textareas[2].value,
+_color : notepad.style.color,
+_bgcolor : notepad.style.background,
+_size : notepad.style.fontSize,
+_style : notepad.classList,
+_family : notepad.style.fontFamily
+};
 
+
+localStorage.removeItem("_store");
+localStorage.setItem("_store", JSON.stringify(_store));
 }
 };
+
+
 
 </script>
 
