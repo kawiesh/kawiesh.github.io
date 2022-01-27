@@ -338,8 +338,8 @@ padding: 5px;
 <section id="main">
 
 <h2>Title</h2>
-<input type="text" id="title" style="color: #000000; background: #ffffff">
-<textarea id="notepad" style="color: #000000; background: #ffffff"></textarea>
+<input type="text" id="title">
+<textarea id="notepad"></textarea>
 <div class="lastblock">
   <div class="button" id="clear">Clear</div>
   <div class="button" id="save">Save</div>
@@ -694,12 +694,12 @@ notepad.value= savedData["_notepad"] || "";
 textareas[0].value= savedData["_field0"] || "";
 textareas[1].value= savedData["_field1"] || "";
 textareas[2].value= savedData["_field2"] || "";
-fontcolor.value= savedData["_color"] || "#000000";
-_fontcolor.value= savedData["_color"] || "#000000";
+//fontcolor.value= savedData["_color"] || "#000000";
+//_fontcolor.value= savedData["_color"] || "#000000";
 title.style.color= savedData["_color"] || "#000000";
 notepad.style.color= savedData["_color"] || "#000000";
-bgcolor.value= savedData["_bgcolor"] || "#ffffff";
-_bgcolor.value= savedData["_bcolor"] || "#ffffff";
+//bgcolor.value= savedData["_bgcolor"] || "#ffffff";
+//_bgcolor.value= savedData["_bcolor"] || "#ffffff";
 title.style.background= savedData["_bgcolor"] || "#ffffff";
 notepad.style.background= savedData["_bgcolor"] || "#ffffff";
 notepad.style.fontSize= savedData["_size"] || "15px";
