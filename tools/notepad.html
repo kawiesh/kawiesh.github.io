@@ -703,7 +703,7 @@ notepad.style.color= savedData["_color"] || "#000000";
 title.style.background= savedData["_bgcolor"] || "#ffffff";
 notepad.style.background= savedData["_bgcolor"] || "#ffffff";
 notepad.style.fontSize= savedData["_size"] || "15px";
-notepad.classList= savedData["_style"] || "";
+notepad.className= savedData["_style"] || "";
 notepad.style.fontFamily= savedData["_family"] || "Arial";
 }
 
@@ -722,7 +722,7 @@ _field2 : textareas[2].value,
 _color : notepad.style.color,
 _bgcolor : notepad.style.background,
 _size : notepad.style.fontSize,
-_style : notepad.classList,
+_style : [...notepad.className].join(" "),
 _family : notepad.style.fontFamily
 };
 
