@@ -695,8 +695,9 @@ notepad.className= savedData["_style"] || "";
 notepad.style.fontFamily= savedData["_family"] || "Arial";
 }
 
-
 function checkBox(el,cl){
+select(el).style.background=
+notepad.classList.contains(cl) ? "#8aa1bf" : "white";
 select(el).onclick= function(){
 notepad.classList.toggle(cl);
 this.style.background=
@@ -705,8 +706,9 @@ notepad.classList.contains(cl) ? "#8aa1bf" : "white";
 }
 
 
-checkBox(".bold.cb", "bold")
-checkBox(".italic.cb", "italic")
+checkBox(".bold.cb", "bold");
+checkBox(".italic.cb", "italic");
+
 
 
 
