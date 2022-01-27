@@ -422,7 +422,7 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 
 selectAll("body *").forEach(i=>{
-i.dataset.nosnippet= "";
+i.dataset.nosnippet= true;
 });
 
 
@@ -722,7 +722,7 @@ _field2 : textareas[2].value,
 _color : notepad.style.color,
 _bgcolor : notepad.style.background,
 _size : notepad.style.fontSize,
-_style : [...notepad.className].join(" "),
+_style : [...notepad.classList].join(" "),
 _family : notepad.style.fontFamily
 };
 
