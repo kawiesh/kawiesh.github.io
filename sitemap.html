@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Sitemap</title>
+<title>Sitemap - Kawiesh.eu.org</title>
 
 <style>				
 *{
@@ -32,6 +32,7 @@ align-items: center;
 
 #container{
 height: auto;
+width: 95%;
 border: 0px solid red;
 margin-top: 20px;
 position: relative;
@@ -41,15 +42,28 @@ justify-content: flex-start;
 align-items: center;
 }
 
-@media (orientation:portrait){
-#container{width: 95%;}
-body{background-size: 35%;}		
-}	
 
-@media (orientation:landscape){
-#container{width: 75%;}
-body{background-size: 50%;}			
-}	
+
+#tree{
+width: 100%;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+.root{
+width: 95%;
+}
+
+.root *{
+text-transform: lowercase;
+font: small-caps 14px Arial;
+position: relative;
+}
+
 
 
 ul{
@@ -61,28 +75,7 @@ url('https://api.iconify.design/ant-design/file-twotone.svg?color=gray');
 details>summary{
 list-style: none;
 position: relative;
-left: 0px;
 }
-
-.closed{
-list-style-image:
-url('https://api.iconify.design/ant-design/folder-filled.svg?color=gold');
-}
-
-
-.open{
-list-style-image:
-url('https://api.iconify.design/ant-design/folder-open-filled.svg?color=gold');
-}
-
-
-
-.root{
-text-transform: lowercase;
-font: small-caps 14px Arial;
-width: 95%;
-}
-
 
 details[open]>summary{
 color: red;
@@ -90,32 +83,258 @@ color: red;
 
 
 
-a{
-text-decoration: none;							
+
+summary{
+list-style: none;
+margin-left: 10px;
 }
+
+details>summary::before{
+content:
+url('https://api.iconify.design/ant-design/folder-filled.svg?color=gold');
+position: absolute;
+left: -15px;
+}
+
+
+details[open]>summary::before{
+content:
+url('https://api.iconify.design/ant-design/folder-open-filled.svg?color=gold');
+position: absolute;
+left: -15px;
+}
+
+
+
+.root details[open]::before{
+content:"\00a0\00a0\00a0";
+position: absolute;
+border-left: 1px dotted;
+top:9px;
+left:3px;
+}
+
+
+
 
 .root details ul{
 margin-left: 15px;
+}
+
+
+
+li::before{
+content: "\00a0\00a0\00a0";
+border-top: 1px dotted black;
+border-left: 1px dotted black;
+height: 100%;
+position: absolute;
+left:-12px;
+top: 0.6em;
+z-index: -10;
+}
+
+
+li:last-child::before{
+border-bottom: none;
+border-left: none;
+}
+
+/*
+
+li::before{
+content: "\00a0\00a0\00a0";
+border: none;
+border-left: 1px dotted black;
+border-bottom: 1px dotted black;
+height: calc(100% - 1px);
+position: absolute;
+left:-12px;
+top: -8px;
+z-index: -10;
+}
+
+*/
+
+
+a{
+bottom: 0px;
+margin-left: 10px;
+text-decoration: none;
+}
+
+
+.root>summary{
+font-size: 20px;
+}
+
+
+li{
+list-style:none;
+}
+
+a::before{
+content: url('https://api.iconify.design/ant-design/file-filled.svg?color=rgb(100,150,150)');
+position: absolute;
+z-index: 9;
+left:-13px;
+transform: scale(0.8,0.8);
+}
+
+
+.Xroot{
+margin-top: 10px;
+padding-bottom: 10px;
+border-bottom: 1px solid blue;
 }
 
 </style>
 </head>
 <body data-nosnippet>
 <div id="container">
+<div id="tree"></div>
+
 
 </div>
 <script>				
+
 let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
+let tree= select("#tree");
+
+let main= {
+  "root": [
+    "404.html",
+    "CNAME",
+    "about.html",
+    "favicon.ico",
+    "index.html",
+    "index2.html",
+    "sitemap.html"
+  ],
+  "lyrics": [
+    "lyrics/beete-lamhein.html",
+    "lyrics/index.html",
+    "lyrics/main-yahan-tu-wahan.html",
+    "lyrics/naaraz-savera.html",
+    "lyrics/nog-een-kans.html",
+    "lyrics/style.css"
+  ],
+  "tools": [
+    "tools/README.md",
+    "tools/bookmarklet-maker.html",
+    "tools/html-editor.html",
+    "tools/link-lister.html",
+    "tools/notepad.html",
+    "tools/table-generator.html",
+    "tools/text-extractor.html",
+    "tools/text-merger.html",
+    "tools/text-modifier.html",
+    "tools/text-numbering.html",
+    "tools/text-replacer.html"
+  ],
+  "notes": [
+    "notes/css.html",
+    "notes/index.html",
+    "notes/javascript.html",
+    "notes/javascript.txt",
+    "notes/regex.html",
+    "notes/tree.txt",
+    "notes/treemaker.html"
+  ],
+  "resources": [
+    "resources/404.html",
+    "resources/about.txt",
+    "resources/background1.jpg",
+    "resources/background2.jpg",
+    "resources/bg.png",
+    "resources/goldborder.png",
+    "resources/index.css",
+    "resources/index.js",
+    "resources/kawiesh.jpg",
+    "resources/listfiles.html",
+    "resources/metaltexture.jpg",
+    "resources/sitemap.txt",
+    "resources/sitemap.xml"
+  ],
+  "old": [
+    "old/bookmarklet-combiner.html",
+    "old/bookmarklet-maker.html",
+    "old/bookmarklets.html",
+    "old/css-bookmarklet.html",
+    "old/css-bookmarklet.jpg",
+    "old/font.ttf",
+    "old/html-editor.html",
+    "old/index.html",
+    "old/index2.html",
+    "old/kawiesheuorgIOS.html",
+    "old/konfuzed.png",
+    "old/konfuzedtiled.jpg",
+    "old/notepad.html",
+    "old/notepad.jpg",
+    "old/notepadnew.html",
+    "old/quicksand.otf",
+    "old/table-generator.html",
+    "old/text-merger-examples.html",
+    "old/text-merger.html",
+    "old/text-merger0.html",
+    "old/text-numbering.html",
+    "old/text-numbering0.html",
+    "old/text-replacer.html",
+    "old/text-replacer0.html"
+  ],
+  "tools>examples": [
+    "tools/examples/text-numbering.html"
+  ],
+  "resources>click": [
+    "resources/click/about.txt",
+    "resources/click/click1.mp3",
+    "resources/click/click2.mp3",
+    "resources/click/click3.mp3",
+    "resources/click/click4.mp3",
+    "resources/click/click5.mp3"
+  ],
+  "old>favicon": [
+    "old/favicon/android-chrome-192x192.png",
+    "old/favicon/android-chrome-512x512.png",
+    "old/favicon/apple-touch-icon.png",
+    "old/favicon/favicon-16x16.png",
+    "old/favicon/favicon-32x32.png",
+    "old/favicon/favicon.ico",
+    "old/favicon/mstile-150x150.png",
+    "old/favicon/readme.txt",
+    "old/favicon/safari-pinned-tab.svg",
+    "old/favicon/site.webmanifest"
+  ],
+  "resources>favicon": [
+    "resources/favicon/about.txt",
+    "resources/favicon/android-chrome-192x192.png",
+    "resources/favicon/android-chrome-512x512.png",
+    "resources/favicon/apple-touch-icon.png",
+    "resources/favicon/browserconfig.xml",
+    "resources/favicon/favicon-16x16.png",
+    "resources/favicon/favicon-32x32.png",
+    "resources/favicon/favicon.ico",
+    "resources/favicon/favicon1.ico",
+    "resources/favicon/mstile-150x150.png",
+    "resources/favicon/safari-pinned-tab.svg",
+    "resources/favicon/site.webmanifest"
+  ]
+}
+
+
+makeTree(main,"home","");
+
+
+function makeTree(obj,rootname,domain){
 let list = {};
 
-function createDetails(a,b,arr){
+function createDetails(name,arr){
 let det= create("details");
-det.className= a;
 let sum= create("summary");
-sum.innerHTML=	b;
+sum.innerHTML= name;
 let ul= create("ul");
 arr.forEach(i=>{
 let li= create("li");
@@ -124,93 +343,81 @@ ul.append(li);
 });
 det.append(sum,ul);
 
-list[a]= det.outerHTML;
+list[name]= det;
 };
 
 
 
-let arr=[
-"<a href='/text-extractor.html'>text extractor</a>",
-"<a href='/text-merger.html'>text merger</a>",
-"<a href='/text-modifier.html'>text modifier</a>",
-"<a href='/text-numbering.html'>text numbering</a>",
-"<a href='/text-replacer.html'>text replacer</a>",
-];
-
-createDetails("texttools", "Text tools", arr);
 
 
-let arr1= [
-"<a href='/tools/bookmark-generator'>Bookmark Generator</a>",
-"<a href='/tools/bookmarklet-maker'>Bookmarklet Maker</a>",
-list["texttools"]
-];
-createDetails("tools", "Tools", arr1);
-
-
-let arr3= [
-"<a href='/old/bookmarklet-combiner.html'>bookmarklet-combiner.html</a>",
-"<a href='/old/bookmarklet-maker.html'>bookmarklet-maker.html</a>",
-"<a href='/old/bookmarklets.html'>bookmarklets.html</a>",
-"<a href='/old/css-bookmarklet.html'>css-bookmarklet.html</a>",
-"<a href='/old/html-editor.html'>html-editor.html</a>",
-"<a href='/old/index2.html'>index2.html</a>",
-"<a href='/old/notepad.html'>notepad.html</a>",
-"<a href='/old/table-generator.html'>table-generator.html</a>",
-"<a href='/old/text-merger-examples.html'>text-merger-examples.html</a>",
-"<a href='/old/text-merger.html'>text-merger.html</a>",
-"<a href='/old/text-merger0.html'>text-merger0.html</a>",
-"<a href='/old/text-numbering.html'>text-numbering.html</a>",
-"<a href='/old/text-numbering0.html'>text-numbering0.html</a>",
-"<a href='/old/text-replacer.html'>text-replacer.html</a>",
-"<a href='/old/text-replacer0.html'>text-replacer0.html</a>"
-];
-createDetails("old", "Old files", arr3);
-
-
-
-
-let arr2= [
-"<a href='/notes/css'>CSS</a>",
-"<a href='/notes/regex'>RegEx</a>"
-];
-createDetails("notes", "Notes", arr2);
-
-
-
-let arr0= [
-"<a href='/404.html'>404 Page</a>",
-"<a href='/about.html'>About</a>",
-"<a href='/favicon.ico'>Favicon</a>",
-"<a href='/index.html'>Index</a>",
-"<a href='/index2.html'>Index 2</a></a>",
-list["tools"],
-list["notes"],
-list["old"]
-];
-createDetails("root", "Root", arr0);
-let container= select("#container");
-container.innerHTML= list["root"];
-select(".root").open= true;
-
-
-selectAll(".root details").forEach(i=>{
-i.closest("li").classList.add("closed");
-
-i.firstElementChild.onclick=()=>{
-(i.open) ?
-i.closest("li").classList.remove("open"):
-i.closest("li").classList.add("open");
-
-};
-
+for(let i in obj){
+if (obj.hasOwnProperty(i)){
+obj[i]= obj[i].map(j=>{
+let text= j.split("/");
+text= text[text.length-1];
+return `<a href="${domain}/${j}">${text}</a>`;
 });
-
-
-select(".root summary").className= "open";
-select(".root summary").onclick= function(){
-this.className= (this.parentNode.open) ? "closed" : "open";				
 }
+}
+
+
+
+
+
+//Create root folder and remove it from object
+createDetails(rootname, obj["root"]);
+let root= list[rootname];
+root.className= "root";
+root.open= true;
+//tree.innerHTML= "";
+tree.append(root);
+delete obj["root"];
+
+
+
+//Handle other folders
+for(let i in obj){
+if (obj.hasOwnProperty(i)){
+
+if(i.includes(">")){
+let klassname= i.split(">");
+createDetails(i,obj[i]);
+list[i].className= klassname.join(" ");
+select("summary",list[i]).innerHTML= klassname.pop();
+//list[i].style.marginLeft= "15px";
+}
+else{
+createDetails(i,obj[i]);
+list[i].className= i;
+let li= create("li");
+li.append(list[i]);
+select("ul",root).append(li);
+}
+
+
+}}
+
+
+for(let i in obj){
+if (obj.hasOwnProperty(i)){
+if(i.includes(">")){
+let hmm= i.split(">");
+
+for(let h=1; h<hmm.length; h++){
+let par= hmm.slice(0,h).join(">");
+let ch= hmm.slice(0,h+1).join(">");
+
+let li= create("li");
+li.append(list[ch]);
+select("ul",list[par]).append(li);
+}
+
+}
+}}
+
+
+}
+
 
 </script>	
 </body>
