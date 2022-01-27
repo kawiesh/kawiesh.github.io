@@ -325,7 +325,7 @@ let main= {
 }
 
 
-makeTree(main,"<a href='/'>home</a>","");
+makeTree(main,"home","");
 
 
 function makeTree(obj,rootname,domain){
@@ -417,6 +417,9 @@ select("ul",list[par]).append(li);
 
 
 }
+
+
+select(".root>summary").innerHTML= `<a href="/">home</a>`;
 
 
 </script>	
