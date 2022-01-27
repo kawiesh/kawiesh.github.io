@@ -588,18 +588,6 @@ clearInterval(_timer);
 
 
 /*________________________________________________*/
-function checkBox(el,cl){
-select(el).onclick= function(){
-notepad.classList.toggle(cl);
-this.style.background=
-notepad.classList.contains(cl) ? "#8aa1bf" : "white";
-};
-}
-
-
-
-checkBox(".bold.cb", "bold")
-checkBox(".italic.cb", "italic")
 
 
 
@@ -708,6 +696,21 @@ notepad.style.fontFamily= savedData["_family"] || "Arial";
 }
 
 
+function checkBox(el,cl){
+select(el).onclick= function(){
+notepad.classList.toggle(cl);
+this.style.background=
+notepad.classList.contains(cl) ? "#8aa1bf" : "white";
+};
+}
+
+
+checkBox(".bold.cb", "bold")
+checkBox(".italic.cb", "italic")
+
+
+
+//-----------------
 let obu = false;
 window.onunload = window.onbeforeunload= function(){
 if(!obu){
