@@ -322,7 +322,7 @@ padding: 5px;
 
 
 #notepad.bold{ font-weight: bold;}
-#notepad.italic{ font-style: italic;	}
+#notepad.italic{ font-style: italic;}
 
 </style>
 </head>
@@ -400,19 +400,15 @@ into the notepad field
 
 <h2>Font color</h2>
 <div class="fontcolor rs">
-<input type="color" id="fontcolor" value= "#000000">
-<input type="text" value= "#000000">
+<input type="color" id="fontcolor">
+<input type="text">
 </div>
 
 <h2>Background color</h2>
 <div class="bgcolor rs">
-<input type="color" id="bgcolor" value= "#ffffff">
-<input type="text" value= "#ffffff">
+<input type="color" id="bgcolor">
+<input type="text">
 </div>
-
-
-
-
 
 </div>
 <script>
@@ -547,11 +543,13 @@ c.click(); c.remove();
 
 
 /*________________________________________________*/
-let _fontsize= 18;
+
+let _fontsize;
+
 function adjustFont(x){
 if(_fontsize < 6) _fontsize= 6;
 _fontsize= _fontsize + x;
-fontsize.innerHTML= _fontsize + " px";
+fontsize.innerHTML= _fontsize + "px";
 notepad.style.fontSize= _fontsize+"px";				
 }
 
@@ -588,21 +586,46 @@ clearInterval(_timer);
 
 
 /*________________________________________________*/
+let boldcb= select(".bold.cb");
+let italiccb= select(".italic.cb");
+
+function checkBox(el,cl){
+el.onclick= function(){
+notepad.classList.toggle(cl);
+this.style.background=
+notepad.classList.contains(cl) ? "#8aa1bf" : "white";
+};
+}
+
+
+checkBox(boldcb, "bold");
+checkBox(italiccb, "italic");
 
 
 
 /*________________________________________________*/
-select("#fontfamily").onchange= function(){
+let fontfamily= select("#fontfamily");
+
+fontfamily.onchange= function(){
 let a= this.options[this.selectedIndex].innerHTML;
 notepad.style.fontFamily= a;						
 };
 
 
 /*________________________________________________*/
+function hex2rgb(hex){
+let [r,g,b]= hex.match(/\w\w/g).map(x => parseInt(x, 16));
+return `rgb(${r}, ${g}, ${b})`;
+};
+
+
+
 let fontcolor= select("#fontcolor");
 let bgcolor= select("#bgcolor");
 let _fontcolor= fontcolor.nextElementSibling;
 let _bgcolor= bgcolor.nextElementSibling;
+
+
 
 function changeColors(a,b){
 title.style.color= a;
@@ -612,14 +635,14 @@ notepad.style.background= b;
 }
 
 fontcolor.oninput= function(){
-_fontcolor.value= this.value;
-changeColors(fontcolor.value, bgcolor.value);
+_fontcolor.value= hex2rgb(this.value);
+changeColors(_fontcolor.value, _bgcolor.value);
 };
 
 
 bgcolor.oninput= function(){
-_bgcolor.value= this.value;
-changeColors(fontcolor.value, bgcolor.value);
+_bgcolor.value= hex2rgb(this.value);
+changeColors(_fontcolor.value, _bgcolor.value);
 };
 
 
@@ -674,40 +697,29 @@ checkBoxCB(".unlocked.cb",".locked.cb",false);
 
 /*__________________________________________________*/
 let savedData= localStorage.getItem("_store");
+if(savedData) savedData= JSON.parse(savedData);
 
-if(savedData){
-savedData= JSON.parse(savedData);
-title.value= savedData["_title"] || "";
-notepad.value= savedData["_notepad"] || "";
-textareas[0].value= savedData["_field0"] || "";
-textareas[1].value= savedData["_field1"] || "";
-textareas[2].value= savedData["_field2"] || "";
-//fontcolor.value= savedData["_color"] || "#000000";
-//_fontcolor.value= savedData["_color"] || "#000000";
-title.style.color= savedData["_color"] || "#000000";
-notepad.style.color= savedData["_color"] || "#000000";
-//bgcolor.value= savedData["_bgcolor"] || "#ffffff";
-//_bgcolor.value= savedData["_bcolor"] || "#ffffff";
-title.style.background= savedData["_bgcolor"] || "#ffffff";
-notepad.style.background= savedData["_bgcolor"] || "#ffffff";
-notepad.style.fontSize= savedData["_size"] || "15px";
-notepad.className= savedData["_style"] || "";
-notepad.style.fontFamily= savedData["_family"] || "Arial";
-}
+title.value= (savedData) ? savedData["_title"] : "";
+notepad.value= (savedData) ? savedData["_notepad"] : "";
+textareas[0].value= (savedData) ? savedData["_field0"] : "";
+textareas[1].value= (savedData) ? savedData["_field1"] : "";
+textareas[2].value= (savedData) ? savedData["_field2"] : "";
 
-function checkBox(el,cl){
-select(el).style.background=
-notepad.classList.contains(cl) ? "#8aa1bf" : "white";
-select(el).onclick= function(){
-notepad.classList.toggle(cl);
-this.style.background=
-notepad.classList.contains(cl) ? "#8aa1bf" : "white";
-};
-}
+fontcolor.value= (savedData) ? savedData["_color"] : "#000000";
+bgcolor.value= (savedData) ? savedData["_bgcolor"] : "#ffffff"; 
+_fontcolor.value= (savedData) ? hex2rgb(savedData["_color"]) : "rgb(0, 0, 0)";
+_bgcolor.value= (savedData) ? hex2rgb(savedData["_bgcolor"]) : "rgb(255, 255, 255)";
+title.style.color= notepad.style.color= _fontcolor.value;
+title.style.background= notepad.style.background= _bgcolor.value;
 
 
-checkBox(".bold.cb", "bold");
-checkBox(".italic.cb", "italic");
+_fontsize= (savedData) ? parseInt(savedData["_size"]) : 15;
+notepad.style.fontSize= fontsize.innerHTML= (savedData) ? savedData["_size"] : "15px";
+fontfamily.selectedIndex= (savedData) ? savedData["_family"] : 0;
+notepad.style.fontFamily= fontfamily.options[fontfamily.selectedIndex].innerHTML;
+notepad.className= (savedData) ? savedData["_style"] : "";
+if(notepad.classList.contains("bold")) boldcb.style.background= (savedData) ? "#8aa1bf" : "#ffffff";
+if(notepad.classList.contains("italic")) italiccb.style.background= (savedData) ? "#8aa1bf" : "#ffffff";
 
 
 
@@ -724,11 +736,11 @@ _notepad : notepad.value,
 _field0 : textareas[0].value,
 _field1 : textareas[1].value,
 _field2 : textareas[2].value,
-_color : notepad.style.color,
-_bgcolor : notepad.style.background,
-_size : notepad.style.fontSize,
+_color : fontcolor.value||"#000000",
+_bgcolor : bgcolor.value||"#ffffff",
+_size : fontsize.innerHTML,
 _style : [...notepad.classList].join(" "),
-_family : notepad.style.fontFamily
+_family : fontfamily.selectedIndex
 };
 
 
