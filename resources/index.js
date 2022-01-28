@@ -5,7 +5,9 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 
 selectAll("body *").forEach(i=>{
-if(i.tagName.match(/script|style|br|img/i)) //Do nothing
+if(i.tagName.match(/script|style|br|img/i)){
+//Do nothing
+}
 else i.dataset.nosnippet= true;
 });
 
