@@ -3,8 +3,10 @@ select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);				
 
 
+
 selectAll("body *").forEach(i=>{
-i.dataset.nosnippet= "";
+if(i.tagName.match(/script|style|br|img/i)) //Do nothing
+else i.dataset.nosnippet= true;
 });
 
 
