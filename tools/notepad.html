@@ -619,6 +619,18 @@ return `rgb(${r}, ${g}, ${b})`;
 };
 
 
+function rgb2hex(rgb){
+let a= rgb.match(/\d+/g);
+let b= [...a].map(i=>{
+i= parseInt(i).toString(16);
+return (i.length==1) ? "0"+i : i;
+});
+
+return "#" + b.join("");
+}
+
+
+
 
 let fontcolor= select("#fontcolor");
 let bgcolor= select("#bgcolor");
@@ -647,10 +659,12 @@ changeColors(_fontcolor.value, _bgcolor.value);
 
 
 _fontcolor.oninput= function(){
+fontcolor.value= rgb2hex(this.value);
 changeColors(_fontcolor.value, _bgcolor.value);
 }
 
 _bgcolor.oninput= function(){
+bgcolor.value= rgb2hex(this.value);
 changeColors(_fontcolor.value, _bgcolor.value);
 }
 
