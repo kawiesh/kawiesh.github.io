@@ -79,6 +79,7 @@ ta= select("textarea", a.shadowRoot);
 document.body.ontouchstart= (e)=>{
 if(e.target!=a){
 ta.value= e.target.innerText;
+}
 };
 
 close.onclick= function(){
