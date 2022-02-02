@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>oh no an error!</title>
+<title>About</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://allfont.net/allfont.css?fonts=blackchancery" rel="stylesheet" type="text/css" />
 <style>
 
 div{
+text-shadow: 1px 1px 1px yellow;
 font-family: 'BlackChancery', arial;
 font-size: 25px;
 position: absolute;
@@ -16,6 +17,12 @@ transform: translate(-50%,-50%);
 white-space: pre;
 text-align:center;
 z-index:1;
+}
+
+body{
+height: 100vh; width: 100vw;
+background: url("/resources/nightsky.png");		
+background-size: cover;	
 }		
 
 svg{
@@ -33,8 +40,8 @@ z-index:0;
 }
 
 section{
-background: url("/resources/error.jpg") repeat;		
-background-size:20%;		
+background: url("/resources/nightsky.png");		
+background-size: cover;		
 position: absolute;
 left:0%; top:0%;	
 right:0%; bottom:0%;	
