@@ -15,7 +15,7 @@
 <meta property="og:type" content="Some useful JavaScript codes intented to be used as bookmarklets!"/>
 <meta property="og:url" content=""/>
 <meta property="og:image" content="https://kawiesh.tk/resources/kawiesh.jpg"/>
-<title>Remote bookmarklets by Kawiesh</title>
+<title>Bookmarklets</title>
 
 <style>				
 *{
@@ -25,8 +25,8 @@ outline: none;
 }	
 
 body{
-background: rgb(251,244,234) url("/resources/kawieshseemless.png");
-background-size: 10%;
+background: rgb(100,0,255) url("/resources/nightsky.png");
+background-size: cover;
 min-width: 100vw; min-height: 100vh;
 position: relative;
 display: flex;
@@ -125,14 +125,6 @@ color: brown;
 <div class="message">If you're lucky you'll see the bookmarklets soon!</div>
 <br>
 <table id="links">
-<thead>
-<tr>
-<td>TEST</td>
-<td>NAME</td>
-<td>COPY</td>
-<td>COPY</td>
-</tr>
-</thead>
 <tbody>
 </tbody>
 </table>
@@ -146,9 +138,8 @@ select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 
-let url0= "https://api.github.com/repos/nostalgickd/cdn/contents/?v=" + Date.now();
 let table= select("table#links");
-let url= "https://cors.krishan.workers.dev/?https://github.com/nostalgickd/cdn?v=" + Date.now();
+let url= "https://cors.krishan.workers.dev/?https://github.com/kawiesh/kawiesh.github.io/tree/main/bookmarklets?v=" + Date.now();
 
 
 
