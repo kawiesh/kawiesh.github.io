@@ -135,5 +135,5 @@ close.ontouchmove= drag;
 close.onmousemove= drag;
 close.ondblclick=()=>{
 a.remove();
-e.target.classList.remove("nowtouching");
-}
+document.body.ontouchstart=()=> null;
+};
