@@ -166,7 +166,7 @@ fetch(url)
 .then(r=>r.text())
 .then(d=>{
 let doc= new DOMParser().parseFromString(d,"text/html");
-let linx= selectAll(".Layout-main a[title][href$=\\.js]",doc);
+let linx= selectAll(".Details a[title][href$=\\.js]",doc);
 [...linx].forEach(i=>{
 let url= domain+i.title, text= i.title;
 let a= `<a class="link" href="${url}">${text}</a>`;
