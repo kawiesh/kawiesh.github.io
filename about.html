@@ -59,6 +59,19 @@ z-index:-1;
 transition: 5s linear;
 opacity:0;
 }
+
+.blink{
+animation: blink 3s linear infinite alternate;
+}
+
+@keyframes blink{
+0%{color: white}
+33%{color: blue}
+66%{color: pink}
+100%{color: limegreen}
+}
+
+
 </style>
 </head>
 <body>
@@ -100,6 +113,7 @@ if(i==a.length){
 //section.style.opacity= 1;
 //svg.style.width= 2.5*(b.offsetWidth);
 //svg.style.height= 2.5*(b.offsetHeight);
+b.classList.add("blink");
 }
 if(i<a.length){
 b.innerHTML+= a[i];
