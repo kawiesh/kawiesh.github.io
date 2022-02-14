@@ -44,6 +44,7 @@ border-collapse: collapse;
 max-width: 100%;
 table-layout: fixed;
 caption-side: bottom;
+margin-bottom: 20px;
 }
  
 th,td{
@@ -90,6 +91,7 @@ body{background-size: 50%}
 <body>
 <div id="container">
 
+<span>Selectors</span>
 <table>
 <caption>Source: <a href="https://blog.natbat.net/post/46770156138/cssselectorreference">CSS pocketbook</a>
 </caption>
@@ -294,6 +296,15 @@ body{background-size: 50%}
 </tr>
 
 </table>
+
+<span>Clip Text</span>
+<pre>element{
+background: pink;
+background-size: cover;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+</pre>
 							
 </div>
 <script>				
