@@ -5,7 +5,7 @@ f= c.getDate(),
 g= e+'/'+f+'/'+d,
 h= prompt('Enter start date (Month/Day/Year)','01/01/2000'),
 i= prompt('Enter end date (Month/Day/Year)',g),
-j= '&tbs=cdr:1,cd_min:'+h+',cd_max:'+i,
+j= '&tbs=cdr:1,cd_min:'+h+',cd_max:'+i;
 
 if (!location.hostname.includes('google')){
 let b= prompt("Enter Keywords to google");
