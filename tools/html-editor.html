@@ -340,11 +340,11 @@ kdselect("#block5>section>section").innerHTML= this.value;
 
 
 //ADD DATA-NOSNIPPET TO ALL CHILDREN
-selectAll("body *").forEach(i=>{
+kdselectAll("body *").forEach(i=>{
 i.dataset.nosnippet= "";
 });
 
-select("#save").onclick=()=>{
+kdselect("#save").onclick=()=>{
 let html= kdhtml.value.replace(/\n/g, "\r\n"),
 css= kdcss.value.replace(/\n/g, "\r\n"),
 js= kdcss.value.replace(/\n/g, "\r\n");
@@ -416,7 +416,7 @@ ${js}
 </body>
 </html>`;
 let b= new Blob([a], { type: "text/plain"}),
-c= create("a");
+c= kdcreate("a");
 c.download= "html-editor.html";
 c.href= window.URL.createObjectURL(b);
 c.target="_blank";
