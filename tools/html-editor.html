@@ -347,8 +347,9 @@ i.dataset.nosnippet= "";
 select("#save").onclick=()=>{
 let html= kdhtml.value.replace(/\n/g, "\r\n"),
 css= kdcss.value.replace(/\n/g, "\r\n"),
-js= kdcss.value.replace(/\n/g, "\r\n"),
-a=`<!DOCTYPE html>
+js= kdcss.value.replace(/\n/g, "\r\n");
+
+let a=`<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -414,7 +415,7 @@ ${js}
 </script>	
 </body>
 </html>`;
-b= new Blob([a], { type: "text/plain"}),
+let b= new Blob([a], { type: "text/plain"}),
 c= create("a");
 c.download= "html-editor.html";
 c.href= window.URL.createObjectURL(b);
