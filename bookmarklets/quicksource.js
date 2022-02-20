@@ -13,14 +13,13 @@ pointer-events: auto;
 
 #container{
 z-index:99999;
-/*width: 500px; height: 400px;*/
-width: 80vw;
-aspect-ratio: 1/1.5;
 position: absolute;
 left:20px; top:20px;
 display:flex;
 flex-direction:column;
 pointer-events: none;
+width: 50vw;
+height: 60vw;
 }
 
 path{
