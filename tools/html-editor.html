@@ -144,9 +144,17 @@ section#block5 section{
 display: inline-block;				
 }
 
+#save{
+position: fixed;
+left: 2px;
+bottom: 2px;
+}
+
+
 </style>
 </head>
-<body data-nosnippet>
+<body data-nosnippet="true">
+<button id="save">Save<button>
 
 <section class="topbar">
 <span id="kdrun">RUN</span>
@@ -335,6 +343,87 @@ kdselect("#block5>section>section").innerHTML= this.value;
 selectAll("body *").forEach(i=>{
 i.dataset.nosnippet= "";
 });
+
+select("#save").onclick=()=>{
+let html= kdhtml.value.replace(/\n/g, "\r\n"),
+css= kdcss.value.replace(/\n/g, "\r\n"),
+js= kdcss.value.replace(/\n/g, "\r\n"),
+a=`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Saved From HTML Editor</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url();
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+${css}
+
+@media (orientation:portrait){
+#container{width: 95%;}	
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}		
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+
+${html}
+
+</div>
+<script>				
+${js}
+</script>	
+</body>
+</html>`;
+b= new Blob([a], { type: "text/plain"}),
+c= create("a");
+c.download= "html-editor.html";
+c.href= window.URL.createObjectURL(b);
+c.target="_blank";
+c.style.display = "none";
+document.body.append(c);
+c.click(); c.remove();
+};
+
 
 </script>	
 </body>
