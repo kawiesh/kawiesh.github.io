@@ -59,6 +59,11 @@ width: 100%;
 white-space: nowrap;
 border: 1px solid black;
 padding: 5px;
+background: white;
+}
+
+a{
+margin-bottom: 1.5em;
 }
 
 ::placeholder{
@@ -91,12 +96,18 @@ Custom text</span>
 <span class="option newtab">
 <input type="checkbox">
 Open in new tab</span>
+<span class="option protocol">
+<input type="checkbox">
+Automatically add protocol</span>
+
+<!--
 <span class="option realtime">
 <input type="checkbox">
 Real-time editing</span>
 <span class="option visited">
 <input type="color">
 Visited color</span>
+-->
 </div>
 
 
@@ -120,6 +131,7 @@ _text= select(".text"),
 _output= select("#output"),
 _customtext= select(".customtext input"),
 _newtab= select(".newtab input"),
+_protocol= select(".protocol input"),
 _realtime= select(".realtime input"),
 _visited= select(".visited input"),
 _save= select("#save"),
@@ -156,7 +168,8 @@ link.target= _newtab.checked ?
 "_blank" : "_self";
 link.text= _customtext.checked ?
 title[x] : i;
-link.href= i;
+link.href= _protocol.checked ?
+"http://" + i : i;
 _output.append(link,br);
 
 }
