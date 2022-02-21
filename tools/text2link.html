@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Saved From HTML Editor</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url();
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+main{
+overflow:scroll;
+height: min-content;
+}
+
+
+
+.option{
+display:flex;
+align-items: center;
+}
+
+.input,#output{
+height: 300px;
+width: 100%;
+white-space: nowrap;
+border: 1px solid black;
+padding: 5px;
+}
+
+::placeholder{
+white-space: normal;
+}
+
+.text{
+display: none;
+}
+
+input{height:20px;width:20px}
+
+@media (orientation:portrait){
+#container{width: 95%;}	
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}		
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+
+<div id="options">
+<span class="option customtext">
+<input type="checkbox">
+Custom text</span>
+<span class="option newtab">
+<input type="checkbox">
+Open in new tab</span>
+<span class="option realtime">
+<input type="checkbox">
+Real-time editing</span>
+<span class="option visited">
+<input type="color">
+Visited color</span>
+</div>
+
+
+<textarea class="input links"></textarea>
+<textarea class="input text"></textarea>
+<div id="output"></div>
+
+<div>
+<button id="save">Save</button>
+<button id="copy">Copy</button>
+</div>
+
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let _links= select(".links"),
+_text= select(".text"),
+_output= select("#output"),
+_customtext= select(".customtext input"),
+_newtab= select(".newtab input"),
+_realtime= select(".realtime input"),
+_visited= select(".visited input"),
+_save= select("#save"),
+_copy= select("#copy");
+
+
+
+_links.placeholder= `Enter links here,
+separated by a newline (enter key)`;
+
+_text.placeholder= `Enter custom link text here,
+separated by a newline (enter key)`;
+
+
+
+_customtext.onchange= function(){
+
+_text.style.display= this.checked ?
+ "block" : "none";
+};
+
+
+
+
+_links.oninput= function(){
+let hrefs= this.value.split("\n");
+let title= _text.value.split("\n");
+_output.innerHTML= "";
+
+hrefs.forEach((i,x)=>{if(i!=""){
+let link= create("a");
+let br= create("br");
+link.target= _newtab.checked ? 
+"_blank" : "_self";
+link.text= _customtext.checked ?
+title[x] : i;
+link.href= i;
+_output.append(link,br);
+
+}
+});
+};
+
+
+save.onclick=()=>{
+let a= _output.innerHTML.replace(/\n/g, "\r\n"),
+b= new Blob([a], { type: "text/plain"}),
+c= create("a");
+c.download= "URLs.html";
+c.href= window.URL.createObjectURL(b);
+c.target="_blank";
+c.style.display = "none";
+document.body.append(c);
+c.click(); c.remove();
+};
+
+
+
+copy.onclick= function(){
+let copydata= _output.innerHTML;
+if(navigator.clipboard){
+navigator.clipboard.writeText(copydata);
+
+}
+else{
+let a= create("textarea");
+a.style.display = "none";
+document.body.append(a);
+a.value= copydata; 
+a.select();
+document.execCommand("copy", false);
+a.remove();
+}
+};   
+
+
+
+
+</script>	
+</body>
+</html>
