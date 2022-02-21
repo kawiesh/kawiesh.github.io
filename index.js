@@ -136,7 +136,7 @@ let selectors=`.sidebar a[href*=twitter]
 .othertools a[href*=table]
 .othertools a[href*=html-editor]
 .othertools a[href*=lister]
-.othertools a[href*=text2link]
+.othertools a[href*=text-to-link]
 .othertools a[href*=bookmarklet]
 .other a
 .sidebar a[href="https://krishan.eu.org"]
