@@ -19,7 +19,7 @@ outline: none;
 }	
 
 body{
-background: rgb(251,244,234) url();
+background-color:rgb(255,235,240) url(/resources/brick-wall-dark.png);
 min-width: 100vw; 
 max-width: 100vw; 
 min-height: 100vh;
@@ -194,7 +194,7 @@ _newtab.oninput= update;
 _protocol.oninput= update;
 
 
-function(){
+function update(){
 let hrefs= _links.value.split("\n");
 let title= _text.value.split("\n");
 _output.innerHTML= "";
