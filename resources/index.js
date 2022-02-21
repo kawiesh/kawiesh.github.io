@@ -120,7 +120,7 @@ let email= `<svg viewBox="0 0 32 32"><path d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0
 
 
 
-let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,blog,table,html,lister,bm,folder,dead,dead,dead,dead];
+let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,blog,table,html,lister,lister,bm,folder,dead,dead,dead,dead];
 
 let selectors=`.sidebar a[href*=twitter]
 .sidebar a[href*=youtube]
@@ -136,6 +136,7 @@ let selectors=`.sidebar a[href*=twitter]
 .othertools a[href*=table]
 .othertools a[href*=html-editor]
 .othertools a[href*=lister]
+.othertools a[href*=text2link]
 .othertools a[href*=bookmarklet]
 .other a
 .sidebar a[href="https://krishan.eu.org"]
