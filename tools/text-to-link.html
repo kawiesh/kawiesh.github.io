@@ -202,9 +202,9 @@ _output.innerHTML= "";
 hrefs.forEach((i,x)=>{if(i!=""){
 let link= create("a");
 let br= create("br");
-link.target= _newtab.checked ? "_blank" : "_self";
 link.text= _customtext.checked ? title[x] : i;
 link.href= _protocol.checked ? "http://" + i : i;
+link.target= _newtab.checked ? "_blank" : "_self";
 _output.append(link,br,"\n");
 }
 });
@@ -241,6 +241,20 @@ document.execCommand("copy", false);
 a.remove();
 }
 };   
+
+
+function clicked(a,b,c){
+a.onfocus= function(){
+this.innerHTML= b;
+};
+
+a.onblur= function(){
+this.innerHTML= c;
+};
+}
+
+clicked(_save,"saved","save");
+clicked(_copy,"copied","copy");
 
 
 </script>	
