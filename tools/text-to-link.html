@@ -39,27 +39,37 @@ display: flex;
 flex-direction: column;
 justify-content: flex-start;
 align-items: center;
-}
-
-main{
-overflow:scroll;
-height: min-content;
+font: 14px Arial;
 }
 
 
+#options{
+align-self: flex-start;
+}
 
 .option{
 display:flex;
 align-items: center;
 }
 
-.input,#output{
-height: 300px;
-width: 100%;
+.option>input{
+height:20px;
+width:20px;
+}
+
+
+.input, #output{
+width: 100%; height: 300px;
+margin-top: 10px;
+padding: 5px;	
+border: 1.5px solid black;			
+border-radius: 5px;
 white-space: nowrap;
-border: 1px solid black;
-padding: 5px;
 background: white;
+}
+
+.text{
+display: none;
 }
 
 a{
@@ -70,11 +80,33 @@ margin-bottom: 1.5em;
 white-space: normal;
 }
 
-.text{
-display: none;
+.buttons{
+margin: 5px 0;
+width: 100%;
+height: 30px;
+display: flex;
+justify-content: space-between;
 }
 
-input{height:20px;width:20px}
+#save,#copy{
+-webkit-box-shadow: 0px -1px 1px #2f3740, 0px 1px 1px #bfcbdb;
+background-image: -webkit-gradient(linear, left top, left bottom, 
+from(#8aa1bf), color-stop( 50%, #5877a2), color-stop(50%, #476999), to(#4a6c9b));
+border: 1px solid #3e444c;
+-webkit-border-radius: 4px;
+z-index: 3;
+width: 50px;
+height: 100%;
+color: white;
+text-transform: lowercase;
+font: small-caps bold 14px Arial;
+padding: 2px;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}
+
+
 
 @media (orientation:portrait){
 #container{width: 95%;}	
@@ -115,7 +147,7 @@ Visited color</span>
 <textarea class="input text"></textarea>
 <div id="output"></div>
 
-<div>
+<div class="buttons">
 <button id="save">Save</button>
 <button id="copy">Copy</button>
 </div>
@@ -171,14 +203,13 @@ title[x] : i;
 link.href= _protocol.checked ?
 "http://" + i : i;
 _output.append(link,br);
-
 }
 });
 };
 
 
 save.onclick=()=>{
-let a= _output.innerHTML.replace(/\n/g, "\r\n"),
+let a= _output.innerHTML.replace(/\n/g, "\r\n").replace(/<br>/g,"<br>\n"),
 b= new Blob([a], { type: "text/plain"}),
 c= create("a");
 c.download= "URLs.html";
@@ -207,8 +238,6 @@ document.execCommand("copy", false);
 a.remove();
 }
 };   
-
-
 
 
 </script>	
