@@ -179,7 +179,7 @@ separated by a newline (enter key)`;
 
 
 
-_customtext.onchange= function(){
+_customtext.oninput= function(){
 
 _text.style.display= this.checked ?
  "block" : "none";
@@ -188,28 +188,31 @@ _text.style.display= this.checked ?
 
 
 
-_links.oninput= function(){
-let hrefs= this.value.split("\n");
+_links.oninput= update;
+_text.oninput= update;
+_newtab.oninput= update;
+_protocol.oninput= update;
+
+
+function(){
+let hrefs= _links.value.split("\n");
 let title= _text.value.split("\n");
 _output.innerHTML= "";
 
 hrefs.forEach((i,x)=>{if(i!=""){
 let link= create("a");
 let br= create("br");
-link.target= _newtab.checked ? 
-"_blank" : "_self";
-link.text= _customtext.checked ?
-title[x] : i;
-link.href= _protocol.checked ?
-"http://" + i : i;
-_output.append(link,br);
+link.target= _newtab.checked ? "_blank" : "_self";
+link.text= _customtext.checked ? title[x] : i;
+link.href= _protocol.checked ? "http://" + i : i;
+_output.append(link,br,"\n");
 }
 });
-};
+}
 
 
 save.onclick=()=>{
-let a= _output.innerHTML.replace(/\n/g, "\r\n").replace(/<br>/g,"<br>\n"),
+let a= _output.innerHTML.replace(/\n/g, "\r\n"),
 b= new Blob([a], { type: "text/plain"}),
 c= create("a");
 c.download= "URLs.html";
