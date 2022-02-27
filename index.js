@@ -120,7 +120,7 @@ let email= `<svg viewBox="0 0 32 32"><path d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0
 
 
 
-let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,blog,table,html,lister,lister,bm,folder,dead,dead,dead,dead];
+let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,blog,table,html,lister,lister,bm,folder,dead,dead,dead];
 
 let selectors=`.sidebar a[href*=twitter]
 .sidebar a[href*=youtube]
@@ -139,10 +139,9 @@ let selectors=`.sidebar a[href*=twitter]
 .othertools a[href*=text-to-link]
 .othertools a[href*=bookmarklet]
 .other a
-.sidebar a[href="https://krishan.eu.org"]
 .sidebar a[href="http://kawiesh.cf"]
-.sidebar a[href="https://kawiesh.uk.to"]
-.sidebar a[href="https://krishan.gq"]`;
+.sidebar a[href="https://kawiesh.gq"]
+.sidebar a[href="https://krishan.ml"]`;
 
 selectors= selectors.split("\n");
 
