@@ -141,7 +141,7 @@ let selectors=`.sidebar a[href*=twitter]
 .other a
 .sidebar a[href="http://kawiesh.cf"]
 .sidebar a[href="https://kawiesh.gq"]
-.sidebar a[href="https://krishan.ml"]`;
+.sidebar a[href="https://m.krishan.ml"]`;
 
 selectors= selectors.split("\n");
 
