@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Other</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url(https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/uploads/leaves.png);
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 1px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+a.main{
+display: flex;
+justify-content: center;
+align-items center;
+width: max-content;
+height: 2em;
+padding: 5px 10px;
+background: rgb(255,255,220);
+border: blue;
+text-decoration: none;
+}
+
+
+@media (orientation:portrait){
+#container{width: 95%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}		
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+let container= select("#container");
+
+let links= {
+"Files Per Folder" : "files-in-folder.html",
+"Files Per Repo" : "files-in-repo.html",
+"Tree Per Repo" : "tree-in-repo.html"
+};
+
+for(let key in links){
+if(links.hasOwnProperty(key)){
+let a= create("a");
+a.className= "main";
+a.text= key;
+a.href= links[key];
+container.append(a);
+}
+}
+
+</script>	
+</body>
+</html>
