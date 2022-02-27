@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Public APIs</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url(https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/uploads/leaves.png);
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+counter-reset: okay;
+}
+
+#container{
+height: auto;
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#info,#api{
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+
+#info{
+padding: 5px;
+margin-bottom: 10px;
+align-self: start;
+justify-content: flex-start;
+align-items: flex-start;
+}
+
+
+table{
+border:0px solid black;		
+border-collapse: separate;
+border-spacing: 0px 2px;
+max-width: 100%;
+table-layout: fixed;
+caption-side: top;
+margin-top: 10px;
+}
+ 
+
+::placeholder{
+font-style: italic;
+}
+
+
+td>*{
+padding: 2px;
+height: 2em;
+width: 100%;
+}
+
+td{
+border:0px solid black;
+padding: 0px;
+overflow: hidden;
+text-align: left;
+vertical-align: bottom;
+}
+
+
+
+
+tr>td:nth-child(2)>*{
+border: 1px solid black;
+background: snow;
+}
+
+
+button{
+width: 50%;
+}
+
+button:hover{
+color: green;
+}
+
+
+tr:last-of-type>td{
+text-align: right;
+}
+
+
+
+hr{
+color: red;
+width: 100vw;
+}
+
+.div{
+width: 100%;
+display: block;
+border: 1px solid black;
+margin-bottom: 5px;
+background: white;
+padding: 5px;
+position:relative;
+}
+
+
+
+
+.div::after{
+counter-increment: okay;
+content: counter(okay);
+color: red;
+position: absolute;
+right: 1px;
+top:1px;
+}
+
+@media (orientation:portrait){
+#container{width: 95%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+<div id="info">
+<span>Source:&nbsp;
+<a href="https://api.publicapis.org/">https://api.publicapis.org/</a>
+</span>
+
+<table>
+<tr>
+<td><span>CORS:</span></td>
+<td>
+<select>
+  <option>No</option>
+  <option>Yes</option>
+  <option>Unknown</option>
+  <option>Yes -or- Unknown</option>
+  <option selected>Doesn't matter</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><span>Authentication:</span></td>
+<td>
+<select>
+  <option>API Key</option>
+  <option>O Auth</option>
+  <option>X-Mashape-Key</option>
+  <option>User-Agent</option>
+  <option>Empty or Unknown</option>
+  <option selected>Doesn't matter</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><span>HTTPS:</span></td>
+<td>
+<select>
+  <option>True</option>
+  <option>False</option>
+  <option selected>Doesn't matter</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><span>Keywords:</span></td>
+<td><input></td>
+</tr>
+
+<tr>
+<td></td>
+<td><button>Filter</button></td>
+</tr>
+
+</table>
+</div>
+
+<br><hr>
+<div id="api">Loading, please wait...</div>
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let list= {}
+api= select("#api"),
+selekt= selectAll("select");
+let cors= selekt[0],
+auth= selekt[1],
+httpz= selekt[2],
+category= select("input"),
+button= select("button");
+
+category.placeholder= "must contain these keywords";
+
+//-------------------------
+function checkCors(i){
+switch(cors.selectedIndex){
+case 0:
+return (i["Cors"] === "no");
+case 1:
+return (i["Cors"] === "yes");
+case 2:
+return (i["Cors"] === "unknown");
+case 3:
+return (i["Cors"] !== "no");
+default:
+return true;
+}
+}
+
+//-------------------------
+function checkAuth(i){
+switch(auth.selectedIndex){
+case 0:
+return (i["Auth"] === "apiKey");
+case 1:
+return (i["Auth"] === "OAuth");
+case 2:
+return (i["Auth"] === "X-Mashape-Key");
+case 3:
+return (i["Auth"] === "User-Agent");
+case 4:
+return (i["Auth"] === "");
+default:
+return true;
+}
+}
+
+//-------------------------
+function checkHttpz(i){
+switch(httpz.selectedIndex){
+case 0:
+return (i["HTTPS"] === true);
+case 1:
+return (i["HTTPS"] === false);
+default:
+return true;
+}
+}
+
+//-------------------------
+function checkCategory(i){
+if(category.value==""){
+return true;
+}
+else{
+let regex= new RegExp(category.value,"i");
+let y1= (regex.test(i["Description"]));
+let y2= (regex.test(i["Category"]));
+let y3= (regex.test(i["API"]));
+return (y1||y2||y3);
+}
+}
+//--------------------------------------------------------------------------
+
+
+function filterList(i){
+if(checkCors(i) && checkAuth(i) && checkHttpz(i) && checkCategory(i)){
+return i;
+}
+}
+
+//-----------------UPDATE--------------------
+function update(){
+let newlist= list.filter(i=>filterList(i));
+let amount= newlist.length == list.length ?
+"all " + newlist.length : newlist.length;
+
+api.innerHTML= "";
+api.innerHTML= `<p>Showing ${amount} APIs</p>`;
+newlist.forEach(i=>{
+let div= create("div");
+div.className= "div";
+let p= create("p");
+p.innerHTML= i["Description"] + "&nbsp;";
+let a= create("a");
+a.text= "[link]"; a.href= i["Link"];
+let b= create("b");
+b.innerHTML= i["API"];
+p.append(a);
+div.append(b,p);
+api.append(div);
+});
+}
+
+button.onclick=()=>{
+api.innerHTML= "Filtering, please wait...";
+update();
+};
+
+
+//-----------------FIRST-CALL-----------------
+let url= "https://api.publicapis.org/entries";
+fetch(url)
+.then(r=>r.text())
+.then(d=>{
+list= JSON.parse(d)["entries"];
+update();
+});
+
+</script>	
+</body>
+</html>
