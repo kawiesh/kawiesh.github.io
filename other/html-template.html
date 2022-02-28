@@ -30,17 +30,6 @@ justify-content: flex-start;
 align-items: center;
 }
 
-#container{
-height: auto;
-border: 0px solid red;
-margin-top: 20px;
-position: relative;
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: center;
-}
-
 textarea{
 border: 2px double black;
 padding: 5px;
@@ -51,15 +40,13 @@ height: 100vh;
 </style>
 </head>
 <body data-nosnippet>
-<div id="container">
 <textarea></textarea>
-</div>
 <script>				
 let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
-fetch("https://nostalgickd.github.io/cdn/template.html")
+fetch("https://cdn.kawiesh.tk/template.html")
 .then(r=>r.text())
 .then(d=>{
 select("textarea").value= d;
