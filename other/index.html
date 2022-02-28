@@ -55,6 +55,19 @@ text-transform: capitalize;
 width: 80%;
 }
 
+.loader{
+border: 4px solid red;
+border-top-color: yellow;
+border-bottom-color: green;
+border-radius: 50%;
+width: 120px; height: 120px;
+animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
 
 @media (orientation:portrait){
 #container{width: 95%;}		
@@ -68,12 +81,14 @@ width: 80%;
 </head>
 <body data-nosnippet>
 <div id="container">
+<div class="loader"></div>
 </div>
 <script>				
 let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 let container= select("#container");
+let loader= select(".loader");
 
 /*
 let links= {
@@ -125,6 +140,8 @@ a.href= href;
 a.className= "main";
 container.append(a);
 });
+
+loader.style.display= none;
 
 },2500);
 
