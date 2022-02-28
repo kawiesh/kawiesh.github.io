@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom HTML5 Video Player</title>
+<style>
+body{background:black;}
+
+video{
+position: absolute;	
+left:50%; top:50%;
+transform: translate(-50%,-50%);
+max-height:90%;
+max-width:90%;
+}
+
+p{
+position: absolute;
+left:50%;
+top:20%;
+color: white;
+background: black;
+font: 10px Arial;
+border: 1px solid yellow;
+}
+
+
+input,button{background:black; color:white; border:1px solid gray;}	
+input{ color: darkgray;}
+#source,#speed{position:absolute;
+display:flex;
+top:2px;
+max-height:10%;
+}	
+#speed{right:0;}
+#source{left:0;}		
+</style>
+</head>
+<body>
+<video controls type="video/mp4"></video>
+<div id="source">
+<input type="text">
+<button>GO!</button>
+</div>
+<div id="speed">
+<button>Normal</button>
+<button>1.5x</button>
+<button>2.0x</button>
+<button>Custom</button>
+</div>
+<script>
+let $= document.querySelector.bind(document),
+   $$= document.querySelectorAll.bind(document),
+video= $("video"),
+url= $("input"),
+go= $$("button")[0],
+one= $$("button")[1],
+onefive= $$("button")[2],
+two= $$("button")[3],
+custom= $$("button")[4];
+
+go.onclick=()=>{
+document.title= "Invalid/Empty Source";
+video.src= url.value;
+video.load();		
+let a= decodeURIComponent(url.value).split("/"),
+    b= a[a.length-1];
+video.onloadeddata = function() {
+document.title= b;
+};					
+};
+
+one.onclick=()=> video.playbackRate= "1.0";
+onefive.onclick=()=> video.playbackRate= "1.5";
+two.onclick=()=> video.playbackRate= "2.0";
+
+
+custom.onclick=()=>{
+let a= prompt("Enter Speed"),
+    b= a.match(/[\d\.]+/g);
+
+video.playbackRate= b[0].toString();
+				
+};
+
+
+</script>
+
+<noscript>
+<p>
+Sorry for the inconvenience, but this site uses
+JavaScript in order for it to work correctly.
+Kindly enable JavaScript or get lost :)
+</p>
+</noscript>			
+</body>
+</html>
