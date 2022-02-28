@@ -46,11 +46,11 @@ let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
-fetch("https://cdn.kawiesh.tk/template.html")
-.then(r=>r.text())
-.then(d=>{
-select("textarea").value= d;
-});
+let textarea= select("textarea");
+let url= "https://cdn.kawiesh.tk/template.html";
+
+fetch(url).then(r=>r.text())
+.then(d=>textarea.value=d);
 
 </script>	
 </body>
