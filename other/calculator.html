@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>My Calculator</title>
+<style>
+.main{
+width:215px;
+padding:5px;
+display: grid;
+grid-gap: 5px;
+grid-template-columns: repeat(4,50px);
+grid-template-rows: 80px;
+grid-auto-rows: 50px;
+border: 2px solid black;
+box-shadow: black 0px 0px 10px;
+background: rgb(0,0,0,0.1);
+position: absolute;
+top:50%; left:50%;
+transform: translate(-50%,-50%);
+
+}
+
+
+.btn{
+/*width:20px;
+height:20px;*/
+border:1px solid black;
+text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
+outline: 1px solid blue;
+outline-offset: -4px;
+}
+
+.textarea{
+grid-column: 1/-1;
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+position: relative;
+}
+
+textarea{
+outline: none;
+border: 5px;
+border-style: ridge;
+width:100%; height:60px;
+color: blue;
+z-index:1;
+caret-color: red;
+}
+
+#result{
+outline: none;
+border:none;
+position: absolute;
+bottom:5px; right:5px;
+z-index:2;
+width:35%;
+text-align: right;
+padding: 2px 5px;
+font-weight: bold;
+width:150px;
+}
+
+.mu,.di,.ad,.mi{background: rgb(255,255,200);}
+.eq{background: rgb(0,255,0,0.2);}
+.cl,.de{background: rgb(255,0,0,0.2);}
+.bo,.bc,.po{background: rgb(0,0,0,0.1);}
+
+</style>
+</head>
+<body>
+
+<div class="main">
+<div class="textarea">
+<textarea readonly=""></textarea>
+<input id="result" readonly="">
+</div>
+<div class="btn cl">CL</div>
+<div class="btn bo">(</div>
+<div class="btn bc">)</div>
+<div class="btn mu">×</div>
+<div class="btn nr">1</div>
+<div class="btn nr">2</div>
+<div class="btn nr">3</div>
+<div class="btn di">÷</div>
+<div class="btn nr">4</div>
+<div class="btn nr">5</div>
+<div class="btn nr">6</div>
+<div class="btn mi">-</div>
+<div class="btn nr">7</div>
+<div class="btn nr">8</div>
+<div class="btn nr">9</div>
+<div class="btn ad">+</div>
+<div class="btn po">.</div>
+<div class="btn nr">0</div>
+<div class="btn de">Del</div>
+<div class="btn eq">=</div>
+</div>
+
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+let a= selectAll(".nr, .bo, .bc, .po, .ad, .mi, .mu, .di");
+let c= select("textarea");
+let k= select("#result");
+
+function insertAtCursor(myField, myValue) {
+if (document.selection) {
+myField.focus();
+sel = document.selection.createRange();
+sel.text = myValue;
+}
+else if (myField.selectionStart || myField.selectionStart == '0') {
+var startPos = myField.selectionStart;
+var endPos = myField.selectionEnd;
+myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+}
+else{
+myField.value += myValue;
+}
+}
+
+function del() {
+c.value = c.value.slice(0,c.value.length-1);
+return false;
+}
+
+
+a.forEach(i=>{
+i.onclick= function(){
+if(k.value=="undefined") k.value="";
+if(k.value=="Infinity") k.value="";
+insertAtCursor(c,this.innerHTML);
+};
+});
+
+
+select(".eq").onclick= function(){
+let final= c.value
+.split("÷").join("/")
+.split("×").join("*");
+let d= eval(final);
+k.value= d;
+};
+
+
+select(".cl").onclick= function(){
+c.value= "";
+k.value= "";
+};
+
+select(".de").onclick=()=> del();
+
+
+k.onclick= function(){
+c.value= this.value;
+}
+
+/*
+window.onload= function(){
+select("div[style*='display:block !important'][style*='line-height: 0']").remove();
+};*/
+
+</script>				
+</body>
+</html>
