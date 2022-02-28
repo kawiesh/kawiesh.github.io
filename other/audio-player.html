@@ -1,0 +1,188 @@
+Line wrap
+<!DOCTYPE html>
+<html>
+<head>
+<title>Custom HTML5 Audio Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+				
+*{box-sizing:border-box;}
+html,body{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: absolute;
+left:0; right:0;
+top:0; bottom:0;
+font-family: Arial;
+}
+
+input{transition: 10s linear;}
+
+#container{
+border: 1px solid black;
+padding:10px;
+display: flex;
+align-items: center;
+height:1.5em;
+width:35ch;
+padding: 15px 0 15px 0;
+}
+
+input[type="range"]{
+-webkit-appearance: none;
+border-radius:5px;
+background: #d3d3d3; outline: none;
+}
+
+input,hr{
+width: 10em; height: 5px;
+}
+
+
+input[type="range"]::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+width: 10px; height: 10px;
+border-radius:10px;
+background: black;
+cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+width: 10px; height: 10px;
+border-radius:10px;
+background: #04AA6D; cursor: pointer;
+}
+
+svg{
+fill:black;
+}
+
+#play{
+display: flex;
+align-items: center;
+}
+
+svg{
+width:2ch;
+height:2ch;
+}
+
+span{margin-left:1ch;}
+
+#src{width:100%;display:flex; justify-content:center;}
+#src{margin-bottom:10px;}
+#src input,button{
+height:2em;				
+outline:none;
+border:1px solid black;			
+padding:0;	
+}
+
+#src input{
+width:30ch;	
+				
+}
+
+
+</style>
+</head>
+<body>
+<div id="src">
+<input>
+<button>&nbsp; ADD &nbsp;</button>
+</div>
+<div id="container">
+<span id="play"></span>
+<span id="start">00:00</span>
+<input type="range" value="0">
+<audio preload="metadata">
+</audio>
+<span id="end">NaN</span>
+</div>
+<script>
+let
+create= document.createElement.bind(document),
+select= document.querySelector.bind(document),
+selectAll= document.querySelector.bind(document);
+
+
+let audio= select("audio"),
+    input= select("#container input");
+
+
+
+let src= select("#src input");
+
+select("button").onclick=()=>{
+audio.src= src.value;
+audio.load();		
+};
+
+
+
+let playx= select("#play");
+let jan= false;
+
+
+
+let play= `<svg viewBox="0 0 32 32">
+				     <path d="M6 4l20 12-20 12z"></path></svg>`,
+pause= `<svg viewBox="0 0 32 32">
+        <path d="M4 4h10v24h-10zM18 4h10v24h-10z"></path></svg>`;
+
+playx.innerHTML= play;
+
+playx.onclick=()=>{
+if(!jan){
+playx.innerHTML= pause;
+audio.play();
+jan= true;
+}
+else{
+playx.innerHTML= play;
+audio.pause();				
+jan= false;				
+}
+};
+
+
+audio.onloadedmetadata=()=>{
+duration= audio.duration;
+duration= new Date(duration*1000).toISOString().substr(11,8).split(":");
+h= duration[0], m= duration[1], s= duration[2];
+if(h==0) time= m+":"+s;
+if(h>0) time= h+":"+m+":"+s;
+input.min= "0";
+input.max= audio.duration;
+select("#end").innerHTML= time;
+};
+
+
+audio.ontimeupdate=()=>{
+let x= new Date(audio.currentTime*1000).toISOString().substr(11,8).split(":");
+let H= x[0], M= x[1], S= x[2];
+
+if(H==0) TIME= M+":"+S;
+if(H>0) TIME= H+":"+M+":"+S;
+
+input.value= audio.currentTime;		
+
+select("#start").innerHTML= TIME;
+
+if(audio.currentTime==audio.duration){
+input.value=0;		
+select("#start").innerHTML= "00:00";		
+playx.innerHTML= play;				
+}
+
+};
+
+
+
+input.oninput=()=>{ audio.currentTime= input.value; audio.play();	};
+</script>
+</body>
+</html>
