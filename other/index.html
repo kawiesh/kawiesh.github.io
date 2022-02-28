@@ -51,6 +51,8 @@ background: rgb(255,255,220);
 border: 1px solid blue;
 margin-top: 15px;
 text-decoration: none;
+text-transform: capitalize;
+width: 80%;
 }
 
 
@@ -73,6 +75,7 @@ select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 let container= select("#container");
 
+/*
 let links= {
 "Public APIs" : "public-apis.html",
 "Files Per Folder" : "files-in-folder.html",
@@ -89,6 +92,41 @@ a.href= links[key];
 container.append(a);
 }
 }
+*/
+
+
+let url= "https://github.com/kawiesh/kawiesh.github.io/tree/main/other/";
+let proxy= "https://cors.krishan.workers.dev/?";
+
+let final= [];
+fetch(proxy+url)
+.then(r=>r.text())
+.then(d=>{
+let doc= new DOMParser().parseFromString(d,"text/html");
+let files= selectAll("a.js-navigation-open.Link--primary",doc);
+[...files].forEach(i=>{
+let href= i.href.split("/").pop();
+if(href!="index.html") final.push(href);
+});
+});
+
+
+
+setTimeout(()=>{
+final.forEach(i=>{
+let href= i;
+let title= (!href.includes("-")) ?
+href.split(".html").join("") :
+href.split(".html").join("").split("-").join(" ");
+
+let a= create("a");
+a.text= title;
+a.href= href;
+container.append(a);
+});
+
+},2500);
+
 
 </script>	
 </body>
