@@ -1,0 +1,358 @@
+
+Line wrap
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="description" content="Simple drawing board with option to save as png/jpg!"/>
+<meta name="keywords" content="Whiteboard, draw online, html canvas"/>
+<meta name="author" content="Kawiesh"/>
+<meta property="og:title" content="Drawing Board"/>
+<meta property="og:type" content="Simple drawing board with option to save as png/jpg!"/>
+<meta property="og:url" content=""/>
+<meta property="og:image" content="/resources/kawiesh.jpg"/>
+<title>Drawing Board</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url(/resources/papyrus.png);
+min-width: 100vw; min-height: 100vh;
+position: relative; display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+}
+
+#container{
+position: relative; margin-top: 20px;
+display: flex; flex-direction: column;
+align-items: center; justify-content: flex-start;
+}
+
+/*------- START SPECIFIC CSS ----------*/
+button{
+background:none;
+border: none;
+width: 5.5ch; height:100%;
+padding: 2px;				
+}
+
+svg{
+height: 100%;
+}
+
+/*------- BLOCK 1 & 3 ----------*/
+
+#block1, #block3{
+width: 100%; height: 2em;
+display: flex; align-items: flex-end;
+justify-content: space-between;
+}
+
+#block1{margin-bottom:-1px;}
+
+#block3{margin-top:-1px;}
+
+#block3>button{
+background: white;
+border:1px solid black;							
+}
+
+#color{
+height:100%; width: 5.5ch;
+border:1px solid black;
+color: white; padding:2px;
+display:flex; align-items: center;
+justify-content: center;
+font: bold 14px "Courier New";
+}
+
+/*------- BLOCK 2 ----------*/
+#block2{
+position:relative;
+background: white;
+border: 1px solid black;
+}
+
+#c{
+max-width:100%;
+max-height:100%;
+}
+
+#zoom{
+position: absolute; z-index:2;
+height:1.5em; width:1.5em;
+right:0px; bottom:0px;
+}
+
+/*-------INPUT SLIDER ----------*/
+#thickness{
+width:100%; height: 2em;
+display: flex;
+align-items: center;
+justify-content: center;			
+font: bold 14px "Courier New";
+margin-top: 10px;
+}
+
+#slider{
+margin: 0 5px 0 5px;
+}
+
+.linesize{
+width:8.5ch;
+}
+
+#slider{
+-webkit-appearance: none;
+width: 40%; height: 5px;
+background: white;
+border: 1px solid black;
+border-radius: 5px;
+}
+ 
+#slider::-webkit-slider-thumb{
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+ 
+#slider::-moz-range-thumb {
+-webkit-appearance: none; appearance: none;
+-webkit-tap-highlight-color: transparent;
+width: 10px; height: 10px; border-radius: 50%;
+background: black; cursor: pointer;
+}
+
+/*-------TRANSPARENT ----------*/
+.bgtoggle{
+position: fixed;
+right:2px;
+top:1px;	
+font-variant: small-caps;
+display: flex;
+align-items: center;
+justify-content: center;		
+}
+
+.transparent{
+background: #eee url('data:image/svg+xml,\
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" fill-opacity=".25" >\
+<rect x="200" width="200" height="200" />\
+<rect y="200" width="200" height="200" />\
+</svg>');
+background-size: 30px 30px;
+}
+
+/*------- RESPONSIVE ----------*/
+@media (orientation:portrait){
+#container{width: 95vw; height: auto;}
+#block1{margin-top: 10vh;}
+#block2{width: 95vw; height: calc(95vw / 1.5);}			
+}
+
+@media (orientation:landscape){
+#container{width: 75vw; height: auto;}
+#block1{margin-top: 0vh;}
+#block2{width: 75vw; height: calc(75vw / 1.5);}
+}	
+</style>
+</head>
+<body>
+<div id="container">
+<div class= "bgtoggle">transparent &nbsp;<input type="checkbox" id="transparent"></div>
+
+<div id="block1">
+<button id="undo" onclick="sdb.undo()">Undo</button>
+<button id="clear" onclick="sdb.clear()">Clear</button>
+<button id="redo" onclick="sdb.redo()">Redo</button>
+</div>
+
+<div id="block2">
+<canvas id="c" height="1000px" width="1500px"></canvas>
+<span id="zoom"></span>
+</div>
+
+<div id="block3">
+<button id="toggle">Erase</button>
+<span id= "color" data-jscolor= "{
+onChange: 'sdb.setLineColor(this)',
+onInput: 'sdb.setLineColor(this)',
+value: '#000000',
+}">COLOR</span>
+<button id="save">Save</button>
+</div>
+
+<div id="thickness">
+<span>THICKNESS</span>
+<input id="slider" type="range" value="8" min="1" max="100" >
+<span class="linesize"></span>
+</div>
+
+
+</div>
+<script src="resources/draw/simple-drawing-board.js"></script>
+<script>
+				
+//--------------			
+let
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+let strokesize= select(".linesize");
+strokesize.innerHTML= "8PX";
+
+let slider= select("#slider");
+slider.oninput=()=>{
+sdb.setLineSize(slider.value)
+strokesize.innerHTML= slider.value + "PX";
+};
+
+//-------------------CREATE-BOARD----------------------
+
+const {create}= window.SimpleDrawingBoard;
+const canvas1= select("#c");
+window.sdb= create(canvas1);
+sdb.setLineSize(8)
+
+
+//--------------------BACKGROUND------------------------
+
+let transparent= select("#transparent");
+
+transparent.onchange=()=>{
+if(transparent.checked){
+canvas1.classList.add("transparent");
+}
+if(!transparent.checked){
+canvas1.classList.remove("transparent");
+}
+};
+
+let canvas2= document.createElement("canvas");
+
+function fillCanvas2(){
+canvas2.width= canvas1.width;
+canvas2.height= canvas1.height;
+ctx2= canvas2.getContext('2d');
+
+ctx2.fillStyle = "#FFFFFF";
+ctx2.fillRect(0,0,canvas1.width,canvas1.height);
+ctx2.drawImage(canvas1, 0, 0);
+}
+
+
+//-----------------DOWNLOAD-------------------------
+
+let save= document.querySelector("#save");
+save.onclick=()=>{
+let link = document.createElement('a');
+link.download = 'My_Drawing.png';
+fillCanvas2();
+if(!transparent.checked) link.href= canvas2.toDataURL();
+if(transparent.checked) link.href = sdb.toDataURL();
+link.click();
+};
+
+
+//--------------------------ICONS-----------------------------------'
+let
+undo= select("#undo"),
+clear= select("#clear"),
+redo= select("#redo"),
+zoom= select("#zoom"),
+toggle= select("#toggle");
+
+let
+icons= [undoicon,clearicon,redoicon,zoominicon,erasericon],
+setIcons= [undo,clear,redo,zoom,toggle];
+
+setIcons.forEach((i,x)=>{
+i.innerHTML= icons[x];								
+});
+
+
+//--------TOGGLE--------------
+let draw= true;
+
+toggle.onclick=()=>{
+if(!draw){
+toggle.innerHTML= erasericon;
+sdb.toggleMode();
+draw=true;
+}
+else{
+toggle.innerHTML= pencilicon;
+sdb.toggleMode();
+draw=false;
+}
+};
+
+
+//----------ZOOM--------------
+let block2= select("#block2");
+
+function zoomin() {
+if(block2.requestFullscreen){
+block2.requestFullscreen();
+}
+else if(block2.webkitRequestFullscreen){
+block2.webkitRequestFullscreen();
+} 
+else if(block2.msRequestFullscreen){
+block2.msRequestFullscreen();
+}
+}
+
+function zoomout() {
+if(document.exitFullscreen){
+document.exitFullscreen();
+}
+else if(document.webkitExitFullscreen){
+document.webkitExitFullscreen();
+}
+else if(document.msExitFullscreen){
+document.msExitFullscreen();
+} 
+}
+
+//-------------
+let zoomed= false;
+
+zoom.onclick=()=>{
+if(!zoomed){
+zoomin();
+zoom.innerHTML= zoomouticon;
+zoomed= true;
+}
+else{
+zoomout();
+zoom.innerHTML= zoominicon;
+zoomed= false;
+}
+};
+</script>
+
+
+<script src="resources/draw/jscolor.js"></script>
+<script>
+jscolor.presets.default= {
+format: "hexa", position: "bottom", closeButton: false
+};
+</script>
+</body>
+</html>
