@@ -1,6 +1,6 @@
 #####THE FOLLOWING IS REQUIRED FOR PROTECTED FOLDERS
 
-AuthUserFile /home/vol5_4/epizy.com/epiz_27932890/kawiesh.rf.gd/htdocs/protected//.htpasswd
+AuthUserFile ROOT/protected//.htpasswd
 AuthName "Enter password to gain access"
 AuthType Basic
 Require valid-user
