@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Uploader</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+/*-----OPTIONS-----*/
+table.options{
+border:1.5px solid black;		
+border-collapse: collapse;
+width: 100%;
+font: 14px Arial;
+table-layout: fixed;
+align-self: flex-start;
+}
+
+table.options tr>td:nth-child(1){
+font-weight: bold;
+width: 90px;
+}
+
+table.options td{
+padding: 2px;
+border:1px solid black;
+height: 2em;
+text-align: left;
+vertical-align: middle;
+overflow: auto;
+}
+
+
+
+table.options td>*{
+height: 100%;
+display: inline-flex;
+justify-content: flex-start;
+align-items: center;
+}
+
+
+
+
+button{
+padding: 5px;
+margin-top: 5px;
+border: 1px solid;
+align-self: flex-start;
+}
+
+button:hover{
+color: red;
+}
+
+#upload,#folder{
+padding: 5px;
+width: 250px;
+}
+
+#folder{
+border: 1.5px solid;
+}
+
+ul{
+margin: 10px 0;
+font: bold 12px Courier;
+color: brown;
+list-style: none;
+overflow: auto;
+white-space: nowrap;
+width: max-content;
+max-width: 100%;
+align-self: flex-start;
+}
+
+li::before {
+content: "\2605 -";
+}
+
+
+
+
+/*-----RESULTS-----*/
+.red,.green{
+color: red;
+font-weight: bold;
+max-width: 200px;
+}
+
+.green{
+color: green;
+}
+
+
+table.result{		
+border-collapse: collapse;
+table-layout: fixed;
+margin-top: 10px;
+font: 12px Courier;
+width: 95%;
+border: 2px inset brown
+}
+ 
+table.result td{
+padding: 2px;
+border: none;
+height: calc(1em + 5px);
+text-align: center;
+vertical-align: middle;
+overflow: auto;
+border: none;
+}
+
+
+table.result tr>td:nth-child(1){
+font-weight: bold;
+width: 60px;
+text-align: left;
+}
+
+
+table.result tr>td:nth-child(2){
+white-space: nowrap;
+height: 30px;
+text-align: left;
+}
+
+
+
+::-webkit-scrollbar {
+width: 0;
+background: transparent;
+}
+
+
+@media (orientation:portrait){
+#container{width: 95%;}
+body{background-size: 35%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}
+body{background-size: 50%;}			
+}	
+
+</style>
+</head>
+<body data-nosnippet>
+<div id="container">
+
+<table class="options">
+<tbody>
+<tr>
+<td>Files:</td>
+<td><input type="file" id="upload" multiple></td>
+</tr>
+<tr>
+<td>Directory:</td>
+<td><input placeholder="e.g. /uploads/" id="folder"></span></td>
+</tr>
+<tr>
+<td>Options:</td>
+<td>
+<span><input id="dir" type="checkbox" checked>Make Dir.</span>
+<span><input id="dupl" type="checkbox" checked>Rename Dupl.</span>
+</td>
+</tr>
+</tbody>
+</table>
+<button>Upload</button>
+<ul>
+<li>Directory must start & end with "/". Use "/" for root.</li>
+<li>Make Dir: create folder if it doesn't exist</li>
+<li>Rename Dupl: upload & rename if file with same name exists</li>
+</ul>
+
+
+<div id="response"></div>
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let upload= select("#upload"),
+go= select("button"),
+_folder= select("#folder");
+_response= select("#response");
+
+
+
+//SET MAX UPLOAD LIMIT
+let limit= 10; 
+
+//SET ALLOWED FILETYPES
+let allowed= /./;
+
+
+
+
+go.onclick=()=>{
+let _emptyU= upload.value=="";
+let _emptyF= _folder.value=="";
+let _slashS=  !_folder.value.startsWith("/");
+let _slashE=  !_folder.value.endsWith("/");
+
+let correct= [];
+
+if(_emptyU || _emptyF || _slashS || _slashE){
+if(_emptyU) correct.push("No files selected");
+if(_emptyF) correct.push("Please enter destination folder");
+if(_slashS) correct.push("Folder doesn't start with /");
+if(_slashE) correct.push("Folder doesn't end with /");
+
+alert(correct.join("\n"));
+}
+else{
+_response.innerHTML= "";
+let _dir= select("#dir").checked ? "true" : "false";
+let _dupl= select("#dupl").checked ? "true" : "false";
+
+for(let file of upload.files){
+let data = new FormData();
+data.append("dir",_dir);
+data.append("dupl",_dupl);
+data.append('folder',_folder.value);
+data.append('files',file);
+startUpload(file,data);
+}
+
+
+}};
+
+
+
+//------------------------------------------
+function startUpload(file,data){
+let _status;
+
+let ext= file.name.includes(".") ? file.name.split(".").pop() : "File";
+let tooLarge= (file.size > limit*1048576);
+let notAllowed= !allowed.test(ext);
+let fileSize= formatBytes(file.size);
+
+
+if(notAllowed) _status= color("red",`Error: ${ext} not supported!`);
+if(tooLarge) _status= color("red",`Error: File is larger than ${limit}MB`);
+
+if(tooLarge || notAllowed){
+let table= create("table");
+table.className= "result";
+_response.append(table);
+table.innerHTML=`<tr>
+<td>File:</td>
+<td class="file">${file.name}</td>
+</tr>
+<td>Size:</td>
+<td class="size">${fileSize}</td>
+</tr>
+<td>Status:</td>
+<td class="status">${_status}</td>
+</tr>`;
+}
+else{
+fetch('upload.php', {
+method: 'POST',
+body: data
+}).then(r=>r.text())
+.then(d=>{
+let doc= new DOMParser().parseFromString(d,"text/html");
+let nte= [...selectAll(".note", doc)].map(i=> i.outerHTML);
+let msg= [...selectAll(".msg", doc)].map(i=> i.outerHTML)
+
+let table= create("table");
+table.className= "result";
+_response.append(table);
+table.innerHTML=`<tr>
+<td>File:</td>
+<td class="file">${file.name}</td>
+</tr>
+<td>Size:</td>
+<td class="size">${fileSize}</td>
+</tr>
+<td>Status:</td>
+<td class="status">${msg.join("\n")}</td>
+</tr>
+<td>Note:</td>
+<td class="status">${nte.join("\n")}</td>
+</tr>`;
+});
+
+
+}//End if statement
+
+}//End function
+
+//------------------------------------------
+function color(color,val){
+return (color=="red") ? 
+`<span class="red">${val}</span>`:
+`<span class="green">${val}</span>`;
+}
+
+//------------------------------------------
+function formatBytes(bytes, decimals= 2) {
+if (bytes === 0) return '0 Bytes';
+const k= 1024;
+const dm= decimals < 0 ? 0 : decimals;
+const sizes= ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+const i= Math.floor(Math.log(bytes) / Math.log(k));
+return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+
+//------------------------------------------
+
+
+</script>	
+</body>
+</html>
