@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Beete Lamhein - Lyrics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body><a href="/lyrics">&larr;</a>
+<div id="info">
+<a href="https://youtu.be/V1OXK49Dh78">Maine Dil Se Kaha</a>
+<br>
+Singer: K.K &#9671; Lyrics: Neelesh Misra
+</div>
+
+<div id="lyrics">
+</div>
+
+<script>
+let a= `Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+Nasamajh Laya Gum, To Yeh Gum Hi Sahi
+Silly heart brought back sorrow, then sorrow it is
+&#9671;&#9671;&#9671;
+
+Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+Nasamajh Laya Gum, To Yeh Gum Hi Sahi
+Silly heart brought back sorrow, then sorrow it is
+Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+&#9671;&#9671;&#9671;
+
+Bechaara Kahan Jaanta Hai
+What does the poor heart know
+Khalish Hai Yeh Kya Khala Hai
+About pain and emptiness
+Shehar Bhar Ki Khushi Se
+Compared to the joy of the city
+Yeh Dard Mera Bhala Hai
+My sorrow is much better
+Jashna Yeh Raaz Na Aaye
+I'm unable to enjoy these celebrations
+Mazaa Toh Bas Gam Main Aaya Hai
+I can only find enjoyment in the sorrow
+&#9671;&#9671;&#9671;
+
+Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+Nasamajh Laya Gum, To Yeh Gum Hi Sahi
+Silly heart brought back sorrow, then sorrow it is
+&#9671;&#9671;&#9671;
+
+Kabhi Hai Ishq Ka Ujaala
+Sometimes there's light of love
+Kabhi Hai Maut Ka Andhera
+Sometimes there's darkness of death
+Bataao Kaun Bes Hoga
+Tell me what disguise it'll be
+Main Jogi Banu Ya Lutera
+Should I become a saint or a thug
+Kayi Chehre Hai Is Dil Ke
+This heart has many faces
+Najaane Kaunsa Mera
+Don't know which one is truly mine
+&#9671;&#9671;&#9671;
+
+Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+Nasamajh Laya Gum, To Yeh Gum Hi Sahi
+Silly heart brought back sorrow, then sorrow it is
+&#9671;&#9671;&#9671;
+
+Hazaaron Aaise Phaasle The
+There were thousands of distances
+Jo Tai Karne Chale The
+That I wanted to travel
+Raahe Magar Chal Padi Thi
+But the the roads went on
+Aur Peeche Hum Rah Gaye The
+And I was left behind
+Kadam Do Chaar Chal Paaye
+I was only able to take two to goir steps
+Kiye Phere Tere Mann Ke
+So I circled around your memories
+&#9671;&#9671;&#9671;
+
+Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+Nasamajh Laya Gum, To Yeh Gum Hi Sahi
+Silly heart brought back sorrow, then sorrow it is
+Maine Dil Se Kaha, Dhoond Laana Khushi
+I told my heart to find me some happiness
+Nasamajh Laya Gum, To Yeh Gum Hi Sahi
+Silly heart brought back sorrow, then sorrow it is`;
+
+
+let b= a.split("\n");
+let c= b.filter((i,x)=> x%2==0);
+let d= b.filter((i,x)=> x%2==1);
+
+let final= [];
+
+c.forEach((i,x)=>{
+let line=`<span class="hi">${c[x]}</span>
+<span class="en">${d[x]}</span>`;
+final.push(line);
+});
+
+document.querySelector("#lyrics").innerHTML= final.join("\n");
+
+
+document.querySelectorAll("span").forEach(i=>{
+if(i.innerHTML=="◇◇◇") i.outerHTML= `<span class="break">◇◇◇</span>`;
+});
+</script>				
+</body>
+</html>
