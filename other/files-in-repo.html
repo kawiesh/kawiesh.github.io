@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Files In GitHub Repo</title>
+<title>List GitHub Files</title>
 
 <style>				
 *{
@@ -17,6 +17,10 @@ box-sizing: border-box;
 margin:0; padding:0; 
 outline: none;
 }	
+
+html,body{
+overflow: hidden auto;
+}
 
 body{
 background: rgb(251,244,234) url(https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/uploads/leaves.png);
@@ -32,7 +36,6 @@ align-items: center;
 
 #container{
 height: auto;
-width: 95%;
 border: 0px solid red;
 margin-top: 20px;
 position: relative;
@@ -42,22 +45,126 @@ justify-content: flex-start;
 align-items: center;
 }
 
-textarea{
-margin-top: 10px;
-width: 95vw;
-padding: 5px;
-height: 600px;
+
+table{
+width: 100%;
 }
+
+
+td:nth-child(1){
+width: 100px;
+vertical-align: center;
+}
+
+td:nth-child(2)>*{
+height: 2em;
+width: 100%;
+padding: 5px;
+border: 1px solid black;
+}
+
+
+textarea{
+width: 100%;
+height: 350px;
+margin-top: -1px;
+border: 1px solid black;
+}
+
+button{
+border: 1px solid black;
+padding: 2px;
+}
+
+button:hover{
+background: yellow;
+}
+
+#go{
+align-self: flex-start;
+}
+
+#copy{
+margin-top: -1px;
+align-self: flex-start;
+}
+
+
+::placeholder{
+font-style: normal;
+}
+
+.message{
+padding: 10px 0;
+align-self: flex-start;
+}
+
+.green{
+font-weight: bold;
+color: green;
+}
+
+.red{
+font-weight: bold;
+color: red;
+}
+
+
+.info{
+margin-top: 20px;
+font: bold 12px 'Courier New';
+color: gray;
+align-self: flex-start;
+}
+
+
+@media (orientation:portrait){
+#container{width: 95%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}			
+}	
 
 </style>
 </head>
 <body data-nosnippet>
 <div id="container">
-<span>Owner &nbsp;<input></span><br>
-<span>Repo &nbsp;<input></span><br>
-<button>Filename</button><button>Links</button><br>
-<textarea></textarea>
-<div id="tree"></div>
+
+
+<table>
+<tbody>
+<tr>
+<td>Owner*</td>
+<td><input class="owner"></td>
+</tr>
+<tr>
+<td>Repo name*</td>
+<td><input class="repo"></td>
+</tr>
+<td>Folder</td>
+<td><input class="folder"></td>
+</tr>
+<tr>
+<td>Token</td>
+<td><input class="token"></td>
+</tr>
+<tr>
+</tbody>
+</table>
+<span class="info">
+Fields with * are required. Other fields are optional and can be left empty.
+</span>
+<br>
+
+<button id="go">GO!</button>
+
+<div class="message"></div>
+
+<textarea class="textarea"></textarea>
+
+<button id="copy">Copy</button>
+
 </div>
 <script>				
 
@@ -65,88 +172,131 @@ let create= (x)=> document.createElement(x),
 select= (x,y=document)=> y.querySelector(x),
 selectAll= (x,y=document)=> y.querySelectorAll(x);
 
-let tree= select("#tree");
-let ta= select("textarea");
 
-let a= selectAll("input");
-let b= selectAll("button");
+let message= select(".message");
+let textarea= select("textarea");
+let files= {}; let times= 1;
 
-a[0].oninput=()=>{
-a[1].value= a[0].value + ".github.io";
+
+//MAIN FUNCTION: FETCH FILES AND STORE IN FILE{}---------------------------
+async function fetchFiles(url,auth){
+message.innerHTML= `Fetched ${times} folder(s), arranging files....`; times++;
+
+let fileArray= [];
+
+let response= await fetch(url, {
+headers : auth
+});
+
+
+if(response.status=="200"){
+let max= response.headers.get("x-ratelimit-limit");
+let current= response.headers.get("x-ratelimit-remaining");
+let rest= response.headers.get("x-ratelimit-reset");
+msg= showThis(`Limit: ${max} -- Remaining:${current} -- Reset: ${getTime(rest*1000)}`,"green");
+
+let data= await response.json();
+data.forEach(i=>{
+if(i.type!="dir") fileArray.push(i.path);
+else fetchFiles(i.url,auth);
+});
+
+let slashes= (fileArray[0].match(/\//g)||[]).length;
+let main= (slashes>1) ? fileArray[0].split("/").slice(0,-1).join(">") : "root";
+files[main]= fileArray;
+}
+else{
+let failed= await response.json();
+switch(failed.message){
+case "Bad credentials" :
+msg= showThis("Invalid token. Check again or leave empty to fetch anonymously","red");
+break;
+case "Not Found" :
+msg= showThis("Not found. Check owner/repo/folder fields for mistakes","red");
+break;
+default: msg= showThis("Some error occured","red");
+}
+files= {"Error" : failed.message};
+}
+
+}// End of function
+
+
+let owner= select(".owner");
+let repo= select(".repo");
+let folder= select(".folder");
+let token= select(".token");
+
+owner.placeholder= "owner name";
+repo.placeholder= "repo name";
+folder.placeholder= "leave empty to fetch whole repo";
+token.placeholder= "to increase limit";
+
+owner.oninput= function(){
+repo.value= this.value + ".github.io";
 };
 
 
+//Calling fetchFiles on click-----------------------------------
+let go= select("#go");
+go.onclick=()=>{
+files= {}; textarea.value= ""; message.innerHTML= ""; times= 1;
+let auth= (token.value=="") ? {} : {
+authorization: "token " + token.value
+};
 
-let full= {};
-function doit(x){
-let ok=[];
-fetch(x).then(r=>r.json())
-.then(d=>{
-d.forEach(i=>{
-if(i.type!="dir") ok.push(i.path);
-else doit(i.url);
-});
-
-let xp= ok[0].split("/").slice(0,-1).join(">");
-full[xp||"root"]= ok;
-
-});
-}
-
-
-b[0].onclick=()=>{
-full= {};
-let owner= a[0].value;
-let repo= a[1].value;
-let url= `https://api.github.com/repos/${owner}/${repo}/contents/?recursive=1`;
-doit(url);
-
-tree.innerHTML= "Loading....";
+let url= `https://api.github.com/repos/${owner.value}/${repo.value}/contents/${folder.value||""}`;
+fetchFiles(url,auth);
 
 setTimeout(()=>{
-ta.value= JSON.stringify(full,null,2);
+textarea.value= JSON.stringify(files,null,2);
+message.innerHTML= msg;
 },3000);
 
 };
 
 
-
-b[1].onclick=()=>{
-full= {};
-let owner= a[0].value;
-let repo= a[1].value;
-let url= `https://api.github.com/repos/${owner}/${repo}/contents/?recursive=1`;
-doit(url);
-
-tree.innerHTML= "Loading....";
-
-
-
-setTimeout(()=>{
-for(let i in full){
-if (full.hasOwnProperty(i)){
-full[i]= full[i].map(j=>{
-let text= j.split("/");
-text= text[text.length-1];
-return `<a href='/${j}'>${text}</a>`;
-});
-}
-}
-
-
-ta.value= JSON.stringify(full,null,2);
-},3000);
-
+//-----------------------------------
+let copy= select("#copy");
+copy.onclick= function(){
+copyData(textarea.value,this);
 };
 
+copy.onblur=()=> copy.innerHTML= "Copy";
 
 
+//Copy++++++++
+function copyData(a,b){
+try{
+navigator.clipboard.writeText(a);
+b.innerHTML= "Copied";
+}
+catch(x){
+let temp= create("input");
+temp.style.cssText="opacity:0; pointer-events:none";
+document.body.append(temp);
+temp.value= a;
+temp.focus(); temp.select();
+document.execCommand("copy");
+b.innerHTML= "Copied";
+temp.remove();
+}
+}
+
+//Convert UX Time+++++
+function getTime(x){
+return new Date(x).toLocaleString('en-US',{
+hour: 'numeric',
+minute: 'numeric',
+hour12: true
+});
+}
 
 
-
-
-
-
+//Wrap text in span++++++
+function showThis(text,color){
+return `<span class="${color}">${text}</span>`;
+}
 
 
 
