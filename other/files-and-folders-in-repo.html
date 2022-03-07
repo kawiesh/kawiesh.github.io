@@ -202,7 +202,7 @@ else fetchFiles(i.url,auth);
 });
 
 let slashes= (fileArray[0].match(/\//g)||[]).length;
-let main= (slashes>1) ? fileArray[0].split("/").slice(0,-1).join(">") : "root";
+let main= (slashes>0) ? fileArray[0].split("/").slice(0,-1).join(">") : "root";
 files[main]= fileArray;
 }
 else{
