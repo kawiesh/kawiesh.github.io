@@ -218,7 +218,9 @@ let main= {
     "CNAME",
     "about.html",
     "favicon.ico",
+    "index.css",
     "index.html",
+    "index.js",
     "index2.html",
     "sitemap.html"
   ],
@@ -226,22 +228,21 @@ let main= {
     "lyrics/beete-lamhein.html",
     "lyrics/index.html",
     "lyrics/main-yahan-tu-wahan.html",
+    "lyrics/maine-dil-se-kaha.html",
     "lyrics/naaraz-savera.html",
     "lyrics/nog-een-kans.html",
     "lyrics/style.css"
   ],
-  "tools": [
-    "tools/README.md",
-    "tools/bookmarklet-maker.html",
-    "tools/html-editor.html",
-    "tools/link-lister.html",
-    "tools/notepad.html",
-    "tools/table-generator.html",
-    "tools/text-extractor.html",
-    "tools/text-merger.html",
-    "tools/text-modifier.html",
-    "tools/text-numbering.html",
-    "tools/text-replacer.html"
+  "bookmarklets": [
+    "bookmarklets/csseditor.js",
+    "bookmarklets/google-search-custom-date.js",
+    "bookmarklets/index.html",
+    "bookmarklets/jsinjector.js",
+    "bookmarklets/linksfilter.js",
+    "bookmarklets/linktools.js",
+    "bookmarklets/quickcopy.js",
+    "bookmarklets/quicksource.js",
+    "bookmarklets/videospeed.js"
   ],
   "notes": [
     "notes/css.html",
@@ -251,32 +252,6 @@ let main= {
     "notes/regex.html",
     "notes/tree.txt",
     "notes/treemaker.html"
-  ],
-  "bookmarklets": [
-    "bookmarklets/csseditor.js",
-    "bookmarklets/index.html",
-    "bookmarklets/jsinjector.js",
-    "bookmarklets/linksfilter.js",
-    "bookmarklets/linktools.js",
-    "bookmarklets/quickcopy.js",
-    "bookmarklets/quicksource.js",
-    "bookmarklets/videospeed.js"
-  ],
-  "resources": [
-    "resources/404.html",
-    "resources/about.txt",
-    "resources/background1.jpg",
-    "resources/background2.jpg",
-    "resources/bg.png",
-    "resources/goldborder.png",
-    "resources/index.css",
-    "resources/index.js",
-    "resources/kawiesh.jpg",
-    "resources/listfiles.html",
-    "resources/metaltexture.jpg",
-    "resources/nightsky.png",
-    "resources/sitemap.txt",
-    "resources/sitemap.xml"
   ],
   "old": [
     "old/bookmarklet-combiner.html",
@@ -304,16 +279,48 @@ let main= {
     "old/text-replacer.html",
     "old/text-replacer0.html"
   ],
-  "tools>examples": [
-    "tools/examples/text-numbering.html"
+  "other": [
+    "other/audio-player.html",
+    "other/calculator.html",
+    "other/draw.html",
+    "other/files-in-folder.html",
+    "other/files-in-repo.html",
+    "other/html-template.html",
+    "other/index.html",
+    "other/public-apis.html",
+    "other/tree-in-repo.html",
+    "other/video-player.html"
   ],
-  "resources>click": [
-    "resources/click/about.txt",
-    "resources/click/click1.mp3",
-    "resources/click/click2.mp3",
-    "resources/click/click3.mp3",
-    "resources/click/click4.mp3",
-    "resources/click/click5.mp3"
+  "resources": [
+    "resources/404.html",
+    "resources/BlackChancery.woff",
+    "resources/about.txt",
+    "resources/background1.jpg",
+    "resources/background2.jpg",
+    "resources/bg.png",
+    "resources/brick-wall-dark.png",
+    "resources/goldborder.png",
+    "resources/kawiesh.jpg",
+    "resources/listfiles.html",
+    "resources/metaltexture.jpg",
+    "resources/nightsky.png",
+    "resources/papyrus.png",
+    "resources/sitemap.txt",
+    "resources/sitemap.xml"
+  ],
+  "tools": [
+    "tools/README.md",
+    "tools/bookmarklet-maker.html",
+    "tools/html-editor.html",
+    "tools/link-lister.html",
+    "tools/notepad.html",
+    "tools/table-generator.html",
+    "tools/text-extractor.html",
+    "tools/text-merger.html",
+    "tools/text-modifier.html",
+    "tools/text-numbering.html",
+    "tools/text-replacer.html",
+    "tools/text-to-link.html"
   ],
   "old>favicon": [
     "old/favicon/android-chrome-192x192.png",
@@ -326,6 +333,22 @@ let main= {
     "old/favicon/readme.txt",
     "old/favicon/safari-pinned-tab.svg",
     "old/favicon/site.webmanifest"
+  ],
+  "other>php": [
+    "other/php/.htaccess",
+    "other/php/.htpasswd",
+    "other/php/allfiles.php",
+    "other/php/copy.html",
+    "other/php/copy.php",
+    "other/php/index.html",
+    "other/php/test.php",
+    "other/php/upload.html",
+    "other/php/upload.php"
+  ],
+  "resources>draw": [
+    "resources/draw/about.txt",
+    "resources/draw/jscolor.js",
+    "resources/draw/simple-drawing-board.js"
   ],
   "resources>favicon": [
     "resources/favicon/about.txt",
@@ -340,8 +363,19 @@ let main= {
     "resources/favicon/mstile-150x150.png",
     "resources/favicon/safari-pinned-tab.svg",
     "resources/favicon/site.webmanifest"
+  ],
+  "tools>examples": [
+    "tools/examples/text-numbering.html"
+  ],
+  "resources>click": [
+    "resources/click/about.txt",
+    "resources/click/click1.mp3",
+    "resources/click/click2.mp3",
+    "resources/click/click3.mp3",
+    "resources/click/click4.mp3",
+    "resources/click/click5.mp3"
   ]
-}
+};
 
 
 makeTree(main,"home","");
