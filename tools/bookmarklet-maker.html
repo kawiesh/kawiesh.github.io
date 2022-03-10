@@ -392,9 +392,9 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 let newtab= `function newTab(txt,div){
 let a= div ? create("div") : create("textarea");
 a.innerHTML= txt;
-a.style.cssText= `width:98vw; height: 150vw;
+a.style.cssText= \`width:98vw; height: 150vw;
 border: 2px solid black; margin: 0;
-padding: 10px; font: 14px Arial`;
+padding: 10px; font: 14px Arial\`;
 window.open().document.body.append(a);
 }
 
