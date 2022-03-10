@@ -389,44 +389,26 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 `;
 
-let newtab= `
-//-------------------------------------
-let newtab= window.open();
-let ntcss= create("style");
-let ntdiv= create("div");
-let ntta= create("textarea");
-newtab.document.body.append(ntcss,ntdiv,ntta);
-
-ntcss.innerHTML=\`*{
-box-sizing: border-box;
-margin:0; padding:0; 
-outline: none;
-}
-	
-body{
-background: white;
-width: clamp(100vw,100vw,100vw); ​
-height: clamp(100vw,100vw,100vw); 
-position: relative; display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: center;
+let newtab= `function newTab(txt,div){
+let a= div ? create("div") : create("textarea");
+a.innerHTML= txt;
+a.style.cssText= `width:98vw; height: 150vw;
+border: 2px solid black; margin: 0;
+padding: 10px; font: 14px Arial`;
+window.open().document.body.append(a);
 }
 
-div{display: none;}
+newTab("❤️","✨");
 
-div,textarea{
-width:95%; height: 90%;
-border: 1.5px solid black;
-padding: 5px; font: 14px Arial;
-}\`;
-//-------------------------------------`;
+`;
 
 
 
 
 let fetch1= `
-//-------------------------------------
+let proxy= "https://cors.krishan.workers.dev/?";
+let url= "❤️";
+
 fetch(url)
 .then(r=>r.clone().json().catch(() => r.text()))
 .then(d=> {
@@ -442,8 +424,7 @@ alert(d);
 let fetchpost= `
 //-------------------------------------
 let formData = new FormData();
-formData.append('name', 'John');
-formData.append('password', 'John123');
+formData.append("❤️","✨");
 
 fetch(url, {
 method: "POST",
