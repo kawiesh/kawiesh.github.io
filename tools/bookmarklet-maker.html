@@ -185,7 +185,7 @@ body{background-size:20%;}
 <button class="button" id="save">Save</button>
 <select id="shortcuts" class="button">
 <option disabled selected>Shortcuts</option>
-<option>Selectors</option>
+<!--<option>Selectors</option>-->
 <option>New Tab</option>
 <optgroup label="-------Fetch API---------">
 <option>Fetch</option>
@@ -389,6 +389,9 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 `;
 
+input.value= selectors;
+
+
 let newtab= `function newTab(txt,div){
 let a= div ? create("div") : create("textarea");
 a.innerHTML= txt;
@@ -422,18 +425,12 @@ alert(d);
 
 
 let fetchpost= `
-//-------------------------------------
 let formData = new FormData();
 formData.append("❤️","✨");
 
-fetch(url, {
-method: "POST",
-body: formData					
-}).then(r=>r.clone().json().catch(() => r.text()))
-.then(d=>{
-alert(d);
-
-})
+fetch(url, { method: "POST", body: formData })
+.then(r=>r.clone().json().catch(() => r.text()))
+.then(d=>{ alert(d); })
 .catch(x=> alert(x));
 
 `;
@@ -463,11 +460,13 @@ let shortcuts= select("#shortcuts");
 shortcuts.oninput= function(){
 let addthis= checkIndex();
 if(input.setRangeText){
-input.setRangeText(addthis);
+input.value+= addthis;
+//input.setRangeText(addthis);
 }
 else{
-input.focus()
-document.execCommand('insertText', false, addthis);
+input.focus();
+input.value+= addthis;
+//document.execCommand('insertText', false, addthis);
 }
 this.selectedIndex= 0;
 };
@@ -475,11 +474,11 @@ this.selectedIndex= 0;
 
 
 function checkIndex(){
-if(shortcuts.selectedIndex==1) return selectors;
-if(shortcuts.selectedIndex==2) return newtab;
-if(shortcuts.selectedIndex==3) return fetch1;
-if(shortcuts.selectedIndex==4) return fetchpost;
-if(shortcuts.selectedIndex==5) return fetchphp;
+//if(shortcuts.selectedIndex==1) return selectors;
+if(shortcuts.selectedIndex==1) return newtab;
+if(shortcuts.selectedIndex==2) return fetch1;
+if(shortcuts.selectedIndex==3) return fetchpost;
+if(shortcuts.selectedIndex==4) return fetchphp;
 }
 
 
