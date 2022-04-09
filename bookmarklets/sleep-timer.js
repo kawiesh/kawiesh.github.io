@@ -1,23 +1,21 @@
-let a= prompt("Close tab after how many minutes?");
-let b= document.querySelector("html");
-if(a){
-let c= window.open(location.href);
-let d= a*60*1000;
-let e= d;
-doit(e,b,d);
+let mins= prompt("Close tab after how many minutes?");
+let html= document.querySelector("html");
+if(mins){
+let tab= window.open(location.href);
+let time= mins*60*1000;
+let left= time;
+writeIt(time,html,left);
 
 setTimeout(()=>{
-c.close();
-b.innerHTML= `>><b>New tab opened.<br>
->>!</b>`;
-},d);
+tab.close();
+},time);
 }
 
 
-function formatTime(x){
-let hms= new Date(x).toISOString().substr(11,8).split(":");
+function formatTime(a){
+let hms= new Date(a).toISOString().substr(11,8).split(":");
 let h= Number(hms[0]), m= Number(hms[1]), s= Number(hms[2]);
-let H,M;
+let H,M,S;
 
 switch(h){
 case 0: H= ""; break;
@@ -31,26 +29,26 @@ case 1: M= "1 min. & "; break;
 default:M= `${m} min. & `;
 }
 
+S= `${s} sec.`;
 
-return `${H}${M}${s} sec.`;
-
+return `${H}${M}${S}`;
 }
 
 
 
-
-function doit(x,y,z){
-document.title= "Sleep Timer";
+function writeIt(x,y,z){
 if(x>1000){
-
-y.innerHTML= `>><b>New tab opened.<br>
->>It'll close after ${formatTime(x)}`;
+y.innerHTML= `>>New Tab Opened<br>
+>>It will close in ${formatTime(x)}`;
 x= x-1000;
 setTimeout(()=>{
-doit(x,y,z)
+writeIt(x,y,z);
+document.title= "Sleep Timer";
 },1000);
-
 }
-else y.innerHTML= `>><b>New tab opened.<br>
+else{
+y.innerHTML= `>>New Tab Opened<br>
 >>Closed after ${formatTime(z)}`;
+document.title= "Sleep Timer";
+}
 }
