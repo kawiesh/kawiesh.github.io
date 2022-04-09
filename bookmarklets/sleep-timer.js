@@ -2,7 +2,6 @@ let a= prompt("Close tab after how many minutes?");
 let b= document.querySelector("html");
 if(a){
 let c= window.open(location.href);
-document.title= "Sleep Timer";
 let d= a*60*1000;
 let e= d;
 doit(e,b,d);
@@ -41,7 +40,8 @@ return `${H}${M}${s} sec.`;
 
 
 function doit(x,y,z){
-if(x>0){
+document.title= "Sleep Timer";
+if(x>1000){
 
 y.innerHTML= `>><b>New tab opened.<br>
 >>It'll close after ${formatTime(x)}`;
