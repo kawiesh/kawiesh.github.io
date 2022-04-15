@@ -227,3 +227,14 @@ content: "Source: https://bollywood.radio";
 font: bold 8px Courier;
 }
 
+
+@media(orientation:landscape){
+body{
+width: 40vw;
+left: 30vw;
+margin: 5px 0;
+border: 1px solid #889bb3;
+border-radius: 5px;	
+}
+}
+
