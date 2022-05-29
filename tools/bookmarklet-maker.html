@@ -294,8 +294,7 @@ let input= select("#input"), copy= select("#copy");
 
 
 
-let inputvalue = localStorage.getItem("inputvalue");
-input.value= inputvalue;
+
 
 
 
@@ -389,7 +388,9 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 `;
 
-input.value= selectors;
+
+let inputvalue = localStorage.getItem("inputvalue");
+input.value= inputvalue||selectors;
 
 
 let newtab= `function newTab(txt,div){
