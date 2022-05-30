@@ -127,7 +127,7 @@ let selectors=`.sidebar a[href*=twitter]
 .sidebar a[href*=t\\.me]
 .sidebar a[href*=github]
 .sidebar a[href*=pastebin]
-.sidebar a[href="https://www.kawiesh.ga"]
+.sidebar a[href="https://blog.kawiesh.eu.org"]
 .sidebar a[href="https://blog.kawiesh.ml"]
 .sidebar a[href="https://kawiesh.tk"]
 .sidebar a[href="https://kawiesh.ml"]
@@ -140,8 +140,9 @@ let selectors=`.sidebar a[href*=twitter]
 .othertools a[href*=bookmarklet]
 .other a
 .sidebar a[href="http://kawiesh.cf"]
-.sidebar a[href="https://kawiesh.gq"]
-.sidebar a[href="https://krishan.ml"]`;
+.sidebar a[href="https://kawiesh.ml"]`;
+
+//.sidebar a[href="https://krishan.ml"]
 
 selectors= selectors.split("\n");
 
