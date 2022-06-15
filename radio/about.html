@@ -1,0 +1,81 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="black">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-navbutton-color" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About</title>
+
+<style>				
+*{
+box-sizing: border-box;
+margin:0; padding:0; 
+outline: none;
+}	
+
+body{
+background: rgb(251,244,234) url("");
+min-width: 100vw; 
+max-width: 100vw; 
+min-height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+#container{
+height: auto;
+border: 0px solid red;
+margin-top: 20px;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+}
+
+img{
+width: 100%;
+aspect-ratio: 1/1;
+}
+
+@media (orientation:portrait){
+#container{width: 95%;}
+body{background-size: 35%;}		
+}	
+
+@media (orientation:landscape){
+#container{width: 75%;}
+body{background-size: 50%;}			
+}	
+
+</style>
+<style>.nowtouching{
+background:rgb(255,192,203,0.5)!important;
+transition: none!important;
+}</style>
+</head>
+<body data-nosnippet="">
+<div id="container">
+
+<img src="kawiesh.jpg"/>
+
+</div>
+<script>				
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+
+</script>	
+
+
+<button style="width: 50px; height: 50px; padding: 2px; position: fixed; bottom: 2px; right: 2px; z-index: 999999;">EDIT</button>
+</body>
+</html>
