@@ -8,8 +8,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+<meta name="description" content="Convert URLs in plain text to clickable links!"/>
 <title>Text To Link</title>
+
 
 <style>				
 *{
@@ -133,25 +134,25 @@ align-items: center;
 
 </style>
 </head>
-<body data-nosnippet>
-<div id="container">
+<body>
+<div id="container" data-nosnippet>
 
-<div id="options">
-<span class="option customtext">
+<div id="options" data-nosnippet>
+<span class="option customtext" data-nosnippet>
 <input type="checkbox">
 Custom text</span>
-<span class="option newtab">
+<span class="option newtab" data-nosnippet>
 <input type="checkbox">
 Open in new tab</span>
-<span class="option protocol">
+<span class="option protocol" data-nosnippet>
 <input type="checkbox">
 Automatically add protocol</span>
 
 <!--
-<span class="option realtime">
+<span class="option realtime" data-nosnippet>
 <input type="checkbox">
 Real-time editing</span>
-<span class="option visited">
+<span class="option visited" data-nosnippet>
 <input type="color">
 Visited color</span>
 -->
@@ -162,7 +163,7 @@ Visited color</span>
 <textarea class="input text hidden"></textarea>
 <div id="output"></div>
 
-<div class="buttons">
+<div class="buttons" data-nosnippet>
 <button id="save">Save</button>
 <button id="copy">Copy</button>
 </div>
