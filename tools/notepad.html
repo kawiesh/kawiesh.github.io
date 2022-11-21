@@ -12,14 +12,15 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="msapplication-config" content="/resources/favicon/browserconfig.xml">
 
+<meta name="msapplication-config" content="/resources/favicon/browserconfig.xml">
 <link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon/favicon-16x16.png">
 <link rel="manifest" href="/resources/favicon/site.webmanifest">
 <link rel="mask-icon" href="/resources/favicon/safari-pinned-tab.svg" color="#5bbad5">
 <link rel="shortcut icon" href="/resources/favicon/favicon1.ico">
+
 <title>Notepad</title>
 
 <style>
@@ -38,6 +39,7 @@ overflow-x: hidden;
 }
 
 
+
 body{
 position: relative;
 background: url(/resources/bg.png);
@@ -46,6 +48,7 @@ font: normal 12px Arial;
 text-align: center;
 text-shadow: 0px 1px -1px #fff;
 -webkit-tap-highlight-color: transparent;
+border: 1.5px solid black;
 }
 
 /*------TOP BAR-----------*/
@@ -85,6 +88,7 @@ width: 30px;
 height: 30px;
 padding: 5px;
 color: white;
+cursor: pointer;
 }
 
 .button>svg{
@@ -158,7 +162,7 @@ margin: 12px 0 0 12px;
 margin: 0 10px;	
 width: calc(100% - 20px);
 display: flex;
-flex-direction: column;				
+flex-direction: column;
 }
 
 
@@ -275,10 +279,12 @@ width: 100%;
 
 
 .cb{
+cursor: pointer;
 display: inline-block;
 height: 100%; width: 20px;
 border: 1px solid black;	
-border-radius: 2px;						
+border-radius: 2px;
+						
 }
 
 
@@ -286,6 +292,11 @@ border-radius: 2px;
 width: 30px;
 height: 30px;
 cursor: pointer;								
+}
+
+
+#increase:hover,#decrease:hover{
+background: yellow;
 }
 
 .rs svg{
@@ -323,6 +334,40 @@ padding: 5px;
 
 #notepad.bold{ font-weight: bold;}
 #notepad.italic{ font-style: italic;}
+
+/*-------------GENERAL--------------*/
+
+body::-webkit-scrollbar{
+width: 3px;
+height: 3px;
+}
+
+body::-webkit-scrollbar-track{
+background: white;
+}
+
+body::-webkit-scrollbar-thumb{
+background: yellow;
+border-radius: 50px;
+}
+
+
+@media(orientation:portrait){
+body{
+width: 100%;
+margin: 0;
+}
+
+}	
+
+@media(orientation:landscape){
+body{
+width: 50%;
+margin: 0 25%;
+}
+
+}
+
 
 </style>
 </head>
@@ -376,9 +421,9 @@ into the notepad field
 
 <h2>Font size</h2>
 <div class="fontsize rs">
-<div id="decrease">-</div>
+<div id="decrease" data-interval= "-1">-</div>
 <div id="fontsize">15 px</div>
-<div id="increase">+</div>
+<div id="increase" data-interval= "1">+</div>
 </div>
 
 <h2>Font family</h2>
@@ -554,10 +599,11 @@ notepad.style.fontSize= _fontsize+"px";
 }
 
 
+/*
 
 let _timer;
 
-decrease.ontouchstart= function(e){
+decrease.ontouchstart= decrease.onmousedown= function(e){
 this.classList.add("hover");
 _timer= setInterval(()=>{
 adjustFont(-1);
@@ -568,6 +614,7 @@ return false;
 
 increase.ontouchstart= function(e){
 this.classList.add("hover");
+
 _timer= setInterval(()=>{
 adjustFont(1);
 }, 50);
@@ -581,6 +628,20 @@ decrease.classList.remove("hover");
 clearInterval(_timer);
 //return false;
 };
+
+
+*/
+
+
+
+
+
+
+decrease.onclick= increase.onclick= function(e){
+adjustFont(+this.dataset.interval);
+};
+
+
 
 
 
@@ -764,6 +825,10 @@ localStorage.setItem("_store", JSON.stringify(_store));
 };
 
 
+
+document.body.onselectstart=()=>{
+return false;
+};
 
 </script>
 
