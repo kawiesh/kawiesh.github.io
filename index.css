@@ -23,7 +23,14 @@ overflow-x: hidden;
 
 body{
 position: relative;
-background: url(/resources/bg.png);
+background-color: #addaff;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAABCAYAAABZj6VmAAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9sHDwwuC8uho8oAAAAlSURBVChTYzx65sp/BhTwj4GNjQ0s8uvXH1QphlG50XChbpoAAHr1XHYibA5LAAAAAElFTkSuQmCC);
+background-size: 160px 1px;
+user-select: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
 color: #4c566c;
 font: normal 12px Arial;
 text-align: center;
