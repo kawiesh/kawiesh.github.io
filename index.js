@@ -130,7 +130,7 @@ let selectors=`.sidebar a[href*=twitter]
 .sidebar a[href="https://blog.kawiesh.eu.org"]
 .sidebar a[href="https://blog.kawiesh.ml"]
 .sidebar a[href="https://kawiesh.tk"]
-.sidebar a[href="https://kawiesh.debisarun.eu.org"]
+.sidebar a[href="https://krishan.eu.org"]
 .texttools a[href*=text]
 .othertools a[href*=notepad]
 .othertools a[href*=table]
@@ -140,7 +140,7 @@ let selectors=`.sidebar a[href*=twitter]
 .othertools a[href*=bookmarklet]
 .other a
 .sidebar a[href="http://kawiesh.cf"]
-.sidebar a[href="https://kawiesh.ml"]`;
+.sidebar a[href="https://m.kawiesh.eu.org"]`;
 
 //.sidebar a[href="https://krishan.ml"]
 
