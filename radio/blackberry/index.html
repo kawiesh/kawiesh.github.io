@@ -1,0 +1,122 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Some tools for BlackBerry devices running BBOS 7 or lower. Tested on BlackBerry Curve 9320's native browser.">
+<meta name="keywords" content="Kawiesh Debisarun, BlackBerry, BlackBerry OS 7">
+<meta name="author" content="Kawiesh Debisarun">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="black">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-navbutton-color" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>BlackBerry Tools</title>
+
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+position: relative;
+box-sizing: border-box;
+}
+
+html,body{
+width: 100vw;
+overflow-x: hidden;
+}
+
+
+
+body{
+background: rgb(251,244,234);
+}
+
+.links{
+width: 100%;
+margin: 5px 0 0 5px;
+}
+
+.links>a{
+width: 100px;
+text-align: center;
+text-decoration: none;
+padding: 5px;
+margin: 5px;
+border: 1px solid black;
+float: left;
+}
+
+.links>a:visited{
+color: blue;
+}
+
+.info{
+width: 90%;
+margin: 20px 0 0 10px;
+clear: both;
+}
+
+
+a:hover{
+background: yellow;
+}
+
+/******************************************************/
+
+
+
+/******************************************************/
+@media (orientation:portrait){
+.container{width: 95%;}
+}
+
+@media (orientation:landscape){
+.container{width: 50%;}
+}
+</style>
+</head>
+<body>
+<div class="links" data-nosnippet></div>
+<div class="info" data-nosnipet>
+Hello, here are some tools I created for my BlackBerry phone! 
+These were only tested on a BlackBerry Curve 9320, running OS 7, but 
+they're expected to run on all other devices and OS versions.
+</div>
+<script>
+
+function doc(action,target){
+if(action=="create") return document.createElement(target);
+if(action=="select") return document.querySelector(target);
+if(action=="selectAll") return document.querySelectorAll(target);
+action.appendChild(target);
+}
+
+var links= {
+"Apps" : "/apps/",
+"Notes" : "/notes",
+"Radio" : "/radio",
+"Old Radio" : "/radio-1",
+"JS Tester" : "/bookmarklet-maker",
+"HTML Tester" : "/html-editor"
+};
+
+
+var linkscontainer= doc("select",".links");
+
+for(var title in links){
+if(links.hasOwnProperty(title)){
+var a= doc("create","a");
+a.textContent= title;
+a.href= links[title];
+doc(linkscontainer,a);
+}
+}
+
+
+</script>
+</body>
+</html>
