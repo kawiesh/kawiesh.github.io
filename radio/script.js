@@ -49,7 +49,7 @@ list= proxiedList;
 
 
 document.body.onselectstart=()=> false;
-if(srflag) srflag.onclick=()=> location= "/";
+if(srflag) srflag.onclick=()=> location= "index.html";
 if(inflag) inflag.onclick=()=> location= "bollywood.html";			
 
 pause.onclick=()=>{
