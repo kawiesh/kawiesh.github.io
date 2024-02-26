@@ -195,8 +195,8 @@ let loading= `<svg viewBox="0 0 55 80" fill="gray">
 
 let audio= select("audio");
 let audiosrc=[
-"https://drive.uber.radio/uber/bollywooduditnarayan/icecast.audio",
-"https://drive.uber.radio/uber/bollywoodalkayagnik/icecast.audio"
+"https://strm112.1.fm/bombaybeats_mobile_mp3",
+"https://funasia.streamguys1.com/live9"
 ];
 
 
