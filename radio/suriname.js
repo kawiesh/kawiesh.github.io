@@ -7,7 +7,7 @@ let sarnamie= {
 "https://stream.zeno.fm/p218h6ccxnhvv" : "AVS Radio",
 "https://mediaserv38.live-streams.nl:18039/stream" : "Awaaz",
 "https://stream.zeno.fm/putkar0p9k0uv" : "Bollywood Sur.",
-"http://www.dhantalradio.ca:8000/stream1" : "Dhantal",
+"http://dhantalradio.ca:8000/;" : "Dhantal",
 //"https://rs.suricloud.com/radio/8120/radio.mp3" : "Ek Sitara",
 "https://eksitara-radiohosting2.radioca.st/stream" : "Ek Sitara",
 //"https://hidradio.live-streams.nl/live?type=.mp3/;stream.mp3" : "HiD Radio",
