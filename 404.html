@@ -89,10 +89,10 @@ $= document.querySelector.bind(document),
 $$= document.querySelectorAll.bind(document),
 create= document.createElement.bind(document);
 
-let url= location.href.split(".eu.org/");
+let url= location.href.split(".top/");
    
 
-$("li>span").innerHTML+= `${url[0]}.eu.org/<span style="color: red">${url[1]}</span>`;
+$("li>span").innerHTML+= `${url[0]}.top/<span style="color: red">${url[1]}</span>`;
 
 $("svg").onclick= function(){
 location= "/";
