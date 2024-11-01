@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="Kawiesh"/>
+<meta name="keywords" content="Kawiesh, Debisarun, 	Kawiesh Debisarun"/>
+<meta name="description" content="Kawiesh Debisarun"/>
+<meta name="viewport" content="width=device-width, 	initial-scale=1.0"/>
+
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" 	content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/	>
+<meta name="apple-mobile-web-app-status-bar-style" 	content="black-translucent"/>
+<title>Lidwoord</title>
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+box-sizing: border-box;
+}
+
+html,body{
+width: 100%;
+height: 100%;
+overflow-x: hidden;
+font: 14px Arial;
+}
+
+
+body{
+background-color: rgb(251,244,234);
+user-select: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+}
+
+.container{
+height: 100%;
+}
+/******************************************************/
+
+table{
+border:1.5px solid black;		
+border-collapse: collapse;
+width: 100%;
+table-layout: fixed;
+}
+ 
+th,td{
+padding: 2px;
+border:1px solid black;
+height: calc(1em + 5px);
+text-align: left;
+vertical-align: middle;
+overflow: auto;
+}
+
+th{
+background:rgb(204, 255, 204);
+}
+
+td:nth-child(1){
+font-style: italic;
+background: lightgray;
+}
+
+td:nth-child(2),p.wel{
+background: lightgreen;
+}
+
+td:nth-child(3),p.geen{
+background: pink;
+}
+
+
+p{
+border: 1px solid black;
+padding: 5px;
+margin: 0 0 20px 0;
+}
+
+
+p.input,p.output{
+border: none;
+}
+
+
+
+/******************************************************/
+
+.container{
+width: 50%;
+margin: 10px 25%;
+}
+
+@media screen and 
+(max-device-aspect-ratio: 1/1) , 
+(max-aspect-ratio: 1/1){
+.container{
+width: 95%;
+margin: 10px 2.5%;
+}
+}
+
+p.input{
+display: flex;
+}
+
+p.input>*{
+padding: 5px;
+border: 1px solid black;
+}
+
+input{
+width: 10ch;
+}
+
+</style>
+</head>
+<body>
+<main class="container">
+
+	
+<p class="input">
+<input><button>Zoek</button>	
+</p>
+
+<p class="output"></p>
+	
+	
+<p class="wel de">
+<b>DE woorden</b><br>
+- altijd een buigings-e
+</p>
+
+<p class="wel het">
+<b>HET woorden</b><br>
+- ervoor een bzvnw. staat (het,mijn,zijn,hun)
+</p>
+
+<p class="geen">
+<b>HET woorden</b><br>
+- ervoor het onbepaalde lidwoord “een”staat<br>
+- ervoor een hoeveelheidsaanduiding staat (veel,geen)<br>
+- ervoor geen woord staat (eerste woord van een zin)
+</p>
+
+
+
+<table>
+<thead>
+<tr>
+<th>Lidwoord</th>
+<th>Goed</th>
+<th>Fout</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>De volledige scriptie</td>
+<td>De volledig scriptie</td>
+</tr>
+<tr>
+<td>DE</td>
+<td>De intelligente kinderen</td>
+<td>De intelligent kinderen</td>
+</tr>
+<tr>
+<td>HET</td>
+<td>Het ambitieuze personeel</td>
+<td>Het ambitieus personeel</td>
+</tr>
+<tr>
+<td>HET</td>
+<td>Zijn succesvolle bedrijf</td>
+<td>Zijn succesvol bedrijf</td>
+</tr>
+<tr>
+<td>HET</td>
+<td>Een nieuw besluit</td>
+<td>Een nieuwe besluit</td>
+</tr>
+<tr>
+<td>HET</td>
+<td>Geen politiek bestuur</td>
+<td>Geen politieke bestuur</td>
+</tr>
+</tbody>
+</table>
+
+	
+</main>
+<script>
+window.addEventListener("error", function(e){
+alert(e.message+"\nLine: "+e.lineno+"   Column: " + e.colno);
+return true;
+});
+</script>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+//-------------------------------------------------------
+
+let input= select("input");
+let output= select("p.output");
+let go= select("button");
+
+
+	
+go.onclick= function(){
+if(input.value=="") return;
+output.innerHTML= "Trying to fetch results....";
+getLidwoord(input.value);
+};
+
+
+
+
+function getLidwoord(woord){
+let failed= false;
+let url= `https://corsproxy.io/?https://www.welklidwoord.nl/${woord}`;
+
+fetch(url)
+.then(r=>r.text())
+.catch(f=> failed= true)
+.then(d=>{
+if(failed){
+alert("Response not OK");
+return;
+}
+
+let doc= new DOMParser().parseFromString(d,"text/html");
+let elem= select("div[itemprop='acceptedAnswer']",doc);
+output.innerHTML= elem ? replaceText(elem.innerHTML) :
+"Niet gevonden";
+})
+.catch(x=> alert(x.message));
+
+}
+
+
+
+function replaceText(text){
+let output= text.replace(/In de Nederlandse taal gebruiken wij /,"").replace("beide lidwoorden voor","Zowel DE als HET");
+
+return output.toUpperCase();
+}
+
+
+
+</script>
+</body>
+</html>
