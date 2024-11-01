@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="Kawiesh"/>
+<meta name="keywords" content="Kawiesh, Debisarun, 	Kawiesh Debisarun"/>
+<meta name="description" content="Kawiesh Debisarun"/>
+<meta name="viewport" content="width=device-width, 	initial-scale=1.0"/>
+
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" 	content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/	>
+<meta name="apple-mobile-web-app-status-bar-style" 	content="black-translucent"/>
+<title>Audio Players</title>
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+box-sizing: border-box;
+}
+
+html,body{
+width: 100%;
+max-width: 100%;
+height: 100%;
+overflow-x: hidden;
+font: 14px Arial;
+}
+
+
+.flex{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.inline{
+display: inline-flex;
+}
+
+.column{
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+
+body{
+display: flex;
+flex-direction: column;
+background-color: rgb(251,244,234);
+}
+
+.container{
+margin: 10px auto;
+position: relative;
+justify-content: flex-start;
+border: 0px solid black;
+}
+/******************************************************/
+
+.wrapper{
+height: 40px;
+width: 100%;
+font: 12px Arial;
+position: relative;
+margin-bottom: 80px;
+}
+
+.player,.options{
+display: flex;
+align-items: center;
+height: 100%;
+width: 100%;
+padding: 5px;
+background: white;
+border: 2px solid black;
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.player{
+z-index: 2;
+}
+
+
+.options{
+z-index: 1;
+transition: .5s linear;
+background: lightgreen;
+}
+
+
+.options.expanded{
+top: 100%;
+border-top: none;
+}
+
+
+
+.options>*{
+height: 100%;
+padding: 2px 5px;
+border: 1px solid gray;
+margin-right: 2px;
+background: beige;
+font-variant: small-caps;
+}
+
+.options>p{
+padding: 0 5px;
+margin: 0 -1px 0 10px;
+border-right: none;
+}
+
+
+
+
+
+
+
+.source{
+font-variant: normal;
+}
+
+
+p.infinite, p.infinite + .speed{
+display: none;
+}
+
+::placeholder{
+font-style: italic;
+text-align: center;
+}
+
+
+
+
+.play,.config{
+width: 30px;
+height: 30px;
+color: black;
+cursor: pointer;
+}
+
+.play{
+margin-right: 5px;
+}
+
+.play>svg{
+height: 80%;
+}
+
+
+.config{
+color: gray;
+margin-left: 5px;
+}
+
+.config>svg{
+height: 60%;
+}
+
+
+
+
+.start,.end{
+height: 30px;
+background: none;
+}
+
+
+
+
+
+
+/******************************************************/
+
+[title]{
+position: relative;
+overflow: hidden;
+padding-top: 1.1em;
+}
+
+
+
+[title]::before{
+content: attr(title);
+display: inline-block;
+width: 100%;
+position: absolute;
+top: 0;
+color: gray;
+text-transform: lowercase;
+font-variant: small-caps;
+font-weight: bold;
+}
+
+
+/******************************************************/
+
+.noselect{
+user-select: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+}
+
+
+.progress{
+-webkit-appearance: none;
+width: 100%;
+height: 2px;
+margin: 0 2px;
+background: green;
+pointer-events: auto;
+}
+
+.progress.infinite{
+pointer-events: none;
+}
+
+
+.progress::-webkit-slider-thumb{
+-webkit-appearance: none;
+appearance: none;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: green;
+cursor: pointer;
+}
+
+.progress.infinite::-webkit-slider-thumb{
+display: none;	
+}
+
+.progress::-moz-range-thumb{
+-webkit-appearance: none; appearance: none;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: green;
+cursor: pointer;
+}
+
+.progress.infinite::-moz-range-thumb{
+display: none;
+}
+
+
+/******************************************************/
+.container{
+width: 50%;
+}
+
+@media screen and 
+(max-device-aspect-ratio: 1/1) , 
+(max-aspect-ratio: 1/1){
+.container{
+width: 95%;
+}
+}
+
+
+</style>
+</head>
+<body>
+<main class="container">
+</main>
+<script>
+window.addEventListener("error", function(e){
+alert(e.message+"\nLine: "+e.lineno+"   Column: " + e.colno);
+return true;
+});
+</script>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+buildPlayer();
+buildPlayer();
+
+
+
+
+//SETTINGS
+
+
+function showConfig(el,parent){
+let audio= select("audio",parent);
+let options= select(".options",parent);
+options.classList.toggle("expanded");
+let expanded= options.classList.contains("expanded");
+}
+
+
+
+//play or pause audio-------------
+function playPause(el,parent){
+let audio= select("audio",parent);
+if(audio.paused) audio.play();
+else audio.pause();
+}
+
+
+//update audio time-----------------
+function updateTime(el,parent){
+let path= select(".play path",parent),
+seekbar= select(".progress",parent),
+speed= select(".speed",parent);
+let start= seekbar.previousElementSibling;
+let end= seekbar.nextElementSibling;
+
+if(el.currentTime<=0){
+seekbar.classList.add("infinite");
+return;
+}
+
+
+
+if(el.currentTime<=1){
+if(Number.isFinite(el.duration)){
+seekbar.min= 0;
+seekbar.max= el.duration;
+seekbar.classList.remove("infinite");
+end.innerHTML= formatTime(el.duration);
+speed.previousElementSibling.classList.remove("infinite");
+el.playbackRate= speed.dataset.speed;
+
+}
+else{
+seekbar.classList.add("infinite");
+end.innerHTML= "LIVE";
+el.playbackRate= 1;
+speed.previousElementSibling.classList.add("infinite");
+}
+}
+
+
+
+
+seekbar.value= el.currentTime;
+start.innerHTML= formatTime(el.currentTime);
+
+if(el.paused) path.setAttribute("d", "M8 5.14v14l11-7l-11-7Z");
+else path.setAttribute("d", "M14 19h4V5h-4M6 19h4V5H6v14Z");
+
+
+if(el.currentTime>=el.duration){
+seekbar.value= 0;
+start.innerHTML= "00:00";
+}
+
+
+}
+
+
+
+
+//SEEKBAR
+function updateSeekbar(el,parent){
+let audio= select("audio",parent);
+let start= el.previousElementSibling;
+audio.currentTime= el.value;
+start.innerHTML= formatTime(el.value);
+//let end= el.nextElementSibling;
+//end.innerHTML= formatTime(el.duration);
+}
+
+
+
+//SOURCE
+
+function checkSource(el,parent){
+/*
+if(el.value==""){
+el.placeholder= "enter audio url";
+}
+
+if(isURL(el.value)){
+el.style.color= "black";
+}
+else{
+el.style.color= "maroon";
+}
+
+*/
+}
+
+
+//GO BUTTON
+
+function updateSource(el,parent){
+let source= el.previousElementSibling;
+if(source.value==""){
+alert("Audio URL cannot be empty, genius :/");
+return;
+}
+
+
+let audio= select("audio",parent);
+let seekbar= select(".progress",parent);
+audio.pause();
+seekbar.value= 0;
+seekbar.previousElementSibling.innerHTML= "00:00";
+seekbar.nextElementSibling.innerHTML= "NaN";
+audio.src= source.value;
+audio.play().catch(x=> alert(x.message));
+
+select(".play path",parent).setAttribute("d", "M8 5.14v14l11-7l-11-7Z");
+}
+
+
+//SPEED DROPDOWN
+
+function updateSpeed(el,parent){
+let audio= select("audio",parent);
+let currentOption= el.options[el.selectedIndex];
+	
+if(currentOption.innerHTML!=="custom"){
+el.dataset.speed= currentOption.innerHTML.split(" ")[0];
+audio.playbackRate= el.dataset.speed;
+return;
+}
+
+
+let customSpeed= prompt("Enter desired speed");
+if(!customSpeed) return;
+
+if(!el.options[7]) el.append(create("option"));
+
+let customOption= el.options[el.options.length-1];
+customSpeed= +(customSpeed.match(/[\d\.]+/)[0]);
+
+if(customSpeed>16){
+customSpeed= 16.00;
+customOption.innerHTML= `${customSpeed} (maximum)`;
+}
+else if(customSpeed>0 && customSpeed<0.0625){
+customSpeed= 0.07;	
+customOption.innerHTML= `${customSpeed} (minimum)`;
+}
+else{
+customOption.innerHTML= `${customSpeed.toFixed(2)}`;	
+}
+
+el.selectedIndex= 7;
+audio.playbackRate= el.dataset.speed= customSpeed;
+
+}
+
+
+
+
+//MISCELLANEOUS 
+function isURL(string) {
+try{
+const url= new URL(string);
+return /http|file|content/.test(url.protocol);
+}
+catch(err){
+return false;
+}
+}
+
+
+
+
+
+//Function to format time into hms format
+function formatTime(time){
+let hms= new Date(time*1000).toISOString().substr(11,8).split(":");
+let h= hms[0], m= hms[1], s= hms[2];
+return (h>0) ? `${h}:${m}:${s}` : `${m}:${s}`;
+}
+
+
+
+
+
+function buildPlayer(){
+let wrapper= create("section");
+wrapper.className= "wrapper";
+wrapper.innerHTML= `
+<div class="player">
+<p class="play inline flex">
+<svg viewBox="0 0 24 24">
+<path fill="currentColor" d="M8 5.14v14l11-7l-11-7Z"/>
+</svg>
+</p>
+<span class="start inline flex">00:00</span>
+<input type="range" class="progress infinite" value="0">
+<span class="end inline flex">NaN</span>
+<p class="config inline flex">
+<svg viewBox="0 0 48 48">
+<g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"><path d="m24 4l-6 6h-8v8l-6 6l6 6v8h8l6 6l6-6h8v-8l6-6l-6-6v-8h-8l-6-6Z"/>
+<path d="M24 30a6 6 0 1 0 0-12a6 6 0 0 0 0 12Z"/></g>
+</svg>
+</p>
+<audio src="https://debisarun.eu.org/honey-bunny-toko-toko.mp3"></audio>
+</div>
+<div class="options">
+<input placeholder="enter audio url" class="source">
+<button class="go"> go </button>
+<p class="inline flex">speed &nbsp;:</p>
+<select class="speed" data-speed="1.00">
+<option>0.50</option>
+<option>0.75</option>
+<option selected>1.00</option>
+<option>1.25</option>
+<option>1.50</option>
+<option>2.00</option>
+<option>custom</option>
+</select>
+</div>`;
+
+
+select(".container").append(wrapper);
+
+
+select("audio",wrapper).addEventListener("timeupdate", function(){
+updateTime(this,wrapper);
+});
+
+select(".play",wrapper).addEventListener("click", function(){
+playPause(this,wrapper);
+});
+
+select(".progress",wrapper).addEventListener("input", function(){
+updateSeekbar(this,wrapper);
+});
+
+
+select(".config",wrapper).addEventListener("click", function(){
+showConfig(this,wrapper);
+});
+
+select(".source",wrapper).addEventListener("input", function(){
+checkSource(this,wrapper);
+});
+
+select(".go",wrapper).addEventListener("click", function(){
+updateSource(this,wrapper);
+});
+
+select(".speed",wrapper).addEventListener("change", function(){
+updateSpeed(this,wrapper);
+});
+
+
+
+
+
+
+}
+
+
+
+
+
+</script>
+</body>
+</html>
