@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="Kawiesh"/>
+<meta name="keywords" content="Kawiesh, Debisarun, 	Kawiesh Debisarun"/>
+<meta name="description" content="Kawiesh Debisarun"/>
+<meta name="viewport" content="width=device-width, 	initial-scale=1.0"/>
+
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" 	content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" 	content="black-translucent"/>
+<title>JSON OBJECT MANIPULATOR</title>
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+box-sizing: border-box;
+}
+
+html,.body{
+overflow-x: hidden;
+font: 14px Arial;
+}
+
+.flex{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+.inlineflex{
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}
+
+
+
+.body{
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: rgb(251,244,234);
+}
+
+.container{
+margin: 10px 0;
+position: relative;
+display: flex;
+flex-direction: column;
+border: 0px solid black;
+font: 14px Arial;
+}
+/******************************************************/
+.input,.output{
+width: 100%;
+height: 200px;
+padding: 5px;
+white-space: nowrap;
+border: 1.5px solid maroon;
+}
+
+
+
+.toolbar{
+display: flex;
+width: 100%;
+height: 30px;
+margin: 10px 0;
+}
+
+
+.tools,.options>select,.go,.info{
+height: 100%;
+padding: 5px;
+background: lightgray;
+border: 1px solid black;
+}
+
+.tools{
+width: 100px;
+}
+
+.options{
+width: calc(100% - 150px);
+display:  inline-flex;
+justify-content: space-between;
+margin-left: 5px;
+}
+
+.options.hidden{
+visibility: hidden;
+}
+
+
+.options>input{
+/*width: 49%;*/
+max-width: calc(50% - 2.5px);
+height: 100%;
+padding: 5px;
+background: beige;
+border: 1px solid black;
+}
+
+
+
+.go{
+width: 40px;
+margin-left: 5px;
+}
+
+.info{
+width: 30px;
+margin-left: auto;
+display: none;
+}
+
+
+.bottombar{
+width: 100%;
+height: 30px;
+margin: 1px 0;
+display: flex;
+justify-content: space-between;
+}
+
+
+.bottombar>*{
+height: 100%;
+padding: 5px;
+background: whitesmoke;
+border: 1px solid black;
+}
+
+
+/******************************************************/
+details{
+margin: 10px 0;
+}
+
+details>summary{
+padding: 5px;
+background: lightgray;
+border: 1px solid maroon;
+border-radius: 5px;
+cursor: pointer;
+}
+
+details[open]>summary{
+border-bottom: none;
+border-radius: 5px 5px 0 0;
+}
+
+
+details>p{
+padding: 5px;
+line-height: 1.5em;
+background: rgb(0,255,255,0.3);
+border: 1px solid maroon;
+}
+
+/******************************************************/
+
+[title]{
+position: relative;
+overflow: hidden;
+padding-top: 1.1em;
+}
+
+
+
+[title]::before{
+content: attr(title);
+display: inline-block;
+width: 100%;
+position: absolute;
+top: 0;
+color: gray;
+text-transform: lowercase;
+font-variant: small-caps;
+font-weight: bold;
+}
+
+::placeholder{
+font: italic 12px Arial;
+text-transform: lowercase;
+}
+
+
+/******************************************************/
+
+body{
+user-select: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+}
+
+body::-webkit-scrollbar{
+width:  4px;
+height:  4px;
+}
+
+body::-webkit-scrollbar-track{
+background: black;
+}
+
+body::-webkit-scrollbar-thumb{
+background: white;
+border-radius: 5px;
+}
+
+
+/******************************************************/
+.container{
+width: 50%;
+}
+
+@media screen and 
+(max-device-aspect-ratio: 1/1) , 
+(max-aspect-ratio: 1/1){
+.container{
+width: 95%;
+}
+}
+
+
+aside{
+width: 200px;
+height: 400px;
+z-index: 10;
+background: none;
+position: absolute;
+top: 0; right: 0;
+border: 1px solid black;
+padding: 30px 5px 5px 5px;
+}
+
+.menu{
+z-index: 11;
+padding: 5px;
+height: 30px;
+margin: 0 0 5px auto;
+background: black;
+color: white;
+cursor: pointer;
+
+}
+
+
+figure{
+border: 2px solid maroon;
+border-radius: 5px;
+overflow: hidden;
+margin-top: 10px;
+}
+
+figcaption{
+display: flex;
+align-items: flex-center;
+padding: 5px;
+background: lightgray;
+border-bottom: 1px solid maroon;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+
+figcaption>select{
+width: 100%;
+padding: 2px;
+border: 1px solid black;
+}
+
+figure>p{
+padding: 5px;
+background: rgb(0,255,255,0.3);
+}
+
+
+.hidden{
+display: none;
+}
+
+code{
+background: whitesmoke;
+color: red;
+border: 1px solid darkgray;
+border-radius: 2px;
+
+}
+
+</style>
+</head>
+<body class="body">
+<main class="container">
+
+<!--=========MAIN HTML==========-->
+<p class="menu inlineflex">MENU</p>
+<textarea class="input" placeholder="input"></textarea>
+
+<div class="toolbar">
+	<select class="tools" data-mode="keys" data-order="asc">
+	<option>Extract object keys</option>
+	<option>Extract object values</option>
+	<option selected>Invert object</option>
+	<option>Replace object keys</option>
+	<option>Replace object values</option>
+	<option>Sort object by keys</option>
+	<option>Sort object by values</option>
+	</select>
+	<div class="options invisible">
+	</div>
+	<button class="go">GO</button>
+	<button class="info inlineflex">?</button>
+</div>
+
+<textarea class="output" placeholder="output"></textarea>
+
+<div class="bottombar">
+	<button class="clear inlineflex">Clear</button>
+	<button class="save inlineflex">Save</button>
+	<button class="submit inlineflex">Submit</button>
+</div>
+
+
+
+<!--========INFORMATION=========-->
+<details open>
+<summary>Information</summary>
+<p>Hey</p>
+</details>
+
+
+
+<!--=======SETTINGS MENU========-->
+<aside class="hidden">
+	
+<figure class="numval">
+<figcaption>
+<select>
+<option>Convert to string and replace</option>
+<option>Leave as number and skip the value</option>
+</select>
+</figcaption>
+<p>
+What to do with value of type <code>number</code>
+when replacing object values
+	
+</p>
+</figure>
+
+
+	
+<figure class="textwrap">
+<figcaption>
+<select>
+<option>No text wrapping</option>
+<option>Wrap text in both fields</option>
+<option>Only wrap text in input field</option>
+<option>Only wrap text in output field</option>
+</select>
+</figcaption>
+<p>
+Control text wrap in input and output fields.
+</p>
+</figure>
+
+
+
+<figure class="choosingtools">
+<figcaption>
+<select>
+<option>Clear output field</option>
+<option>Leave output field as is</option>
+<option>Execute tool | auto-click GO</option>
+</select>
+</figcaption>
+<p>
+What to do when switching tools (e.g. invert,sort,replace)
+</p>
+</figure>
+
+
+
+
+	
+</aside>
+
+
+
+
+
+
+
+</main>
+<script>
+window.addEventListener("error", function(e){
+alert(e.message+"\nLine: "+e.lineno+"   Column: " + e.colno);
+return true;
+});
+</script>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let root= document.documentElement;
+let w= Math.max(root.clientWidth,window.innerWidth||0);
+let h= Math.max(root.clientHeight,window.	innerHeight||0);
+root.style.width= document.body.style.width= w + "px";
+root.style.height= document.body.style.height= h + "px";
+
+//-------------------------------------------------------
+
+
+let replNum= select(".numval select"),
+textwrap= select(".textwrap select"),
+handleOutput= select(".choosingtools select");
+
+
+let input= select(".input"),
+output= select(".output"),
+tools= select(".tools"),
+go= select(".go");
+options= select("div.options");
+
+tools.onchange= function(){
+let index= this.selectedIndex;
+
+
+if(/2/.test(index)) options.classList.add("invisible");
+else options.classList.remove("invisible");
+this.dataset.mode= /0|3|5/.test(index) ? "keys" : "values";
+this.dataset.order= "asc";
+	
+switch(index){
+
+case 0 : case 1 :
+options.innerHTML= `
+<input placeholder="Containing This">`;
+break;
+
+case 2 :
+options.innerHTML= "";
+break;
+
+
+case 3 : case 4 :
+options.innerHTML= `
+<input placeholder="Replace This">
+<input placeholder="With This">`;
+break;
+
+
+
+case 5 : case 6 :
+options.innerHTML= `
+<select onchange="updateOrder(this)">
+<option>A-Z</option>
+<option>Z-A</option>
+</select>`;
+break;
+}
+
+
+
+
+select("details>p").innerHTML= `mode: ${this.dataset.mode}
+<br>order: ${this.dataset.order}`;
+
+
+	
+	
+
+switch(handleOutput.selectedIndex){
+case 0 :
+output.value= "";
+break;
+case 2 :
+executeTool();
+}
+	
+	
+	
+	
+};
+
+
+function updateOrder(el){
+tools.dataset.order= el.selectedIndex==0 ? "asc" : "desc";
+executeTool();
+}
+
+
+
+
+const invj= `
+
+Valid JSON must:
+-----------------
+•Not contain any comments
+•Start and end with curly braces {}
+•Have all keys "double-quoted"
+•Not have trailing commas after last value
+`;
+
+
+
+
+/*
+let go= select(".go"),
+keys= select("[name='mode']"),
+asc= select("[name='order']"),
+input= select(".input"),
+output= select(".output");
+*/
+
+
+go.onclick= executeTool;
+	
+function executeTool(){
+let obj= {};
+
+select("details>p").innerHTML= `
+repl: ${replNum.selectedIndex==0}`;
+
+//CHECK IF INPUT IS VALID JSON
+try{
+obj= JSON.parse(input.value.trim());	
+}
+catch(e){
+output.style.color= "red";
+output.value= "Error:\n" + e.message.replace(/ at position.+/,"") + invj;
+return;
+}
+
+
+//CONTINUE IF VALID JSON
+let mode= tools.dataset.mode;
+let order= tools.dataset.order;
+let cond= replNum.selectedIndex!=0;
+output.style.color= "green";
+
+try{
+switch(tools.selectedIndex){
+
+//Extract object
+case 0 : case 1 :
+let extr= select("input",options);
+output.value= extractObject(obj,mode,extr,cond);
+break;
+
+
+//Invert object
+case 2 :
+output.value= invertObject(obj);
+return;
+
+
+
+//Replace object
+case 3 : case 4 :
+let inputs= selectAll("input",options);
+output.value= replaceObject(obj,mode,inputs,cond);
+return;
+
+//Sort object
+case 5 : case 6 :
+output.value= sortObject(obj,mode,order);
+return;
+
+
+}//EOS
+}//EOT
+catch(e){
+output.style.color= "red";
+output.value= "Error:\n"+ e.message.replace(/ at position.+/,"");
+}
+
+
+
+
+}
+
+
+/*
+replace(/":/g,'" :');
+*/
+
+
+/*
+let copy= select(".copy");
+copy.onclick=()=>{
+if(!navigator.clipboard){
+output.select();
+document.execCommand("copy");
+copy.innerHTML= "Copied";
+}
+else{
+navigator.clipboard.writeText(output.value);
+copy.innerHTML= "Copied";
+}
+};
+
+copy.onblur=()=>{
+copy.innerHTML= "Copy";
+};
+*/
+
+
+select(".clear").onclick=()=>{
+input.value= output.value= "";
+};
+
+
+
+select(".save").onclick=()=>{
+let a= output.value.replace(/\n/g, "\r\n"),
+b= new Blob([a], { type: "text/plain"}),
+c= create("a");
+c.download= "modified-json" + ".txt";
+c.href= window.URL.createObjectURL(b);
+c.target="_blank";
+c.style.display = "none";
+document.body.append(c);
+c.click(); c.remove();
+};
+
+
+select(".submit").onclick=()=>{
+input.value= output.value;
+};
+
+
+
+//=======================================
+function invertObject(obj){
+let entries= Object.entries(obj);
+let swap= entries.map(([key, value])=> [value, key]);
+return JSON.stringify(Object.fromEntries(swap),null,1);
+}
+
+//=======================================
+function sortObject(obj,mode,order){
+let result= Object.keys(obj);
+if(mode=="keys"){
+result= (order=="asc") ?
+result.sort((a,b)=>a>b ? 1:-1) :
+result.sort((a,b)=>a<b ? 1:-1);
+}
+else{
+result= (order=="asc") ?
+result.sort((a,b)=>obj[a]>obj[b] ? 1:-1) :
+result.sort((a,b)=>obj[a]<obj[b] ? 1:-1);
+}
+ 
+result= result.reduce((a,b)=>{
+a[b]= obj[b];
+return a;
+},{});
+ 
+//return result;
+return JSON.stringify(result,null,1);
+}
+
+//=======================================
+
+
+function replaceObject(oldobj,mode,inputs,cond){
+let match= inputs[0].value.match(/^\/(.*?)\/([gimuy]*)$/);
+let regex= match ? new RegExp(match[1],match[2]) :
+new RegExp(escapeRegExp(inputs[0].value),"g");
+
+let newobj= {};
+let isNumber= false;
+let oldkeys= Object.keys(oldobj);
+oldkeys.forEach(oldkey=>{
+
+if(mode=="keys"){
+let newkey= oldkey.replace(regex,inputs[1].value);
+newobj[newkey]= oldobj[oldkey];
+}
+else{
+let oldval= oldobj[oldkey];
+let newval= `${oldval}`.replace(regex,inputs[1].value);
+
+if(typeof oldval=='number' && cond){
+isNumber= true;
+newval= oldval;
+}
+
+newobj[oldkey]= newval;
+}
+
+
+
+});
+
+return JSON.stringify(newobj,null,1);
+}
+
+//=======================================
+
+function extractObject(obj,mode,extr,cond){
+let match= extr.value.match(/^\/(.*?)\/([gimuy]*)$/);
+let regex= match ? new RegExp(match[1],match[2]) :
+new RegExp(escapeRegExp(extr.value),"g");
+
+
+let newobj= {};
+let isNumber= false;
+Object.keys(obj).forEach(i=>{
+let target= mode=="keys" ? i : obj[i];
+if(regex.test(target)) newobj[i]= obj[i];
+});
+
+
+if(typeof oldval=='number' && cond){
+isNumber= true;
+newval= oldval;
+}
+
+
+
+return JSON.stringify(newobj,null,1);
+}
+
+
+
+
+//=======================================
+function escapeRegExp(string) {
+return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+
+
+select(".menu").onclick= function(){
+select("aside").classList.toggle("hidden");
+};
+
+
+
+textwrap.onchange= function(){
+switch(this.selectedIndex){
+case 0 : 
+input.style.whiteSpace= "nowrap";
+output.style.whiteSpace= "nowrap";
+return;
+case 1 :
+input.style.whiteSpace= "normal";
+output.style.whiteSpace= "normal";
+return;
+case 2 :
+input.style.whiteSpace= "normal"
+output.style.whiteSpace= "nowrap";
+return;
+case 3 :
+input.style.whiteSpace= "nowrap"
+output.style.whiteSpace= "normal";
+}	
+}
+
+
+
+</script>
+</body>
+</html>
