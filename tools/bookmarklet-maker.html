@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="Kawiesh"/>
+<meta name="keywords" content="Kawiesh, Debisarun, Kawiesh Debisarun"/>
+<meta name="description" content="Kawiesh Debisarun"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>Kawiesh !</title>
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+box-sizing: border-box;
+}
+
+html,.body{
+overflow-x: hidden;
+font: 14px Arial;
+}
+
+
+.flexcenter{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.flexcolumn{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+
+.body{
+width: 100%;
+height:100%;
+justify-content: flex-start;
+background-color: rgb(251,244,234);
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAABCAYAAABZj6VmAAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9sHDwwuC8uho8oAAAAlSURBVChTYzx65sp/BhTwj4GNjQ0s8uvXH1QphlG50XChbpoAAHr1XHYibA5LAAAAAElFTkSuQmCC);
+background-size: 160px 1px;
+user-select: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+}
+
+.container{
+height: 100%;
+margin: 10px 0 0 0;
+position: relative;
+justify-content: flex-start;
+border: 0px solid black;
+overflow-x: hidden;
+}
+/******************************************************/
+.header{
+z-index: 3;
+width: 100%;
+height: 40px;
+min-height: 40px;
+padding: 2px;
+border: 2px solid black;
+justify-content: space-between;
+color: white;
+background: linear-gradient(to bottom,#b4bfce,#889bb3,#7f94b0,#6d83a1);
+}
+
+.button{
+height: 100%;
+width: 6ch;
+padding: 5px;
+color: white;
+text-transform: lowercase;
+font: bold small-caps 12px Arial;
+background:#6d83a1;
+border: 2px solid black;
+border-radius: 2px;
+cursor: pointer;
+}
+
+.header>.button{
+height: 30px;
+width: 30px;
+background: none;
+border-color: black;
+}
+
+.main{
+z-index: 1;
+width: 100%;
+height: 100%;
+position: relative;
+}
+
+
+.input{
+width: 100%;
+height: calc(100% - 70px);
+padding: 5px;
+border: 2px solid black;
+border-top: none;
+}
+
+
+.output1,.output2{
+width: 100%;
+height: 250px;
+margin-top: 10px;
+padding: 5px;
+border: 2px solid black;
+}
+
+
+.output1:invalid,.output2:invalid{
+display: none;
+}
+
+.footer{
+width: 100%;
+height: 30px;
+justify-content: space-between;
+}
+
+
+/*height -36px than input*/
+.sidebar{
+z-index: 2;
+position: absolute;
+top: 36px;
+width: 48%;
+height: calc(100% - 106px);
+border: 2px solid black;
+transition: 1s linear;
+overflow-x: hidden;
+overflow-y: auto;
+padding:5px;
+font-size: 14px;
+background: rgb(220,220,250);
+}
+
+
+.left.sidebar{
+left: -48%;
+}
+
+.left.sidebar.open{
+left: 0;
+}
+
+.right.sidebar{
+right: -48%;
+}
+
+.right.sidebar.open{
+right: 0;
+}
+
+
+
+/******************************************************/
+
+
+details{
+margin-bottom: 10px;
+border-radius: 5px;
+border: 1px solid black;
+background: white;
+overflow: hidden;
+}
+
+details[open]>summary{
+color: red;
+font-weight: bold;
+background: lightgray;
+}
+
+
+details cite{
+display: block;
+padding: 5px;
+font: 12px "Courier New";
+}
+
+details cite>b{
+color: green;
+}
+
+
+summary{
+display: block;
+background: transparent;
+padding: 5px;
+color: black;
+position: relative;
+cursor: pointer;
+text-transform: uppercase;
+}
+
+.shortcut{
+display: block;
+padding: 5px;
+overflow: hidden;
+cursor: pointer;
+color: #2374ab;
+}
+
+
+.shortcut:hover{
+background: rgb(255,220,255);
+}
+
+
+.shortcut.nested{
+border-top: 1px solid lightgray;
+text-transform: lowercase;
+font-variant: small-caps;
+}
+
+
+
+
+
+.shortcut.alone{
+margin-bottom: 10px;
+border: 1px solid black;
+border-radius: 5px;
+font-weight: bold;
+text-transform: uppercase;
+background: white;
+}
+
+
+
+
+.settings{
+display: flex;
+width: 96%;
+height: 3.5em;
+margin: 0px 2% 10px 2%;
+}
+
+input[type="color"]{
+width: 40px;
+height: 100%;
+border: 1px solid gray;
+border-right:none;
+background: whitesmoke;
+}
+
+input[type="text"],select,
+.fontsize>input,.fontsize>p{
+width: 100%;
+height: 100%;
+padding: 5px;
+border: 1px solid gray;
+background: whitesmoke;
+}
+
+
+.fontsize>input{
+text-align: center;
+border-right: none;
+border-left: none;
+}
+
+.fontsize>p{
+width: 50px;
+pointer: cursor;
+}
+
+
+.fontsize>p:hover{
+background: rgb(255,220,255);
+}
+
+
+/******************************************************/
+
+[title]{
+position: relative;
+overflow: hidden;
+padding-top: 1.1em;
+}
+
+
+
+[title]::before{
+content: attr(title);
+display: inline-block;
+width: 100%;
+position: absolute;
+top: 0;
+color: gray;
+text-transform: lowercase;
+font-variant: small-caps;
+font-weight: bold;
+}
+
+
+
+summary{
+list-style: none;
+}
+
+summary::-webkit-details-marker{
+display: none;
+}
+
+summary::after{
+content: "\25BC";
+height: 1em;
+width: 1em;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+position: absolute;
+right: 5px;
+color: gray;
+}
+
+
+details[open]>summary::after{
+content: "\25B2";
+}
+
+/******************************************************/
+
+body{
+-webkit-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+body::-webkit-scrollbar{
+width: 4px;
+height: 4px;
+}
+
+body::-webkit-scrollbar-track{
+background: black;
+}
+
+body::-webkit-scrollbar-thumb{
+background: white;
+border-radius: 5px;
+}
+
+
+
+/*Landscape*/
+.container{width: 50%;}
+
+/*Portrait*/
+@media screen and 
+(max-device-aspect-ratio: 1/1) , 
+(max-aspect-ratio: 1/1){
+.container{
+width: 95%;
+}
+}
+
+
+
+</style>
+</head>
+<body class="body flexcolumn">
+<div class="container flexcolumn" data-nosnippet>
+	
+<!-- TOP SECTION -->
+<header class="header flexcenter">
+<p class="button flexcenter" 
+data-sidebar="left" data-icon="shortcuts">+</p>
+<p class="title">Bookmarklet</p>
+<p class="button flexcenter" 
+data-sidebar="right" data-icon="settings">+</p>
+</header>
+
+
+<!-- MAIN SECTION -->
+<main class="main">
+<textarea class="input" 
+spellcheck="false" 
+autocorrect="off" 
+autocomplete="off" 
+autocapitalize="off">
+</textarea>
+
+<div class="footer flexcenter">
+<p class="clear button flexcenter">CLEAR</p>
+<p class="save button flexcenter">SAVE</p>
+<p class="run button flexcenter">RUN</p>
+</div>
+
+
+<textarea class="output1" required></textarea>
+<textarea class="output2" required></textarea>
+
+
+</main>
+
+
+
+
+<!--- LEFT SIDEBAR --->
+<section class="left sidebar"></section>
+
+
+
+<!--- RIGHT SIDEBAR --->
+<section class="right sidebar">
+	
+<details open>
+<summary>Display</summary>
+
+<p class="fontfamily settings"	title="font">
+<select>
+<option selected>Arial</option>
+<option>Courier New</option>
+<option>Cursive</option>
+<option>Times New Roman</option>
+</select>
+</p>
+
+
+
+<div class="fontsize settings" title="font size">
+<p class="flexcenter" 
+data-operator="-1" 
+data-icon="minus">-</p>
+<input type="number" value="14">
+<p class="flexcenter" 
+data-operator="1" 
+data-icon="plus">+</p>
+</div>
+
+
+<p class="fontstyle settings" title="font style">
+<select multiple>
+<option>Bold</option>
+<option>Italic</option>
+<option>Underline</option>
+</select>
+</p>
+
+<p class="fontcolor settings" title="font color">
+<input type="color" value="#000000">
+<input type="text"
+value="black"
+data-color="color" 
+spellcheck="false" 
+autocorrect="off" 
+autocomplete="off" 
+autocapitalize="off">
+</p>
+
+
+<p class="bgcolor settings" title="background color">
+<input type="color" value="#ffffff">
+<input type="text" 
+value="white"
+data-color="backgroundColor" 
+spellcheck="false" 
+autocorrect="off" 
+autocomplete="off" 
+autocapitalize="off">
+</p>
+
+
+</details>
+
+
+<details open>
+<summary>OTHER</summary>
+<p class="other settings" title="Misc.">
+<select multiple>
+<option>Don't Wrap Text</option>
+<option>Disable Error Alerts</option>
+</select>
+</p>	
+	
+</details>
+
+
+</section>
+
+</div>
+
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let root= document.documentElement;
+let w= Math.max(root.clientWidth,window.innerWidth||0);
+let h= Math.max(root.clientHeight,window.innerHeight||0);
+/*
+root.style.width= document.body.style.width= w + "px";
+root.style.height= document.body.style.height= h + "px";
+*/
+
+root.style.width= w + "px";
+root.style.height= h + "px";
+
+
+/*---------------------------------------------------------------------
+ S T A R T   O F   A C T U A L   J A V A S C R I P T
+/---------------------------------------------------------------------*/
+let input= select(".input");
+let colorpickers= selectAll("input[type=color]");
+let fontcolor= colorpickers[0].nextElementSibling;
+let bgcolor= colorpickers[1].nextElementSibling;
+let disableErrorAlerts= false;
+
+restoreSettings();
+
+/*---------------------------------------------------------------------
+ B I N D I N G   F U N C T I O N S   T O   B U T T O N S
+/*---------------------------------------------------------------------*/
+
+//SHOW|HIDE SIDEBAR
+selectAll(".header>.button").forEach(i=>{
+i.innerHTML= setIcon(i.dataset.icon);
+let sidebar= select(`.${i.dataset.sidebar}.sidebar`);
+i.onclick= function(){
+this.classList.toggle("open");
+let open= this.classList.contains("open");
+this.innerHTML= open ? setIcon("minus") : setIcon(this.dataset.icon);
+if(open) sidebar.classList.add("open");
+else sidebar.classList.remove("open");
+};
+});
+
+
+//HANDLE INPUT VALUE
+select(".clear").onclick=()=> input.value="";
+select(".save").onclick=()=> saveToFile();
+select(".run").onclick=()=> eval (input.value);
+	
+
+/*---------------------------------------------------------------------
+ B I N D I N G   F U N C T I O N S   T O   S T Y L E   C H A N G E R S
+---------------------------------------------------------------------*/
+
+//FONT FAMILY
+select(".fontfamily>select").onchange= function(){
+input.style.fontFamily= this.options[this.selectedIndex].textContent;
+}
+
+//FONTSIZE
+selectAll(".fontsize>p").forEach(i=>{
+i.innerHTML= setIcon(i.dataset.icon);
+let sibling= select("input",this.parentNode);
+i.onclick= function(){
+if(sibling.value<=5) sibling.value= 6;
+sibling.value= +sibling.value + +this.dataset.operator;
+input.style.fontSize= sibling.value + "px";
+};
+});
+
+select(".fontsize>input").oninput= function(){
+input.style.fontSize= this.value + "px";
+};
+
+
+//FONT STYLE
+select(".fontstyle>select").onchange= function(){
+let selected= selectAll("option:checked",this);
+let val= [...selected].map(i=> i.textContent).toString();
+input.style.fontWeight= /Bold/.test(val) ? "bold" : "normal";
+input.style.fontStyle= /Italic/.test(val) ? "italic" : "normal";
+input.style.textDecoration= /Underline/.test(val) ? "underline" : "none";
+};
+
+
+//FONT AND BACKGROUND COLOR
+colorpickers.forEach(i=>{
+let sibling= i.nextElementSibling;
+i.onchange= function(){
+sibling.value= this.value;
+sibling.dispatchEvent(new Event('input', {bubbles:true}));
+};
+
+sibling.oninput= function(){
+if(validColor(this.value)){
+input.style[this.dataset.color]= this.value;
+i.value= updateColor(this.dataset.color);
+this.style.color= "black";
+}
+else this.style.color= "red";
+};
+
+});
+
+
+
+//OTHER SETTINGS
+select(".other").onchange= function(){
+let selected= selectAll("option:checked",this);
+let val= [...selected].map(i=> i.textContent).toString();
+input.style.whiteSpace= /Don't Wrap Text/.test(val) ? "nowrap" : "normal";
+disableErrorAlerts= /Disable Error Alerts/.test(val);
+};
+
+
+/*---------------------------------------------------------------------
+ S A V I N G   T E X T   A N D   S T Y L E S   O N   T A B   C L O S E
+---------------------------------------------------------------------*/
+
+
+//Save settings on exit
+let obu = false;
+window.onunload = window.onbeforeunload= function(){
+if(!obu){
+obu= true;
+
+localStorage.setItem("settings", JSON.stringify({
+"style" :{
+	"fontFamily" : input.style["fontFamily"] || "Arial",
+	"fontSize" : input.style["fontSize"] || "14px",
+	"fontWeight" : input.style["fontWeight"] || "normal",
+	"fontStyle" : input.style["fontStyle"] || "normal",
+	"textDecoration" : input.style["textDecoration"] || "none",
+	"color" : input.style["color"] || "black",
+	"backgroundColor" : input.style["backgroundColor"] || "white",
+	"whiteSpace" : input.style["whiteSpace"] || "normal"
+},
+"text" : input.value,
+"fontcolor" : fontcolor.value,
+"bgcolor" : bgcolor.value,
+"dea" : disableErrorAlerts
+}));
+
+}};
+
+
+/*---------------------------------------------------------------------
+ S E C O N D A R Y   H E L P E R   F U N C T I O N S
+---------------------------------------------------------------------*/
+
+
+function addText(text){
+let el= input;
+let start= el.selectionStart;
+let end= el.selectionEnd;
+if(start||end){
+el.setRangeText(text,start,end,'select');
+}
+else input.value+= text;
+}
+
+
+function saveToFile(filename){
+let text= input.value;
+let a= text.replace(/\n/g, "\r\n"),
+b= new Blob([a], { type: "text/plain"}),
+c= create("a");
+c.download= filename||"My Bookmarklet " + Date.now();
+c.href= window.URL.createObjectURL(b);
+c.target="_blank";
+c.style.display = "none";
+document.body.append(c);
+c.click(); c.remove();
+}
+
+
+function updateColor(prop) {
+let rgb= getComputedStyle(input)[prop];
+let d= rgb.match(/\d{1,3}/g);
+return "#" + (1<<24|d[0]<<16|d[1]<<8|d[2]).toString(16).slice(1);
+}
+
+function validColor(color){
+let o= new Option().style;
+o.color= color.trim();
+return o.color !== '';
+}
+
+
+/*---------------------------------------------------------------------
+ F U N C T I O N   T O   R E S T O R E    T E X T   A N D   S T Y L E S
+---------------------------------------------------------------------*/
+function restoreSettings(){
+let settings= localStorage.getItem("settings");
+if(!settings) return;
+
+//Restore styles
+settings= JSON.parse(settings);
+Object.keys(settings["style"]).forEach(i=>{
+input.style[i]= settings["style"][i];
+});
+
+//Update fontfamily list
+let fontfamilies= selectAll(".fontfamily option");
+let fontfamily= input.style.fontFamily.toLowerCase().replace(/"/g,"");
+switch(fontfamily){
+case "arial" : 	fontfamilies[0].selected= true; break;
+case "courier new" : 	fontfamilies[1].selected= true; break;
+case "cursive" : 	fontfamilies[2].selected= true; break;
+case "times new roman" : 	fontfamilies[3].selected= true;
+}
+
+//Update fontsize setter value
+let fontsize= select(".fontsize input");
+let digit= input.style.fontSize.match(/\d+/);
+fontsize.value= digit ? digit[0] : "14";
+
+//Update fontstyle list
+let fontstyles= selectAll(".fontstyle option");
+if(input.style.fontWeight=="bold") fontstyles[0].selected= true;
+if(input.style.fontStyle=="italic") fontstyles[1].selected= true;
+if(input.style.textDecoration=="underline") fontstyles[2].selected= true;
+if(input.style.whiteSpace=="nowrap") fontstyles[3].selected= true;
+
+//Update fontcolor picker
+colorpickers[0].value= updateColor("color");
+fontcolor.value= settings["fontcolor"];
+fontcolor.style.color= validColor(settings["fontcolor"]) ? "black" : "red";
+
+//Update backgroundcolor picker
+colorpickers[1].value= updateColor("backgroundColor");
+bgcolor.value= settings["bgcolor"];
+bgcolor.style.color= validColor(settings["bgcolor"]) ? "black" : "red";
+
+
+
+//Update OTHER list
+let otheroptions= selectAll(".other option");
+if(input.style.whiteSpace=="nowrap") otheroptions[0].selected= true;
+if(settings["dea"]==true) otheroptions[1].selected= true;
+
+
+//Restore text
+input.value= settings["text"];
+
+}
+
+
+/*---------------------------------------------------------------------
+F U N C T I O N   T H A T   R E T U R N S   S V G   I C O N S
+---------------------------------------------------------------------*/
+
+function setIcon(icon){
+return {
+"settings" : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g transform="translate(24 0) scale(-1 1)"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10"/></g></svg>`,
+
+"shortcuts" :`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M.99 19h2.42l1.27-3.58h5.65L11.59 19h2.42L8.75 5h-2.5L.99 19zm4.42-5.61L7.44 7.6h.12l2.03 5.79H5.41zM20 11h3v2h-3v3h-2v-3h-3v-2h3V8h2v3z"/></svg>`,
+
+"minus" : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 11H5v2h14v-2Z"/></svg>`,
+
+"plus" : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6h-2Z"/></svg>`,
+
+}[icon];
+}
+
+
+/*---------------------------------------------------------------------
+ D Y N A M I C A L L Y    C R E A T E   S H O R T C U T S
+---------------------------------------------------------------------*/
+
+let xfetch= {
+"Async Function" : `let resp= {};
+async function ajax(url){
+let r= await fetch(url);
+let x= "Error: " + r.status;
+if(!r.ok) throw new Error(x);
+resp= Object.fromEntries(r.headers.entries());
+return r.clone().json().catch(()=>r.text());
+}
+
+ajax(url).then(d=>{
+••••
+••••
+••••
+}).catch(x=> alert(x));`,
+
+
+"Regular Fetch" : `let failed= false;
+let responseHeaders= {};
+
+let proxy= "https://kawiesh.debisarun.eu.org/";
+let url= "••••";
+
+fetch(url)
+.then(r=>{
+responseHeaders= Object.fromEntries(r.headers.entries());
+return r.clone().json().catch(()=>r.text());
+})
+.catch(f=> failed= true)
+.then(d=>{
+if(failed){
+alert("Response not OK");
+return;
+}
+
+let doc= new DOMParser().parseFromString(d,"text/html");
+let elem= select("••••",doc);
+if(elem){
+••••
+••••
+••••
+}
+else alert("Fetch OK, but elem not found");
+}).catch(x=> alert(x.message));`,
+
+
+
+"Regular Fetch (Multiple)" : `let counter= 0;
+let errors= {};
+let success= {};
+
+function fetchIt(url){
+let failed= false;
+fetch(url)
+.then(r=> r.clone().json().catch(()=>r.text()))
+.catch(f=> failed= true)
+.then(d=>{
+if(failed){
+errors[name]= "RESPONSE NOT OK";
+return;
+}
+
+let doc= new DOMParser().parseFromString(d,"text/html");
+let elem= select("••••",doc);
+if(elem){
+•••••
+•••••
+•••••
+success[••••]= •••••;
+}
+else{
+errors[url]= "ELEMENT NOT FOUND";
+}
+})
+.catch(x=>{
+errors[url]= x.message;
+});
+
+counter++;
+}
+
+
+
+
+//Run Function---------------------
+let proxy= "https://kawiesh.debisarun.eu.org/";
+let urlList= [••••];
+urlList.forEach(i=>{
+fetchIt(proxy+i);
+});
+
+
+
+//Display Results------------------
+let fetchFinished= setInterval(()=>{
+if(counter>=urlList.length){
+clearInterval(fetchFinished);
+kdoutput1.style.color= "green";
+kdoutput1.value= JSON.stringify(success,null,1) ;
+kdoutput2.style.color= "red";
+kdoutput2.value= Object.keys(errors).length<=0 ?
+"No errors found" : JSON.stringify(errors,null,1);
+}
+},1000);`,
+
+
+
+"Fetch Options" : `let xform= new FormData();
+xform.append("••••",••••);
+
+let options= {
+body : xform,
+method : "POST",
+//credentials : "same-origin",
+headers: {
+//"Content-Type" : "application/json;charset=utf-8"
+"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+}
+};`,
+
+"DOM Parser" : `let doc= new DOMParser().parseFromString(••••"text/html");`,
+
+}
+
+
+
+
+let xselectors= {
+"Query Selectors" : `let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);`,
+
+"DOM Selectors" : `let create= (x)=> document.createElement(x),
+selectId= (x,y=document)=> document.getElementById(x),
+selectTags= (x,y=document)=> document.getElementsByTagName(x),
+selectClasses= (x,y=document)=> document.getElementsByClassName(x);`,
+};
+
+
+
+var xother= {
+"New Tab" : `function showInNewTab(text){
+let ta= create("textarea");
+ta.value= text;
+ta.style.cssText= \`width:98vw; height: 150vw;
+border: 2px solid black; margin: 0;
+padding: 10px; font: 14px Arial\`;
+window.open().document.body.append(ta);
+}
+
+showInNewTab(••••);`,
+
+"Copy" : `navigator.clipboard.writeText(••••);`,
+
+"For Loop" : `for(let i=0; i<•••.length; i++){
+if(••••) break;
+••••
+••••
+••••
+}`,
+
+"Switch Case" : `switch(••••){
+case "••••" : {••••};
+break;
+case "••••" : {••••};
+break;
+case "••••" : {••••};
+break;
+default : {••••}
+}`,
+
+"JSON Stringify" : "JSON.stringify(•••,null,1)",
+
+};
+
+
+
+function createPs(name,text){
+let p= create("p");
+p.innerHTML= name;
+p.className= "shortcut alone";
+p.onclick=()=> addText(`\n${text}\n`);
+select(".left.sidebar").append(p);
+}
+
+
+//Generate shortcuts
+function createDetails(obj,label,open){
+let details= create("details");
+if(open) details.open= true;
+select(".left.sidebar").append(details);
+
+let summary= create("summary");
+summary.innerHTML= label;
+details.append(summary);
+
+
+Object.keys(obj).forEach(i=>{
+let p= create("p");
+p.innerHTML= i;
+p.className= "shortcut nested";
+p.onclick=()=> addText(`${obj[i]}\n`);
+
+details.append(p);
+});
+
+}
+
+
+
+createDetails(xselectors,"selectors",true);
+createDetails(xfetch,"fetch",true);
+createDetails(xother,"other",false);
+
+
+
+const kdoutput1= select(".output1");
+const kdoutput2= select(".output2");
+
+let info= create("details");
+info.open= true;
+info.innerHTML= `
+<summary>OUTPUTS</summary>
+<cite>There are 2 output fields ready, if needed. 
+Use <b>kdoutput1</b>.value 
+and/or <b>kdoutput2</b>.value to 
+display generated data in these. They're hidden when empty, and will show at the bottom when some value is added!
+</cite>
+
+`;
+
+select(".left.sidebar").append(info);
+
+/*
+let other= {
+"newtab"	: "lol",
+"oldtab" : "bol"
+};
+
+
+Object.keys(other).forEach(i=>{
+createPs(i,other[i]);
+});
+*/
+
+
+
+</script>
+<script>
+
+window.addEventListener("error", function(e){
+let msg=`${e.message}
+Line: ${e.lineno}  Column: ${e.colno}`;
+
+if(!disableErrorAlerts) alert(msg);
+return true;
+});
+
+
+</script>
+</body>
+</html>
