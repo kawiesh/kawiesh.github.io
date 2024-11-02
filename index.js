@@ -118,48 +118,16 @@ let dead = `<svg viewBox="0 0 512 512"><path fill="gray" d="M256 16C123.452 16 1
 
 let email= `<svg viewBox="0 0 32 32"><path d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-2.2 2L16 14.78L6.2 8zM4 24V8.91l11.43 7.91a1 1 0 0 0 1.14 0L28 8.91V24z" fill="gray"/></svg>`;
 
+let bb= ``;
 
+let music= ``;
 
-let icons= [twitter,youtube,telegram,github,pastebin,blogger,blog,radio,web,text,blog,table,html,lister,lister,bm,folder,dead,dead,dead];
-
-let selectors=`.sidebar a[href*=twitter]
-.sidebar a[href*=youtube]
-.sidebar a[href*=t\\.me]
-.sidebar a[href*=github]
-.sidebar a[href*=pastebin]
-.sidebar a[href="https://blog.kawiesh.eu.org"]
-.sidebar a[href="https://blog.kawiesh.ml"]
-.sidebar a[href="https://kawiesh.tk"]
-.sidebar a[href="https://krishan.eu.org"]
-.texttools a[href*=text]
-.othertools a[href*=notepad]
-.othertools a[href*=table]
-.othertools a[href*=html-editor]
-.othertools a[href*=lister]
-.othertools a[href*=text-to-link]
-.othertools a[href*=bookmarklet]
-.other a
-.sidebar a[href="http://kawiesh.cf"]
-.sidebar a[href="https://m.kawiesh.eu.org"]`;
-
-//.sidebar a[href="https://krishan.ml"]
-
-
-
-  note,music,bb
-
-
-
-selectors= selectors.split("\n");
-
-selectors.forEach((i,x)=>{
-let main= selectAll(i);
-main.forEach((a,b)=>{
+let links= selectAll(a[data-icon]);
+links.forEach(i=>{
 let spanz= create("span");
 spanz.className= "icon";
-spanz.innerHTML= icons[x];
+spanz.innerHTML= icons[i.dataset.icon];
 a.parentNode.append(spanz);
-});
 });
 
 
