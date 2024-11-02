@@ -122,6 +122,25 @@ let bb= ``;
 
 let music= ``;
 
+let icons= {
+"text" : text,
+"note" : note,
+"js" : js,
+"html" : html,
+"link" : link,
+"table" : table,
+"music" : music,
+"twitter" : twitter,
+"youtube" : youtube,
+"telegram" : telegram,
+"blogger" : blogger,
+"github" : github,
+"pastebin" : pastebin,
+"radio" : radio,
+"bb" : bb,
+"web" : web,
+};
+
 let links= selectAll(a[data-icon]);
 links.forEach(i=>{
 let spanz= create("span");
