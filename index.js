@@ -141,7 +141,7 @@ let icons= {
 "web" : web,
 };
 
-let links= selectAll(a[data-icon]);
+let links= selectAll("a[data-icon]");
 links.forEach(i=>{
 let spanz= create("span");
 spanz.className= "icon";
