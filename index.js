@@ -146,7 +146,7 @@ links.forEach(i=>{
 let spanz= create("span");
 spanz.className= "icon";
 spanz.innerHTML= icons[i.dataset.icon];
-a.parentNode.append(spanz);
+i.parentNode.append(spanz);
 });
 
 
