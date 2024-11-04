@@ -254,6 +254,10 @@ a[data-icon="music"]::after{
 content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='Gray' stroke-linecap='round' stroke-width='1.5'%3E%3Ccircle cx='6' cy='18' r='3' stroke-linejoin='round'/%3E%3Cpath stroke-linejoin='round' d='M9 18V5'/%3E%3Cpath d='M21 3L9 5m12 2L9 9'/%3E%3Ccircle cx='18' cy='16' r='3' stroke-linejoin='round'/%3E%3Cpath stroke-linejoin='round' d='M21 16V3'/%3E%3C/g%3E%3C/svg%3E");
 }
 
+a[data-icon="proxy"]::after{
+content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'%3E%3Cpath fill='%23000' d='M2048 128v1031q-28-28-60-50t-68-40V640H128v1024h1088l-128 128H0V128zm-128 384V256H128v256zm-509 954q0-66 25-123t68-99t100-67t124-24q67 0 125 25t101 68t68 102t25 125q0 65-24 122t-67 101t-99 68t-123 25q-48 0-94-13t-87-39l-201 201q-23 23-45 46t-46 45q-10 9-19 14t-24 5q-26 0-46-20t-20-46q0-14 5-23t14-20q21-24 44-46t47-45q51-51 100-101t101-101q-25-41-38-86t-14-94m128 12q0 38 14 71t39 58t58 39t72 14t74-15t64-43t44-62t17-74q0-36-15-69t-42-60t-60-42t-70-16q-39 0-74 16t-62 45t-43 63t-16 75'/%3E%3C/svg%3E");	
+}
+	
 a[data-icon="twitter"]::after{
 content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='Gray' d='M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.2 4.2 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.52 8.52 0 0 1-5.33 1.84q-.51 0-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23'/%3E%3C/svg%3E");
 }
@@ -350,11 +354,13 @@ border: 1px solid darkgray;
 	<a data-icon="text" href="/tools/text-modifier.html">Text Modifier</a>
 	<a data-icon="text" href="/tools/text-numbering.html">Text Numbering</a>
 	<a data-icon="text" href="/tools/text-replacer.html">Text Replacer</a>
-		<a data-icon="link" href="/tools/text-to-link.html">Text To Link</a>
+	<a data-icon="link" href="/tools/text-to-link.html">Text To Link</a>
   </div>	
 	<div data-description="favorite tools">
 	<a data-icon="text" href="/tools/lidwoord.html">Welk lidwoord?</a>
 	<a data-icon="music" href="/tools/audio-player.html">Audio Player</a>
+	<a data-icon="proxy" href="/tools/cors-proxy.html">CORS Proxy</a>	
+		
   </div>	
 	<div data-description="web tools">
 	<a data-icon="js" href="/tools/bookmarklet-maker.html">Bookmarklet Maker</a>
