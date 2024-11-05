@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="Kawiesh"/>
+<meta name="keywords" content="CORS Proxy,Kawiesh Debisarun"/>
+<meta name="description" content="Kawiesh Debisarun"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/	>
+<meta name="apple-mobile-web-app-status-bar-style" 	content="black-translucent"/>
+<title>CORS Proxy | www.kawiesh.top</title>
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+box-sizing: border-box;
+}
+
+html,body{
+width: 100%;
+height: 100%;
+overflow-x: hidden;
+font: 14px Arial;
+}
+
+
+body{
+background-color: rgb(251,244,234);
+user-select: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+}
+
+.container{
+height: 100%;
+}
+/******************************************************/
+h1{
+font: bold 50px 'Cursive';
+color: brown;
+text-align: center;
+margin: 30% 0 20px 0;
+}
+
+.input,.go{
+height: 40px;
+border: 2px solid brown;
+}
+
+
+
+.input{
+padding: 0 10px;
+width: calc(100% - 50px);
+color: blue;
+}
+
+.go{
+width: 40px;
+margin-left: 10px;
+font-weight: bold;
+}
+
+.output,.warning{
+margin-top: 50px;
+border: 1px solid brown;
+background: pink;
+height: 50px;
+padding: 5px;
+font-weight: bold;
+}
+
+
+.warning{
+color: red;
+background: transparent;
+border: none;
+}
+
+
+
+/******************************************************/
+
+
+.container{
+width: 50%;
+margin: 10px 25%;
+}
+
+@media screen and 
+(max-device-aspect-ratio: 1/1) , 
+(max-aspect-ratio: 1/1){
+.container{
+width: 95%;
+margin: 10px 2.5%;
+}
+}
+
+
+</style>
+</head>
+<body>
+<main class="container">
+
+<h1>CORS PROXY</h1>	
+	
+<input class="input"><button class="go">GO!</button>
+<p class="output">Enter URL in the textfield above and click GO!</p>
+<p class="warning"></p>
+
+
+</main>
+<script>
+window.addEventListener("error", function(e){
+console.log(e.message+"\nLine: "+e.lineno+"   Column: " + e.colno);
+return true;
+});
+</script>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+//-------------------------------------------------------
+let input= select(".input");
+let go= select(".go");
+let output= select(".output");
+let base= "http://cors.kawiesh.top";
+let site= input.value;
+let warning= select(".warning");
+
+go.onclick=()=>{
+if(input.value==""){
+warning.innerHTML= "URL can't be empty";
+return;
+}
+
+if(input.value.match(/^https?\:\/\//)){
+site= input.value;
+}
+else{
+site= "http://" + input.value;
+warning.innerHTML= "You didn't specify a protocol, so 'http://' was added to your URL";
+}
+
+let link= `<a href="${base}/${site}">${base}/${site}`;
+output.innerHTML= `Here's the proxied URL:<br> ${link}`;
+};
+
+
+
+
+</script>
+</body>
+</html>
