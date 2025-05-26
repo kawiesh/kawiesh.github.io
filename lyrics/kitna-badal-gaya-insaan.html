@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dekh Teri Sansaar Ki Haalat - Lyrics</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <a href="/lyrics">←</a>
+    <div id="info">
+        <a href="#">Dekh Teri Sansaar Ki Haalat</a><br>
+        Singer: Mohammed Rafi ◇ Lyrics: Prem Dhawan ◇ Music: Prem Dhawan
+    </div>
+    <div id="lyrics"></div>
+
+    <script>
+        // The lyrics string with Hindi and English lines alternating, separated by newlines.
+        // Stanza breaks are marked with '◇◇◇'.
+        let a = `Dekh teri sansaar ki haalat kya ho gayi Bhagwan
+Look, what has become of Your world, Oh God
+Kitna badal gaya insaan
+How much humanity has changed
+
+◇◇◇
+Suraj na badla, chand na badla
+The sun hasn't changed, the moon hasn't changed
+Na badla yeh aasman
+Nor has this sky changed
+Kitna badal gaya insaan
+How much humanity has changed
+Bhagwan, kitna badal gaya insaan
+Oh God, how much humanity has changed
+
+◇◇◇
+Aaya tha tu ban ke bacha
+You came as a child
+Khela tha tu galyon mein
+You played in the streets
+Bada hua tu, shaitaan bana
+You grew up, became a devil
+Kaisa bigad gaya insaan
+How humanity has spoiled
+
+◇◇◇
+Loot raha hai, khoon baha raha hai
+It is looting, shedding blood
+Nafrat ki aag jala raha hai
+It is igniting the fire of hatred
+Apne hi bhaiyon ko
+Its own brothers
+Maar raha hai insaan
+Humanity is killing
+
+◇◇◇
+Mandir-Masjid, Girjaghar
+Temple-Mosque, Church
+Sab mein baant diya hai
+It has divided everything
+Mazhab ke naam pe
+In the name of religion
+Lada raha hai insaan
+Humanity is fighting
+
+◇◇◇
+Dharti pe insaaniyat ka
+On earth, humanity's
+Naam-o-nishan nahin
+There is no trace
+Andhere mein kho gaya
+It has been lost in darkness
+Kaisa roshni ka makaan
+What a house of light
+
+◇◇◇
+Kitna badal gaya insaan
+How much humanity has changed
+Bhagwan, kitna badal gaya insaan
+Oh God, how much humanity has changed`;
+
+        // Split the main string into individual lines
+        let b = a.split("\n");
+
+        // Filter out Hindi lines (even indices) and English lines (odd indices)
+        let c = b.filter((_, x) => x % 2 === 0); // Hindi lines
+        let d = b.filter((_, x) => x % 2 === 1); // English lines
+
+        let final = [];
+
+        // Iterate through Hindi lines and pair them with English translations
+        c.forEach((hindiLine, x) => {
+            // Check if the current line is a break symbol
+            if (hindiLine.trim() === "◇◇◇") {
+                final.push(`<span class="break">◇◇◇</span>`);
+            } else {
+                // Ensure there's a corresponding English line
+                let englishLine = d[x] !== undefined ? d[x] : '';
+                let line = `<span class="hi">${hindiLine}</span><span class="en">${englishLine}</span>`;
+                final.push(line);
+            }
+        });
+
+        // Insert the generated HTML into the #lyrics div
+        document.querySelector("#lyrics").innerHTML = final.join("\n");
+
+        // Your original script's secondary loop for breaks (kept for compatibility)
+        document.querySelectorAll("span").forEach(i => {
+            if (i.innerHTML === "◇◇◇") {
+                i.outerHTML = `<span class="break">◇◇◇</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
