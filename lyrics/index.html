@@ -157,7 +157,7 @@
 <body>
     <div class="container">
         <h1>Lyrics</h1>
-        <p>Thought-provoking, to say the least...</p>
+        <p><i>Thought-provoking, to say the least...</i></p>
 
         <div id="status-area">
             </div>
@@ -248,8 +248,16 @@
             fetchFiles(); // Initiate the fetch when the DOM is ready
         });
 
-        function formatTitle(f){let c=f.replace(/\.html$/i,'').replace(/-/g,' ');return c.split(' ').map(w=>w.length===0?'':w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ')}
-document.querySelectorAll('a').forEach(l=>{let t=l.textContent.trim();if(t.endsWith('.html')&&t.includes('-')){l.textContent=formatTitle(t)}});
+       function formatTitle(f){
+    let c = f.replace(/\.html$/i, '').replace(/-/g, ' ');
+    return c.split(' ').map(w => w.length === 0 ? '' : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+}
+document.querySelectorAll('a').forEach(l => {
+    let t = l.textContent.trim();
+    if (t.endsWith('.html') && t.includes('-')) {
+        l.textContent = formatTitle(t);
+    }
+});
 
     </script>
 </body>
