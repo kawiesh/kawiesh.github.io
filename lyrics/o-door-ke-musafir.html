@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Door Ke Musafir - Lyrics</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <a href="/lyrics">←</a>
+    <div id="info">
+        <a href="#">O Door Ke Musafir</a><br>
+        Singer: Mohammed Rafi ◇ Lyrics: Shakeel Badayuni ◇ Music: Naushad
+    </div>
+    <div id="lyrics"></div>
+
+    <script>
+        // The lyrics string with Hindi and English lines alternating, separated by newlines.
+        // Stanza breaks are marked with '◇◇◇'.
+        let a = `Chale aaj tum jahaan se
+From where you leave today,
+Hui zindagi paraayi
+Life has become estranged (or foreign/alienated).
+Tumhe mil gaya thikaana
+You have found your destination/place,
+Humein maut bhi na aayi
+But even death hasn't come to us.
+◇◇◇
+O door ke musafir
+Oh, distant traveler,
+Hum ko bhi saath le le re
+Please take us along too.
+Hum ko bhi saath le le
+Take us along,
+Hum reh gaye akele
+We are left alone.
+O door ke musafir
+Oh, distant traveler,
+Hum ko bhi saath le le re
+Please take us along too.
+Hum ko bhi saath le le
+Take us along,
+Hum reh gaye akele
+We are left alone.
+◇◇◇
+Tune woh de diya gham
+You have given such sorrow,
+Bemaut mar gaye hum
+That we have died without a proper death.
+Dil uth gaya jahaan se
+The heart has risen (moved away) from this world,
+Le chal humein yahaan se
+Take us away from here.
+Le chal humein yahaan se
+Take us away from here,
+Kis kaam ki yeh duniya
+What is the use of this world,
+That plays with life (or trifles with life)?
+Hum ko bhi saath le le
+Please take us along too.
+Hum reh gaye akele
+We are left alone.
+◇◇◇
+Sooni hain dil ki raahein
+The paths of the heart are desolate/empty.
+Khaamosh hain nigaahein
+The gazes (eyes) are silent.
+Naakaam hasraton ka
+Of unfulfilled desires,
+Uthne ko hai janaaza
+A funeral procession is about to rise (start).
+Uthne ko hai janaaza
+A funeral procession is about to start,
+Chaaro taraf lage hain
+All around, there are gatherings/fairs
+Barbaadiyon ke mele re
+Of ruin/destruction.
+Hum ko bhi saath le le
+Please take us along too.
+Hum reh gaye akele
+We are left alone.
+O door ke musafir
+Oh, distant traveler,
+Hum ko bhi saath le le re
+Please take us along too.
+Hum ko bhi saath le le
+Take us along,
+Hum reh gaye akele
+We are left alone.`;
+
+        // Split the main string into individual lines
+        let b = a.split("\n");
+
+        // Filter out Hindi lines (even indices) and English lines (odd indices)
+        let c = b.filter((_, x) => x % 2 === 0); // Hindi lines
+        let d = b.filter((_, x) => x % 2 === 1); // English lines
+
+        let final = [];
+
+        // Iterate through Hindi lines and pair them with English translations
+        c.forEach((hindiLine, x) => {
+            // Check if the current line is a break symbol
+            if (hindiLine.trim() === "◇◇◇") {
+                final.push(`<span class="break">◇◇◇</span>`);
+            } else {
+                // Ensure there's a corresponding English line
+                let englishLine = d[x] !== undefined ? d[x] : '';
+                let line = `<span class="hi">${hindiLine}</span><span class="en">${englishLine}</span>`;
+                final.push(line);
+            }
+        });
+
+        // Insert the generated HTML into the #lyrics div
+        document.querySelector("#lyrics").innerHTML = final.join("\n");
+
+        // Your original script's secondary loop for breaks (kept for compatibility)
+        // Although the primary loop now handles this, it doesn't hurt to keep if your style.css targets this specifically.
+        document.querySelectorAll("span").forEach(i => {
+            if (i.innerHTML === "◇◇◇") {
+                i.outerHTML = `<span class="break">◇◇◇</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
