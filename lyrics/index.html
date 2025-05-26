@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyrics Directory</title>
+    <title>Lyrics | kawiesh.top</title>
     <style>
         /* Basic reset and font */
         body {
@@ -148,12 +148,16 @@
         .file-link:hover .file-icon {
             color: #4f46e5; /* group-hover:text-indigo-600 */
         }
+
+        a[href*=index]{
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Lyrics Directory</h1>
-        <p>Browse through the HTML files in the `kawiesh.github.io/lyrics` repository.</p>
+        <h1>Lyrics</h1>
+        <p>Thought-provoking, to say the least...</p>
 
         <div id="status-area">
             </div>
@@ -243,6 +247,10 @@
 
             fetchFiles(); // Initiate the fetch when the DOM is ready
         });
+
+        function formatTitle(f){let c=f.replace(/\.html$/i,'').replace(/-/g,' ');return c.split(' ').map(w=>w.length===0?'':w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ')}
+document.querySelectorAll('a').forEach(l=>{let t=l.textContent.trim();if(t.endsWith('.html')&&t.includes('-')){l.textContent=formatTitle(t)}});
+
     </script>
 </body>
 </html>
