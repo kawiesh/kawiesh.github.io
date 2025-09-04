@@ -494,9 +494,6 @@ autocapitalize="off">
 </select>
 </p>
 
-<p class="encode settings" title="transform code">
-Encode / Decode	
-</p>	
 	
 </details>
 
@@ -561,7 +558,6 @@ location.href= kdoutput1.value;
 //eval (input.value);
 };
 	
-select(".encode.settings").onclick=()=> kdouput2.value= transformCode(input.value);
 
 /*---------------------------------------------------------------------
  B I N D I N G   F U N C T I O N S   T O   S T Y L E   C H A N G E R S
@@ -702,28 +698,7 @@ return o.color !== '';
 }
 
 
-//Encode or Decode
-function transformCode(codeString) {
-const isEncoded = codeString.includes('%'); 
-  if (isEncoded) {
-    try {
-      // Decode the URL-encoded string and use a single regex to capture the inner code, removing the IIFE wrapper.
-      const decoded = decodeURIComponent(codeString.replace(/^javascript:/, ''));
-      const iifeRemoved = decoded.replace(/^\(function\(\)\{([\s\S]*?)\}\)\(\);?$/, '$1');
-      return iifeRemoved;
-    } catch (e) {
-      console.error("Failed to decode the string:", e);
-      return "Error: Unable to decode the provided string.";
-    }
-  } else {
-    // Wrap the code in the IIFE structure and then URL-encode it, handling specific characters manually.
-    const iifeWrappedCode = `(function(){${codeString}})();`;
-    const encodedCode = encodeURIComponent(iifeWrappedCode)
-      .replace(/\(/g, '%28')
-      .replace(/\)/g, '%29');
-    return `javascript:${encodedCode}`;
-  }
-}
+
 	
 /*---------------------------------------------------------------------
  F U N C T I O N   T O   R E S T O R E    T E X T   A N D   S T Y L E S
@@ -978,6 +953,26 @@ default : {••••}
 }`,
 
 "JSON Stringify" : "JSON.stringify(•••,null,1)",
+
+"Encode/Decode" : `function transformCode(codeString) {
+const isEncoded = codeString.includes('%'); 
+  if (isEncoded) {
+    try {
+      const decoded = decodeURIComponent(codeString.replace(/^javascript:/, ''));
+      const iifeRemoved = decoded.replace(/^\(function\(\)\{([\s\S]*?)\}\)\(\);?$/, '$1');
+      return iifeRemoved;
+    } catch (e) {
+      console.error("Failed to decode the string:", e);
+      return "Error: Unable to decode the provided string.";
+    }
+  } else {
+    const iifeWrappedCode = `(function(){${codeString}})();`;
+    const encodedCode = encodeURIComponent(iifeWrappedCode)
+      .replace(/\(/g, '%28')
+      .replace(/\)/g, '%29');
+    return `javascript:${encodedCode}`;
+  }
+}`,	
 
 };
 
