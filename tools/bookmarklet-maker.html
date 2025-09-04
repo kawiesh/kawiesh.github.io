@@ -966,11 +966,11 @@ const isEncoded = codeString.includes('%');
       return "Error: Unable to decode the provided string.";
     }
   } else {
-    const iifeWrappedCode = `(function(){${codeString}})();`;
+    const iifeWrappedCode = \`(function(){\${codeString}})();\`;
     const encodedCode = encodeURIComponent(iifeWrappedCode)
       .replace(/\(/g, '%28')
       .replace(/\)/g, '%29');
-    return `javascript:${encodedCode}`;
+    return \`javascript:\${encodedCode}\`;
   }
 }`,	
 
