@@ -97,6 +97,10 @@ background: none;
 border-color: black;
 }
 
+.save.button{
+width: auto;	
+}	
+
 .main{
 z-index: 1;
 width: 100%;
@@ -546,8 +550,12 @@ else sidebar.classList.remove("open");
 //HANDLE INPUT VALUE
 select(".clear").onclick=()=> input.value="";
 select(".save").onclick=()=> kdoutput1.value= 'javascript:'+ encodeURIComponent(`(function(){${input.value}})();`);
-select(".save").onconextmenu=()=> saveToFile();	
-select(".run").onclick=()=> eval (input.value);
+select(".save").ondblclick=()=> saveToFile();	
+select(".run").onclick=()=>{
+select(".save").click();
+location.href= kdouput1.value;	
+//eval (input.value);
+};
 	
 
 /*---------------------------------------------------------------------
