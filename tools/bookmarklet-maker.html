@@ -399,7 +399,7 @@ autocapitalize="off">
 
 <div class="footer flexcenter">
 <p class="clear button flexcenter">CLEAR</p>
-<p class="save button flexcenter">SAVE</p>
+<p class="save button flexcenter">GENERATE</p>
 <p class="run button flexcenter">RUN</p>
 </div>
 
@@ -545,7 +545,8 @@ else sidebar.classList.remove("open");
 
 //HANDLE INPUT VALUE
 select(".clear").onclick=()=> input.value="";
-select(".save").onclick=()=> saveToFile();
+select(".save").onclick=()=> kdoutput1.value= 'javascript:'+ encodeURIComponent(`(function(){${input.value}})();`);
+select(".save").onconextmenu=()=> saveToFile();	
 select(".run").onclick=()=> eval (input.value);
 	
 
