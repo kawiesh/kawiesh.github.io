@@ -560,7 +560,7 @@ select(".clear").onclick=()=> input.value="";
 select(".save").onclick=()=>{
 kdoutput1.value= 'javascript:'+ encodeURIComponent(`(function(){${input.value}})();`);
 let charCount= select(".charcount");
-let charNo= kdoutput.value.length;
+let charNo= kdoutput1.value.length;
 let color= charNo>=5000 ? "red" : "green";
 charCount.style.display= "block";	
 charCount.innerHTML= `Total number of characters: <strong style="${color}>${charNo}</strong>`;
