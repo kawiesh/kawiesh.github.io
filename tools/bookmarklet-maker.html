@@ -131,6 +131,12 @@ border: 2px solid black;
 display: none;
 }
 
+.charcount{
+display: none;
+width: 100%;
+margin: 20px 0 10px 0;	
+}
+	
 .footer{
 width: 100%;
 height: 30px;
@@ -407,7 +413,8 @@ autocapitalize="off">
 <p class="run button flexcenter">RUN</p>
 </div>
 
-
+	
+<p class="charcount"></p>
 <textarea class="output1" required></textarea>
 <textarea class="output2" required></textarea>
 
@@ -550,7 +557,12 @@ else sidebar.classList.remove("open");
 
 //HANDLE INPUT VALUE
 select(".clear").onclick=()=> input.value="";
-select(".save").onclick=()=> kdoutput1.value= 'javascript:'+ encodeURIComponent(`(function(){${input.value}})();`);
+select(".save").onclick=()=>{
+kdoutput1.value= 'javascript:'+ encodeURIComponent(`(function(){${input.value}})();`);
+let charNo= kdoutput.value.length;
+let color= charNo>=5000 ? "red" : "green";	
+select(".charcount").innerHTML= `Total number of characters: <strong style="${color}>${charNo}</strong>`;
+};	
 select(".save").ondblclick=()=> saveToFile();	
 select(".run").onclick=()=>{
 select(".save").click();
