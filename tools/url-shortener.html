@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="Kawiesh"/>
+<meta name="keywords" content="URL shortener, Kawiesh"/>
+<meta name="description" content="URL Shortener - link.kawiesh.top"/>
+<meta name="viewport" content="width=device-width, 	initial-scale=1.0"/>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon/favicon-16x16.png">
+<link rel="manifest" href="/resources/favicon/site.webmanifest">
+
+<meta name="theme-color" content="black"/>
+<meta name="msapplication-TileColor" content="#da532c"/>
+<meta name="msapplication-navbutton-color" 	content="black"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/	>
+<meta name="apple-mobile-web-app-status-bar-style" 	content="black-translucent"/>
+<title>URL Shortener | KAWIESH.TOP</title>
+<style>				
+*{
+margin:0;
+padding:0; 
+outline: none;
+border: none;
+box-sizing: border-box;
+}
+
+html,body{
+width: 100%;
+height: 100%;
+overflow-x: hidden;
+font: 14px Arial;
+}
+
+
+body{
+position: relative;
+background-color: rgb(251,244,234);
+}
+
+
+body::before {
+content: "";
+background-image: url("/resources/wood-texture.jpg");
+background-size: auto;
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+opacity: 1;
+z-index: -1;
+}
+
+
+
+.container{
+height: 100%;
+}
+/******************************************************/
+
+
+div.title{
+margin: 25px 0 50px 0;
+text-align: center;
+height: 150px;
+}
+
+div.title>img{
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+pointer-events: none;
+height: 100%;
+}	
+	
+	
+div.progress{
+margin: 10px 0 0 0;
+}
+
+div.message{
+display: block;
+color: red;
+font-style: bold;
+}
+
+
+div.success{
+color: green;
+}
+
+div.longLink, div.customSlug{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items:auto;
+height: 4em;
+margin: 0 0 2em 0;
+}
+
+.input{
+padding: 5px;
+border: 1.5px solid black;
+}
+
+input::placeholder {
+color: gray;
+font-family: courier;
+font-style: normal;
+opacity: 0.7;
+}
+
+
+.button {
+background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+border: 1.5px solid black;
+color: #333333;
+padding: 5px;
+border-radius: 3px 3px 3px 3px;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+
+.button:hover {
+background: linear-gradient(to bottom, #f5f5f5 0%, #d6d6d6 100%);
+}
+
+
+/******************************************************/
+
+/*
+div[style*="position:fixed"]{
+display: none!important;
+}
+*/
+
+.container{
+width: 50%;
+margin: 10px 25%;
+}
+
+@media screen and 
+(max-device-aspect-ratio: 1/1) , 
+(max-aspect-ratio: 1/1){
+.container{
+width: 95%;
+margin: 10px 2.5%;
+}
+}
+
+
+</style>
+</head>
+<body>
+<main class="container">
+
+<div class="title">
+<img src="/resources/url-shortener.gif" oncontextmenu="return false;" ondragstart="return false;" alt="LOGO"/>	
+</div>
+
+<div class="longLink">
+<span class="info">Enter your long URL here (REQUIRED)</span>
+<input class="input longLink" placeholder="E.g. https://kawiesh.top/other/draw.html">
+</div>
+
+<div class="customSlug">
+<span class="info">Enter your custom URL identifier here (OPTIONAL)</span>
+<input class="input customSlug" placeholder="E.g. draw-app">
+</div>
+
+
+<button class="button go">SHORTEN</button>
+<div class="progress">
+<div class="message success">
+Success! Your URL was successfully shortened to: <br> <a href="#">SHORTENED LINK</a>
+</div>
+<div class="message failed">URL Identifier already exist, please choose another one or leave blank for automatic generation!</div>
+<div class="message invalid">Oops! The URL you entered does not seem to be valid :( <br> Please check and try again :)</div>
+</div>
+
+
+</main>
+<script>
+window.addEventListener("error", function(e){
+console.log(e.message+"\nLine: "+e.lineno+"   Column: " + e.colno);
+return true;
+});
+</script>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+let userInput= select("input.longLink");
+let userSlug= select("input.customSlug");
+let goButton= select("button.go");
+let progress= select("div.progress");
+
+let msgSuccess= select("div.success");
+let msgFailed= select("div.failed");
+let msgInvalid= select("div.invalid");
+msgSuccess.style.display= msgFailed.style.display= msgInvalid.style.display= "none";
+
+
+const urlPattern = /^(https?:\/\/)?([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}(:\d{1,5})?(\/.*)?$/i;
+const protocolPattern = /^https?:\/\//i;
+
+
+//---BUTTON CLICK------
+
+goButton.onclick= function(){
+msgSuccess.style.display= msgFailed.style.display= msgInvalid.style.display= "none";
+let longLink= userInput.value.trim();
+const options = {
+  method: 'POST',
+  headers: {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    Authorization: 'pk_lfnYg9pItgGT9LoE'
+  },
+  body: {
+    skipQS: false,
+    archived: false,
+    originalURL: longLink,
+    domain: 'link.kawiesh.top',
+    path: userSlug.value.trim()
+  }
+};
+
+
+if (!userSlug.value.trim()) delete options.body.path;
+options.body = JSON.stringify(options.body);
+
+
+if (longLink.match(urlPattern)){
+if (!protocolPattern.test(longLink)) longLink = `https://${longLink}`;   
+}
+else{
+msgInvalid.style.display= "block"; 
+return;
+}
+
+
+fetch('https://api.short.io/links/public', options)
+.then(res => res.json())
+.then(res =>{
+if(res.success) shortened(res["shortURL"])
+else msgFailed.style.display= "block";
+
+}).catch(err => console.log(err));
+
+};
+
+
+function shortened(short){
+msgSuccess.style.display= "block";
+let shortUrl= select("a", msgSuccess);
+shortUrl.href= shortUrl.text= short;
+}
+
+
+
+
+
+</script>
+</body>
+</html>
