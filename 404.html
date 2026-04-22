@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - PAGE NOT FOUND | KAWIESH.TOP</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --face-yellow: #fbbf24;
+            --text-white: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-white);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.2));
+        }
+
+        h1 {
+            font-size: 6rem;
+            margin: 0;
+            line-height: 1;
+            background: linear-gradient(to bottom, #fff, #64748b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .message-box {
+            max-width: 450px;
+            margin-top: 10px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--face-yellow);
+        }
+
+        p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .kawiesh-tag {
+            display: inline-block;
+            margin-top: 5px;
+            font-weight: bold;
+            color: var(--text-white);
+            border-bottom: 2px solid var(--face-yellow);
+        }
+
+        .home-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 35px;
+            background-color: var(--face-yellow);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .home-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <canvas id="sadCanvas"></canvas>
+        <h1>404</h1>
+        <div class="message-box">
+            <h2>Aw, man...</h2>
+            <p>
+                Look, <a class="kawiesh-tag" href="https://x.com/kawiesh">Kawiesh</a> searched everywhere, but this page simply doesn't want to be found. 
+                It's not you, it's the URL. Or maybe it's you. No, it's definitely the URL.
+            </p>
+            <p style="font-size: 0.9rem; font-style: italic;">(The page you're looking for probably moved to a better neighborhood.)</p>
+        </div>
+        <a href="/" class="home-btn">Take me away from this sadness to KAWIESH.TOP homepage</a>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('sadCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const size = 300;
+        const scale = window.devicePixelRatio || 1;
+        canvas.width = size * scale;
+        canvas.height = size * scale;
+        canvas.style.width = size + 'px';
+        canvas.style.height = size + 'px';
+        ctx.scale(scale, scale);
+
+        let frame = 0;
+
+        function drawSadFace(x, y, wobble) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(wobble);
+
+            // Het gezicht (de cirkel)
+            ctx.fillStyle = "#fbbf24";
+            ctx.beginPath();
+            ctx.arc(0, 0, 60, 0, Math.PI * 2);
+            ctx.fill();
+
+            // De ogen (zielig kijkend)
+            ctx.fillStyle = "#0f172a";
+            
+            // Linkeroog
+            ctx.beginPath();
+            ctx.ellipse(-20, -10, 6, 8, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Rechteroog
+            ctx.beginPath();
+            ctx.ellipse(20, -10, 6, 8, -0.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // De mond (verdrietige boog)
+            ctx.strokeStyle = "#0f172a";
+            ctx.lineWidth = 4;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            // Een boog die naar beneden wijst
+            ctx.arc(0, 35, 20, Math.PI + 0.4, Math.PI * 2 - 0.4);
+            ctx.stroke();
+
+            // Een kleine traan die af en toe verschijnt
+            const tearY = (frame % 200 > 100) ? (frame % 100) * 0.4 : -100;
+            if (tearY > 0 && tearY < 40) {
+                ctx.fillStyle = "#38bdf8";
+                ctx.beginPath();
+                ctx.arc(-20, 0 + tearY, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, size, size);
+
+            const centerX = size / 2;
+            const centerY = size / 2;
+            
+            // Animatie variabelen
+            const floatY = Math.sin(frame * 0.03) * 15;
+            const wobble = Math.sin(frame * 0.02) * 0.1;
+
+            // Achtergrond decoratie (kleine zwevende puntjes)
+            ctx.fillStyle = "rgba(255,255,255,0.1)";
+            for(let i=0; i<10; i++) {
+                const px = (Math.sin(frame * 0.01 + i) * 100) + centerX;
+                const py = (Math.cos(frame * 0.01 + i) * 100) + centerY;
+                ctx.beginPath();
+                ctx.arc(px, py, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            drawSadFace(centerX, centerY + floatY, wobble);
+
+            frame++;
+            requestAnimationFrame(draw);
+        }
+
+        window.onload = draw;
+    </script>
+</body>
+</html>
