@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me - Kawiesh</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap');
+
+
+*, *::before, *::after {
+box-sizing: border-box;
+}
+
+
+
+
+
+body{
+margin:0;
+padding:0;
+background: url("https://radio.kawiesh.top/resources/background.jpg");
+background-size: cover;
+background-color: black;
+font-family: "Playwrite DE Grund", cursive;
+font-optical-sizing: auto;
+font-size: 12px;
+}
+
+
+#container{
+padding: 0px 0px 0px 0px;
+width: 60vw;
+margin: 0 20vw 0 20vw;
+display: flex;
+flex-direction: column;
+align-items: center;
+background: #ffffff20;
+border: 2px solid black;
+}
+
+
+@media screen and (max-width: 600px) {
+#container {
+width: 100%;
+margin: 0;
+border: none;
+}
+}
+
+
+
+/*KD*/
+fieldset{
+border: 1.5px solid white;
+border-radius: 8px;
+padding: 5px;
+width: 90%;
+margin: 10px 0px 10px 0px;
+background: #00000060;
+color: white;
+}
+
+legend{
+font-weight: bold;
+padding: 0px 5px 0px 5px;
+color: white;
+text-align: center;
+background: none;
+border: 0px solid black;
+}
+
+
+img{
+width: 100px;	
+height: 100px;
+border: 1px solid white;
+float: left;
+margin: 0px 5px 0px 0px;
+}
+
+a, a:visited{
+color: yellow;	
+}
+
+
+</style>
+</head>
+<body>
+<main id="container">
+
+<!--...ABOUT...-->
+<fieldset class="about">
+<legend class="about">ABOUT</legend>
+<p>
+<img src="https://kawiesh.top/resources/kawiesh.jpg"/>
+Hello! My name is Kawiesh and I don't know if I'm comfortable enough to disclose anything else about myself. JK (not really). I'd describe myself as an introvert who is nostalgic 24/7. My hobbies change from time to time. As I got older, they switched from physical activities to digital activities such as basic photo/video editing, basic web development (see background section), and watching TV Shows & Movies! The last one lasted the longest and seems permanent lol. Favorite genres include panel shows, comedy, fantasy, horror and scifi. Some of my favorite shows are listed below:
+
+<br><br>[Non-scripted shows]<br>
+Taskmaster (UK, BE, NZ, AU, NL), Guy Mont Spelling Bee (NZ, AU), Cats does Countdown (UK), House of Games (UK, AU), The 1% Club (UK), Would I Lie to You? (UK), The Big Fat Quiz (UK)
+<br><br>
+[Scripted shows]<br>
+American Horror Story, Doctor Who, Futurama, Sajan Re Phir Jhoot Mat Bolo, Only Murders in the Building, Abbott Elementary, The Looney Tunes Show, Haunting of Hill House, Haunting of Bly Manor
+<br><br>
+[Movies]<br>
+Harry Potter, Fantastic Beasts, The Incredibles, Angry Birds Movie, Hotel Transylvania, De Dana Dan, Pirates of the Caribbean, Shrek, Identity, The Mist, Birdbox
+
+
+<br><br>
+<i>
+I am an avid collector of memes, whether they're top tier or of poor quality ;)<br>
+And last but not least, I also just love surfing the web!
+</i>
+
+</p>
+</fieldset>
+
+<!--...BACKGROUND...-->
+<fieldset class="background">
+<legend class="background">BACKGROUND</legend>
+<p>
+I started learning some basic HTML, JavaScript, and CSS around late 2019/early 2020. It all started with my fascination around bookmarklets. I had often seen websites offering bookmarklets for quick tasks. One day I decided to use one and this led me to discover JavaScript. After I got a basic understanding of plain JavaScript, I got into HTML and CSS. I tried to take online classes, but unfortunately did not have the willpower to continue. So I just kept learning via trial & error and would Google constantly instead of following a structured tutorial. W3Schools and Stack Overflow helped me a lot! I regularly dabbled into basic HTML, JavaScript, and CSS until mid 2023, after which I neglected my already poor skills. I haven't picked it up since and am wondering if it's even worth it, as nowadays you can use AI to generate pages without the need for manual coding. Nevertheless, there was some satisfaction in creating little projects from scratch. Unfortunately, I do often tend to give up on goals lol. So yeah... this is a little backstory of what resulted in this very site.  	
+</p>
+</fieldset>
+
+
+<!--...SOCIALS...-->
+<fieldset class="socials">
+<legend class="about">WHERE TO AVOID ME</legend>
+<p>
+
+I keep my main Facebook account deactivated and only use a burner one for memes and news. I do use <a href="https://x.com/Kawiesh">Twitter</a> regularly. I haven't touched Instagram since 2013, and I've never had a TikTok account. I watch <a href="https://youtube.com/Kawiesh">YouTube</a> constantly but rarely post. For messaging, I use <a href="https://t.me/Kawiesh">Telegram</a> daily and WhatsApp as well, but you didn't expect me to share my number here now, did you? As for LinkedIn, I don't feel I've accomplished anything noteworthy in my life to have a profile there, though I made one over a decade ago and remain inactive on it.
+
+</p>
+</fieldset>
+
+
+</main>
+<script>
+window.addEventListener("error", function(e){
+console.log(e.message+"\nLine: "+e.lineno+"   Column: " + e.colno);
+return true;
+});
+</script>
+<script>
+let create= (x)=> document.createElement(x),
+select= (x,y=document)=> y.querySelector(x),
+selectAll= (x,y=document)=> y.querySelectorAll(x);
+
+//-------------------------------------------------------
+
+sbetInterval(function(){
+location.href= location.href;	
+}, 2000)
+
+
+</script>
+</body>
+</html>
