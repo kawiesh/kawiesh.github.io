@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +7,7 @@
 <title>About Me - Kawiesh</title>
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Macondo&family=Playwrite+DE+Grund:wght@100..400&display=swap');
 
 *, *::before, *::after {
 box-sizing: border-box;
@@ -63,12 +63,13 @@ color: white;
 }
 
 legend{
-font-weight: bold;
 padding: 0px 5px 0px 5px;
 color: white;
 text-align: center;
 background: none;
 border: 0px solid black;
+font: bold 1.5em "Macondo", cursive;
+animation: 3s linear infinite alternate glow;
 }
 
 
@@ -85,6 +86,36 @@ color: yellow;
 }
 
 
+details{
+margin: 0px 0px 10px 0px; 
+position: relative;
+}
+
+
+
+summary{
+border-bottom: 0.5px solid gray
+}
+
+
+details::after{
+content: "<<< click to expand";
+pointer-events: none;
+color: #ffffff50;
+position: absolute;
+top: 0; right: 0;
+}
+
+details[open]::after{
+content: "<<< click to collapse";
+}
+
+@keyframes glow{
+0% {color: white}
+100% {color: limegreen}
+}
+
+
 </style>
 </head>
 <body>
@@ -95,19 +126,30 @@ color: yellow;
 <legend class="about">ABOUT</legend>
 <p>
 <img src="https://kawiesh.top/resources/kawiesh.jpg"/>
-Hello! My name is Kawiesh and I don't know if I'm comfortable enough to disclose anything else about myself. JK (not really). I'd describe myself as an introvert who is nostalgic 24/7. My hobbies change from time to time. As I got older, they switched from physical activities to digital activities such as basic photo/video editing, basic web development (see background section), and watching TV Shows & Movies! The last one lasted the longest and seems permanent lol. Favorite genres include panel shows, comedy, fantasy, horror and scifi. Some of my favorite shows are listed below:
+Hello! My name is Kawiesh and I don't know if I'm comfortable enough to disclose anything else about myself. JK (not really). I'd describe myself as an introvert who is nostalgic 24/7. My hobbies change from time to time. As I got older, they switched from physical activities to digital activities such as basic photo/video editing, basic web development (see background section), and watching TV Shows & Movies! The last one lasted the longest and seems permanent lol. Genres I like include Panel Shows, Comedy, Fantasy, Horror, SciFi, Animation, Bollywood. Some of my favorite shows are listed below:
 
-<br><br>[Non-scripted shows]<br>
+<details>
+<summary>Non-scripted shows</summary>
+<p>
 Taskmaster (UK, BE, NZ, AU, NL), Guy Mont Spelling Bee (NZ, AU), Cats does Countdown (UK), House of Games (UK, AU), The 1% Club (UK), Would I Lie to You? (UK), The Big Fat Quiz (UK)
-<br><br>
-[Scripted shows]<br>
-American Horror Story, Doctor Who, Futurama, Sajan Re Phir Jhoot Mat Bolo, Only Murders in the Building, Abbott Elementary, The Looney Tunes Show, Haunting of Hill House, Haunting of Bly Manor
-<br><br>
-[Movies]<br>
+</p>
+</details>
+
+<details>
+<summary>Scripted shows</summary>
+<p>
+American Horror Story, Doctor Who, Futurama, Sajan Re Phir Jhoot Mat Bolo, Only Murders in the Building, Abbott Elementary, The Looney Tunes Show, Avatar
+</p>
+</details>
+
+<details>
+<summary>Movies</summary>
+<p>
 Harry Potter, Fantastic Beasts, The Incredibles, Angry Birds Movie, Hotel Transylvania, De Dana Dan, Pirates of the Caribbean, Shrek, Identity, The Mist, Birdbox
+</p>
+</details>
 
 
-<br><br>
 Love listening to music, especially late 90s and early 2000s Bollywood songs. Some of my favorite soundtracks are from: Kasoor, Kaho Na Pyar Hai, Dil Vil Pyar Vyar, Kuch Kuch Hota Hai, Khushi, De Dana Dan, Ajab Prem Ki Gazab Kahani, Hum Saath Saath Hain, Duplicate, Yes Boss, Aitraaz, Awara Pagal Deewana
 <br><br>  
 <i>
@@ -152,10 +194,11 @@ selectAll= (x,y=document)=> y.querySelectorAll(x);
 
 //-------------------------------------------------------
 
-sbetInterval(function(){
+/*
+setInterval(function(){
 location.href= location.href;	
 }, 2000)
-
+*/
 
 </script>
 </body>
